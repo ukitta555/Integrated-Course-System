@@ -1,11 +1,32 @@
 import React from 'react';
-import Header from './HeaderFolder/Header'
+import Header from './Header/Header'
+import {
+    Switch
+    ,Route
+    }
+    from 'react-router-dom'
+import LoginForm from './LoginForm/LoginForm';
+import RegistrationForm from './RegistrationForm/RegistrationForm'
 
 const App = () => {
     return (
-        <div>
-            <Header />
-        </div>
+        <>
+          <div>
+              <Header />
+          </div>
+
+          <Switch>
+              <Route path = '/register'>
+                  <RegistrationForm />
+              </Route>
+              <Route path = '/login'>
+                  <LoginForm />
+              </Route>
+              <Route path = '/'>
+                  bruh
+              </Route>
+          </Switch>
+        </>
     )
 }
 
