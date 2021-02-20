@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using IntegratedCourseSystem.Models;
 using IntegratedCourseSystem.Extensions;
+using System;
 
 namespace IntegratedCourseSystem
 {
@@ -36,7 +37,7 @@ namespace IntegratedCourseSystem
                                                opt.UseInMemoryDatabase("TodoList"));
 
             // Yaroslav: Add db context (see [Extensions/IServiceCollectionExtensions.cs])
-            services.AddIntegratedCourseSystemContext();
+            services.AddIntegratedCourseSystemContext(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +53,7 @@ namespace IntegratedCourseSystem
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseMiddleware<AddUserMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
