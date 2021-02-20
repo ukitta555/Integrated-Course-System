@@ -15,6 +15,7 @@ namespace IntegratedCourseSystem.Models
         public IntegratedCourseSystemContext(DbContextOptions<IntegratedCourseSystemContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Admin> Admins { get; set; }
