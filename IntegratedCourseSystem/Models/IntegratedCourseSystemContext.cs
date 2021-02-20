@@ -15,28 +15,29 @@ namespace IntegratedCourseSystem.Models
         public IntegratedCourseSystemContext(DbContextOptions<IntegratedCourseSystemContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
-        public virtual DbSet<ClassSubject> Classsubjects { get; set; }
+        public virtual DbSet<ClassSubject> ClassSubjects { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<GroupTech> Grouptechs { get; set; }
+        public virtual DbSet<GroupTech> GroupTechs { get; set; }
         public virtual DbSet<Questionnaire> Questionnaires { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Rolepreference> Rolepreferences { get; set; }
+        public virtual DbSet<Rolepreference> RolePreferences { get; set; }
         public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<StudentGroup> Studentgroups { get; set; }
-        public virtual DbSet<StudentRolePeriod> Studentroleperiods { get; set; }
+        public virtual DbSet<StudentGroup> StudentGroups { get; set; }
+        public virtual DbSet<StudentRolePeriod> StudentRolePeriods { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
-        public virtual DbSet<SubjectQuestionnaire> Subjectquestionnaires { get; set; }
+        public virtual DbSet<SubjectQuestionnaire> SubjectQuestionnaires { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
-        public virtual DbSet<TeammateAntiPreference> Teammateantipreferences { get; set; }
-        public virtual DbSet<TeammatePreference> Teammatepreferences { get; set; }
+        public virtual DbSet<TeammateAntiPreference> TeammateAntiPreferences { get; set; }
+        public virtual DbSet<TeammatePreference> TeammatePreferences { get; set; }
         public virtual DbSet<Tech> Techs { get; set; }
-        public virtual DbSet<TechPreference> Techpreferences { get; set; }
+        public virtual DbSet<TechPreference> TechPreferences { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
