@@ -7,6 +7,7 @@ import {
     from 'react-router-dom'
 import LoginForm from './LoginForm/LoginForm';
 import RegistrationForm from './RegistrationForm/RegistrationForm'
+import QuestionnaireForm from "./QuestionnaireForm/QuestionnaireForm";
 
 const App = () => {
     return (
@@ -21,6 +22,9 @@ const App = () => {
               </Route>
               <Route path = '/login'>
                   <LoginForm />
+              </Route>
+              <Route path = '/questionnaire'>
+                  <QuestionnaireForm />
               </Route>
               <Route path = '/'>
                   bruh
