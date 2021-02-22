@@ -1,6 +1,8 @@
 import { useFormControl } from '@material-ui/core'
 import React from 'react'
 import useField from '../../hooks/useField'
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const LoginForm = () => {
   const login = useField('text')
@@ -12,9 +14,9 @@ const LoginForm = () => {
   }
   return (
     <form onSubmit = {onSubmit}>
-      <input {...login} name="login"/>
-      <input {...password} name="password"/>
-      <button type='submit'> submit!</button>
+        <TextField name="login" label="Enter login:" {...login} />
+        <TextField name="password" label="Enter password:" {...password} />
+        <Button type="submit" variant="contained" color="primary">submit!</Button>
     </form>
   )
 }

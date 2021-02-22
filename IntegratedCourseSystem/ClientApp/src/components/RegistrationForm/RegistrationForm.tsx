@@ -1,9 +1,11 @@
 import React from 'react'
 import useField from '../../hooks/useField'
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const RegistrationForm = () => {
   const login = useField('text');
-  const email = useField('text');
+  const email = useField('email');
   const password = useField ('password')
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -12,12 +14,15 @@ const RegistrationForm = () => {
     console.log(login.value, email.value, password.value)
   }
 
+  const validateEmail: (email: string) => boolean
+      = email => email.search(/@knu\.ua$/) !== -1
+
   return (
     <form onSubmit = {onSubmit}>
-      <input {...login} />
-      <input {...email} />
-      <input {...password} />
-      <button type = 'submit'> Register! </button>
+        <TextField label="Enter login:" {...login} />
+        <TextField label="Enter email:" {...email} />
+        <TextField label="Enter password:" {...password} />
+        <Button type="submit" variant="contained" color="primary">Register!</Button>
     </form>
   )
 }
