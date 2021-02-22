@@ -9,10 +9,9 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import App from './components/App';
 
 // react-redux and redux imports
-import configureStore from './store/configureStore'
+import store from './store/configureStore'
 import {Provider} from 'react-redux'
 
-const store = configureStore()
 
 ReactDOM.render(
     <Provider store = {store}>
