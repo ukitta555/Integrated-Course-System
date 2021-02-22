@@ -6,11 +6,12 @@ import {
 
 const initialState = null
 
-const registrationReducer = (state = initialState, action: registrationActionTypes) => {
+const userReducer = (state = initialState, action: registrationActionTypes) => {
   switch (action.type) {
     case REGISTER_USER: {
       console.log('register user!')
       console.log (action.email, action.password, action.repeatPassword)
+
       return initialState
     }
     case LOGIN_USER: {
@@ -24,4 +25,4 @@ const registrationReducer = (state = initialState, action: registrationActionTyp
   }
 }
 
-export default registrationReducer
+export default userReducer

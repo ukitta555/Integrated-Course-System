@@ -1,9 +1,11 @@
 import React from 'react'
-import {useDispatch} from 'react-redux'
 import useField from '../../hooks/useField'
-import {registerUserAction} from '../../reducers/userReducer/userActionCreators'
 
+// react-redux
+import {useDispatch} from 'react-redux'
+import {registerUser} from '../../reducers/userReducer/userThunks'
 
+// design
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -17,7 +19,7 @@ const RegistrationForm = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     console.log('submitted registration form')
-    dispatch (registerUserAction(email.value, password.value, repeatPassword.value))
+    dispatch (registerUser(email.value, password.value, repeatPassword.value))
   }
 
   const validateEmail: (email: string) => boolean
