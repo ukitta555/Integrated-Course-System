@@ -18,7 +18,7 @@ namespace IntegratedCourseSystem.Extensions
 
             services.AddDbContext<IntegratedCourseSystemContext>(options => options.UseNpgsql(connection));
 
-            services.AddDbContext<IntegratedCourseSystemContext>(opt => opt.UseInMemoryDatabase("IntegratedCourseSystem"));
+            //services.AddDbContext<IntegratedCourseSystemContext>(opt => opt.UseInMemoryDatabase("IntegratedCourseSystem"));
         }
 
         // put here Add.. methods for IServiceCollections for custom services
