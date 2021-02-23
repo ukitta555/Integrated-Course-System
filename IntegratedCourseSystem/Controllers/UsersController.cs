@@ -111,7 +111,7 @@ namespace IntegratedCourseSystem.Controllers
         private static UserDTO ItemToDTO(User user) =>
             new UserDTO
             {
-              Login = user.Login
+              Email = user.Email
             };
     }
 }
