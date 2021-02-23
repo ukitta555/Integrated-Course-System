@@ -1,7 +1,7 @@
 import axios from 'axios'
-const baseURL = 'http://localhost:3001/users'
+const baseURL = 'https://localhost:44388/api/users'
 
-const registerUser = async (userData: {email: string, password: string}) => {
+const registerUser = async (userData: {login: string, password: string, role: number}) => {
   try {
     console.log ('user data', userData)
     const response = await axios.post(
