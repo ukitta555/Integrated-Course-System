@@ -1,12 +1,12 @@
 import axios from 'axios'
-const baseURL = 'http://localhost:3001/users'
-//const baseURL = '/api/users'
+//const baseURL = 'http://localhost:3001/users'
+const baseURL = '/api/users'
 
 const registerUser = async (userData: {email: string, password: string, role: number}) => {
   try {
     console.log ('user data', userData)
     const response = await axios.post(
-      `${baseURL}`
+      `${baseURL}/register`
       ,userData
     )
     return response.data
@@ -21,7 +21,7 @@ const login = async (userData: {email: string, password: string}) => {
   console.log ('inside userService: login user')
   try {
     const response = await axios.post(
-      baseURL,
+      `${baseURL}/login`,
       userData
     )
     return response.data

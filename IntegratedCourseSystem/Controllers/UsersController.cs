@@ -76,15 +76,38 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> PostUser(User user)
+        [Route("[action]")]
+        public async Task<ActionResult<UserDTO>> Register(User user)
         {
             _context.Users.Add(user);
+            Console.WriteLine("Inside registration");
             await _context.SaveChangesAsync();
 
+            if (user == null)
+            {
+                return NotFound();
+            }
+
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, ItemToDTO(user));
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<UserDTO>> Login(User user)
+        {
+            var users = await _context
+                    .Users
+                    .Where(entry => ((entry.Email == user.Email) && (entry.Password == user.Password)))
+                    .ToListAsync();
+
+            if (users.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Created("", ItemToDTO(users[0]));
         }
 
         // DELETE: api/Users/5
