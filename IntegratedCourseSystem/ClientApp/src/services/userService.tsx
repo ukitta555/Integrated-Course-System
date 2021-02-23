@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseURL = '/api/users'
+const baseURL = 'http://localhost:3001/users'
+//const baseURL = '/api/users'
 
 const registerUser = async (userData: {email: string, password: string, role: number}) => {
   try {
@@ -16,12 +17,23 @@ const registerUser = async (userData: {email: string, password: string, role: nu
   }
 }
 
-const loginUser = async (userData: {email: string, password: string}) => {
-  console.log('huh')
-  return null
+const login = async (userData: {email: string, password: string}) => {
+  console.log ('inside userService: login user')
+  try {
+    const response = await axios.post(
+      baseURL,
+      userData
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log (error)
+    return null
+  }
 }
 
 export default
 {
-  registerUser
+  registerUser,
+  login
 }

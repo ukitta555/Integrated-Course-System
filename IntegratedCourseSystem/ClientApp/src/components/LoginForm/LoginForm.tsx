@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux'
 import useField from '../../hooks/useField'
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import {loginUserAction} from '../../reducers/userReducer/userActionCreators'
+import {loginUser} from '../../reducers/userReducer/userThunks'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -14,8 +14,7 @@ const LoginForm = () => {
   const password = useField ('password')
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log('I submitted something!')
-    dispatch(loginUserAction(email.value, password.value))
+    dispatch(loginUser(email.value, password.value))
   }
   return (
     <form onSubmit = {onSubmit}>
