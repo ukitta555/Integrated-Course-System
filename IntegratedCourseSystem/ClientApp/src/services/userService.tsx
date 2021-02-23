@@ -1,7 +1,7 @@
 import axios from 'axios'
 const baseURL = '/api/users'
 
-const registerUser = async (userData: {login: string, password: string, role: number}) => {
+const registerUser = async (userData: {email: string, password: string, role: number}) => {
   try {
     console.log ('user data', userData)
     const response = await axios.post(
@@ -14,6 +14,11 @@ const registerUser = async (userData: {login: string, password: string, role: nu
     console.log(error)
     return null
   }
+}
+
+const loginUser = async (userData: {email: string, password: string}) => {
+  console.log('huh')
+  return null
 }
 
 export default
