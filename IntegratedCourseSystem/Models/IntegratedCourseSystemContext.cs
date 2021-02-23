@@ -581,7 +581,7 @@ namespace IntegratedCourseSystem.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Login)
+                entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("login");

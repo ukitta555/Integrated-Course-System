@@ -18,9 +18,10 @@ namespace IntegratedCourseSystem
 
         public async System.Threading.Tasks.Task InvokeAsync(HttpContext context, IntegratedCourseSystemContext db)
         {
-            db.Users.Add(new User { Login = "example", Password = "superpass", Role = 2});
-            //db.Users.RemoveRange(db.Users);
-            db.SaveChanges();
+            //db.Users.Add(new User { Login = "example", Password = "superpass", Role = UserRole.Student});
+            //db.Users.RemoveRange(db.Users.Where(user => user.Login == "example"));
+            //var list = db.Users.ToList();
+            //db.SaveChanges();
             db.Dispose();
             await _next.Invoke(context);
         }
