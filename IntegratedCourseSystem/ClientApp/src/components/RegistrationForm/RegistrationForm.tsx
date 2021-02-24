@@ -23,7 +23,7 @@ const RegistrationForm = () => {
   }
 
   const validateEmail: (email: string) => boolean
-      = email => email.search(/@knu\.ua$/) !== -1
+      = email => email.search(/^[^\n\r\s]+@knu\.ua$/) !== -1
 
   return (
     <form onSubmit = {onSubmit}>
