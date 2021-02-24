@@ -81,14 +81,20 @@ namespace IntegratedCourseSystem.Controllers
         [Route("[action]")]
         public async Task<ActionResult<UserDTO>> Register(User user)
         {
-            _context.Users.Add(user);
-            Console.WriteLine("Inside registration");
-            await _context.SaveChangesAsync();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); 
+            }
 
             if (user == null)
             {
                 return NotFound();
             }
+
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, ItemToDTO(user));
         }
@@ -97,6 +103,12 @@ namespace IntegratedCourseSystem.Controllers
         [Route("[action]")]
         public async Task<ActionResult<UserDTO>> Login(User user)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var users = await _context
                     .Users
                     .Where(entry => ((entry.Email == user.Email) && (entry.Password == user.Password)))
