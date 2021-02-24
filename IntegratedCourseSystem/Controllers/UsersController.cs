@@ -83,6 +83,17 @@ namespace IntegratedCourseSystem.Controllers
                 return BadRequest(ModelState); 
             }
 
+            // try to find already exisiting user in DB
+            var userByEmail = _context
+                    .Users
+                    .FirstOrDefault(entry => (entry.Email == user.Email));
+
+            if (userByEmail != null)
+            {
+                ModelState.AddModelError("Email", "Duplicate email");
+                return BadRequest(ModelState);
+            }
+
             PasswordHasher<User> pwh = new PasswordHasher<User>();
             user.Password = pwh.HashPassword(user, user.Password);
 
@@ -104,21 +115,19 @@ namespace IntegratedCourseSystem.Controllers
 
             PasswordHasher<User> pwh = new PasswordHasher<User>();
 
-            var users = await _context
+            var userByEmail = _context
                     .Users
-                    .Where(entry => (entry.Email == user.Email))
-                    .ToListAsync();
+                    .FirstOrDefault(entry => (entry.Email == user.Email));
 
-            if (users.Count == 0)
+            if (userByEmail == null)
             {
                 return NotFound();
             }
             else
             {
-                var matchedUser = users[0];
-                if ((int)pwh.VerifyHashedPassword(matchedUser, matchedUser.Password, user.Password) > 0)
+                if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
                 {
-                    return Created("", ItemToDTO(matchedUser));
+                    return Created("", ItemToDTO(userByEmail));
                 }
                 else
                 {
