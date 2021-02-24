@@ -9,6 +9,9 @@ import {registerUser} from '../../reducers/userReducer/userThunks'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+export const validateEmail: (email: string) => boolean
+= email => email.search(/^[^\n\r\s]+@knu\.ua$/) !== -1
+
 const RegistrationForm = () => {
   const dispatch = useDispatch()
 
@@ -21,9 +24,6 @@ const RegistrationForm = () => {
     console.log('submitted registration form')
     dispatch (registerUser(email.value, password.value, repeatPassword.value))
   }
-
-  const validateEmail: (email: string) => boolean
-      = email => email.search(/^[^\n\r\s]+@knu\.ua$/) !== -1
 
   return (
     <form onSubmit = {onSubmit}>
