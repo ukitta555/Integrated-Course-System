@@ -8,6 +8,8 @@ import {
 import LoginForm from './LoginForm/LoginForm';
 import RegistrationForm from './RegistrationForm/RegistrationForm'
 import QuestionnaireForm from "./QuestionnaireForm/QuestionnaireForm";
+import Footer from "./Footer/Footer";
+import TeacherWaitingPage from "./TeacherWaitingPage/TeacherWaitingPage";
 
 const App = () => {
     return (
@@ -15,7 +17,6 @@ const App = () => {
           <div>
               <Header />
           </div>
-
           <Switch>
               <Route path = '/register'>
                   <RegistrationForm />
@@ -26,10 +27,14 @@ const App = () => {
               <Route path = '/questionnaire'>
                   <QuestionnaireForm />
               </Route>
+              <Route path = '/test'>
+                  <TeacherWaitingPage />
+              </Route>
               <Route path = '/'>
                   bruh
               </Route>
           </Switch>
+          <Footer />
         </>
     )
 }

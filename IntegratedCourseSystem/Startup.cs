@@ -33,8 +33,10 @@ namespace IntegratedCourseSystem
                 configuration.RootPath = "ClientApp/build";
             });
 
-            services.AddDbContext<TodoContext>(opt =>
-                                               opt.UseInMemoryDatabase("TodoList"));
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             // Yaroslav: Add db context (see [Extensions/IServiceCollectionExtensions.cs])
             services.AddIntegratedCourseSystemContext(Configuration);
