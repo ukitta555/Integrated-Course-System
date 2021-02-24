@@ -6,6 +6,7 @@ import useField from '../../hooks/useField'
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {loginUser} from '../../reducers/userReducer/userThunks'
+import {EMAIL_VALIDATOR} from '../RegistrationForm/emailValidatingRegExp'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -14,7 +15,8 @@ const LoginForm = () => {
   const password = useField ('password')
 
   const emailProps = {
-    autoComplete: 'email',
+    pattern: EMAIL_VALIDATOR,
+    autoComplete: 'username',
     required: true,
     ...email
   }
