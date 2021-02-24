@@ -4,8 +4,7 @@ export const LOGIN_USER: 'LOGIN_USER' = 'LOGIN_USER'
 type RegisterUserAction = {
   type: typeof REGISTER_USER
   email: string,
-  password: string,
-  repeatPassword: string
+  password: string
 }
 
 type LoginUserAction = {
