@@ -17,7 +17,6 @@ const App = () => {
           <div>
               <Header />
           </div>
-
           <Switch>
               <Route path = '/register'>
                   <RegistrationForm />
@@ -35,7 +34,7 @@ const App = () => {
                   bruh
               </Route>
           </Switch>
-            <Footer />
+          <Footer />
         </>
     )
 }

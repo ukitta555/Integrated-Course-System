@@ -1,4 +1,4 @@
-import { validateEmail } from "./RegistrationForm";
+import { validateEmail } from "./emailValidatingRegExp";
 
 test('regex test on @knu.ua', () => {
     expect(validateEmail("andrew@knu.ua")).toBe(true);

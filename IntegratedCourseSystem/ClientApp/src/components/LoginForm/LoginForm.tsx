@@ -12,14 +12,27 @@ const LoginForm = () => {
 
   const email = useField('text')
   const password = useField ('password')
+
+  const emailProps = {
+    autoComplete: 'email',
+    required: true,
+    ...email
+  }
+
+  const passwordProps = {
+    autoComplete: 'current-password',
+    required: true,
+    ...password
+  }
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     dispatch(loginUser(email.value, password.value))
   }
   return (
     <form onSubmit = {onSubmit}>
-        <TextField name="email" label="Enter email:" {...email} />
-        <TextField name="password" label="Enter password:" {...password} />
+        <TextField name="email" label="Enter email:" inputProps = {emailProps} />
+        <TextField name="password" label="Enter password:" inputProps = {passwordProps} />
         <Button type="submit" variant="contained" color="primary">submit!</Button>
     </form>
   )

@@ -8,9 +8,10 @@ import {registerUser} from '../../reducers/userReducer/userThunks'
 // design
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import {EMAIL_VALIDATOR} from './emailValidatingRegExp'
 
 export const validateEmail: (email: string) => boolean
-= email => email.search(/^[^\n\r\s]+@knu\.ua$/) !== -1
+= email => email.search(EMAIL_VALIDATOR) !== -1
 
 const RegistrationForm = () => {
   const dispatch = useDispatch()
@@ -18,6 +19,25 @@ const RegistrationForm = () => {
   const email = useField('text');
   const password = useField ('password')
   const repeatPassword = useField ('password');
+
+  const emailProps = {
+    pattern: EMAIL_VALIDATOR,
+    required: true,
+    autoComplete: "username",
+    ...email
+  }
+
+  const passwordProps = {
+    required: true,
+    autoComplete: "new-password",
+    ...password
+  }
+
+  const repeatPasswordProps = {
+    required: true,
+    autoComplete: "new-password",
+    ...repeatPassword
+  }
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -27,9 +47,9 @@ const RegistrationForm = () => {
 
   return (
     <form onSubmit = {onSubmit}>
-        <TextField label="Enter email:" {...email} />
-        <TextField label="Enter password:" {...password} />
-        <TextField label="Repeat password:" {...repeatPassword} />
+        <TextField label="Enter email:" inputProps = {emailProps}  />
+        <TextField label="Enter password:"  inputProps = {passwordProps} />
+        <TextField label="Repeat password:"  inputProps = {repeatPasswordProps} />
         <Button type="submit" variant="contained" color="primary">Register!</Button>
     </form>
   )
