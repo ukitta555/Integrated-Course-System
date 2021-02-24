@@ -9,10 +9,11 @@ const registerUser = async (userData: {email: string, password: string, role: nu
       `${baseURL}/register`
       ,userData
     )
+    console.log(response)
     return response.data
   }
   catch (error) {
-    console.log(error)
+    console.log(error.response.data)
     return null
   }
 }
