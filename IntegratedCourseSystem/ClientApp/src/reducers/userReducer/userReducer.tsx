@@ -10,7 +10,7 @@ const userReducer = (state = initialState, action: registrationActionTypes) => {
   switch (action.type) {
     case REGISTER_USER: {
       console.log('register user!')
-      console.log (action.email, action.password, action.repeatPassword)
+      console.log (action.email, action.password)
 
       return initialState
     }

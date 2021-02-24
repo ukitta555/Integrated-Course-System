@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IntegratedCourseSystem.Models;
 using IntegratedCourseSystem.Models.UserModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -21,7 +22,6 @@ namespace IntegratedCourseSystem.Controllers
             _context = context;
         }
 
-        // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
@@ -31,7 +31,7 @@ namespace IntegratedCourseSystem.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/Users/5
+       
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
@@ -45,8 +45,6 @@ namespace IntegratedCourseSystem.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -76,18 +74,69 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> PostUser(User user)
+        [Route("[action]")]
+        public async Task<ActionResult<UserDTO>> Register(User user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); 
+            }
+
+            // try to find already exisiting user in DB
+            var userByEmail = _context
+                    .Users
+                    .FirstOrDefault(entry => (entry.Email == user.Email));
+
+            if (userByEmail != null)
+            {
+                ModelState.AddModelError("Email", "Duplicate email");
+                return BadRequest(ModelState);
+            }
+
+            PasswordHasher<User> pwh = new PasswordHasher<User>();
+            user.Password = pwh.HashPassword(user, user.Password);
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, ItemToDTO(user));
         }
 
-        // DELETE: api/Users/5
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<UserDTO>> Login(User user)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            PasswordHasher<User> pwh = new PasswordHasher<User>();
+
+            var userByEmail = _context
+                    .Users
+                    .FirstOrDefault(entry => (entry.Email == user.Email));
+
+            if (userByEmail == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
+                {
+                    return Created("", ItemToDTO(userByEmail));
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -103,6 +152,8 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+        // helper methods
+
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
@@ -113,5 +164,6 @@ namespace IntegratedCourseSystem.Controllers
             {
               Email = user.Email
             };
+
     }
 }
