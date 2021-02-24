@@ -4,12 +4,11 @@ import {
   registrationActionTypes
 } from '../../store/types'
 
-export const createRegisterUserAction = (email: string, password: string, repeatPassword: string) : registrationActionTypes => {
+export const createRegisterUserAction = (email: string, password: string) : registrationActionTypes => {
   return {
     type: REGISTER_USER,
     email,
-    password,
-    repeatPassword
+    password
   }
 }
 

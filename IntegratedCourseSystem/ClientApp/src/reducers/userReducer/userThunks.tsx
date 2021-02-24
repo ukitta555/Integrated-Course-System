@@ -5,15 +5,10 @@ import {Action} from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { createRegisterUserAction, loginUserAction} from './userActionCreators'
 
-export const registerUser = (email: string, password: string, repeatPassword: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
+export const registerUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
   async dispatch => {
-    if (password === repeatPassword) {
-      const addedUser = await userService.registerUser({email, password, role: 1})
-      dispatch(createRegisterUserAction(email, password, repeatPassword))
-    }
-    else {
-      console.log ('passwords don\'t match!')
-    }
+    const addedUser = await userService.registerUser({email, password, role: 1})
+    dispatch(createRegisterUserAction(email, password))
   }
 
 export const loginUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
