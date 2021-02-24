@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IntegratedCourseSystem.Models;
 using IntegratedCourseSystem.Models.UserModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -21,7 +22,6 @@ namespace IntegratedCourseSystem.Controllers
             _context = context;
         }
 
-        // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
@@ -31,7 +31,7 @@ namespace IntegratedCourseSystem.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/Users/5
+       
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
@@ -45,8 +45,6 @@ namespace IntegratedCourseSystem.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -76,22 +74,17 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Route("[action]")]
         public async Task<ActionResult<UserDTO>> Register(User user)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState); 
             }
 
-            if (user == null)
-            {
-                return NotFound();
-            }
-
+            PasswordHasher<User> pwh = new PasswordHasher<User>();
+            user.Password = pwh.HashPassword(user, user.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -109,20 +102,32 @@ namespace IntegratedCourseSystem.Controllers
                 return BadRequest(ModelState);
             }
 
+            PasswordHasher<User> pwh = new PasswordHasher<User>();
+
             var users = await _context
                     .Users
-                    .Where(entry => ((entry.Email == user.Email) && (entry.Password == user.Password)))
+                    .Where(entry => (entry.Email == user.Email))
                     .ToListAsync();
 
             if (users.Count == 0)
             {
                 return NotFound();
             }
+            else
+            {
+                var matchedUser = users[0];
+                if ((int)pwh.VerifyHashedPassword(matchedUser, matchedUser.Password, user.Password) > 0)
+                {
+                    return Created("", ItemToDTO(matchedUser));
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
 
-            return Created("", ItemToDTO(users[0]));
         }
 
-        // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -138,6 +143,8 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+        // helper methods
+
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
@@ -148,5 +155,6 @@ namespace IntegratedCourseSystem.Controllers
             {
               Email = user.Email
             };
+
     }
 }
