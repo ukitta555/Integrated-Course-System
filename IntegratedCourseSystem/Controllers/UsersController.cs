@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using IntegratedCourseSystem.Models;
 using IntegratedCourseSystem.Models.UserModel;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -21,6 +25,76 @@ namespace IntegratedCourseSystem.Controllers
         {
             _context = context;
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<UserDTO>> Register(User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // try to find already exisiting user in DB
+            var userByEmail = _context
+                    .Users
+                    .FirstOrDefault(entry => (entry.Email == user.Email));
+
+            if (userByEmail != null)
+            {
+                ModelState.AddModelError("Email", "Duplicate email");
+                return BadRequest(ModelState);
+            }
+
+            PasswordHasher<User> pwh = new PasswordHasher<User>();
+            user.Password = pwh.HashPassword(user, user.Password);
+
+            if (User.Identity.IsAuthenticated)
+            {
+                Console.WriteLine("Xd already in");
+            }
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, ItemToDTO(user));
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<UserDTO>> Login(User user)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            PasswordHasher<User> pwh = new PasswordHasher<User>();
+
+            var userByEmail = _context
+                    .Users
+                    .FirstOrDefault(entry => (entry.Email == user.Email));
+
+            if (userByEmail == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
+                {
+                    await Authenticate(user.Email);
+                    return Created("", ItemToDTO(userByEmail));
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+
+        }
+
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
@@ -74,69 +148,7 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
-        [HttpPost]
-        [Route("[action]")]
-        public async Task<ActionResult<UserDTO>> Register(User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState); 
-            }
-
-            // try to find already exisiting user in DB
-            var userByEmail = _context
-                    .Users
-                    .FirstOrDefault(entry => (entry.Email == user.Email));
-
-            if (userByEmail != null)
-            {
-                ModelState.AddModelError("Email", "Duplicate email");
-                return BadRequest(ModelState);
-            }
-
-            PasswordHasher<User> pwh = new PasswordHasher<User>();
-            user.Password = pwh.HashPassword(user, user.Password);
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, ItemToDTO(user));
-        }
-
-        [HttpPost]
-        [Route("[action]")]
-        public async Task<ActionResult<UserDTO>> Login(User user)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            PasswordHasher<User> pwh = new PasswordHasher<User>();
-
-            var userByEmail = _context
-                    .Users
-                    .FirstOrDefault(entry => (entry.Email == user.Email));
-
-            if (userByEmail == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
-                {
-                    return Created("", ItemToDTO(userByEmail));
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-
-        }
-
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -162,8 +174,22 @@ namespace IntegratedCourseSystem.Controllers
         private static UserDTO ItemToDTO(User user) =>
             new UserDTO
             {
-              Email = user.Email
+              Email = user.Email,
+              Id = user.Id
             };
+
+        private async System.Threading.Tasks.Task Authenticate(string userName)
+        {
+            // создаем один claim
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
 
     }
 }

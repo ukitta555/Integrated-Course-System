@@ -8,5 +8,6 @@ namespace IntegratedCourseSystem.Models.UserModel
     public class UserDTO
     {
         public string Email { get; set; }
+        public int Id { get; set; }
     }
 }

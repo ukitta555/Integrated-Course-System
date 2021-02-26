@@ -12,10 +12,9 @@ export const createRegisterUserAction = (email: string, password: string) : regi
   }
 }
 
-export const loginUserAction = (email: string, password: string) : registrationActionTypes => {
+export const loginUserAction = (userInfo: {id: number, email: string}) : registrationActionTypes => {
   return {
     type: LOGIN_USER,
-    email,
-    password
+    userInfo
   }
 }

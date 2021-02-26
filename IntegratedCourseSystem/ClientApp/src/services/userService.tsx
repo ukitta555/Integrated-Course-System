@@ -8,6 +8,7 @@ const registerUser = async (userData: {email: string, password: string, role: nu
     const response = await axios.post(
       `${baseURL}/register`
       ,userData
+     // , {withCredentials: true}
     )
     console.log(response)
     return response.data
@@ -22,8 +23,9 @@ const login = async (userData: {email: string, password: string}) => {
   console.log ('inside userService: login user')
   try {
     const response = await axios.post(
-      `${baseURL}/login`,
-      userData
+      `${baseURL}/login`
+      ,userData
+      ,{withCredentials: true}
     )
     return response.data
   }

@@ -15,5 +15,5 @@ export const loginUser = (email: string, password: string) : ThunkAction<void, R
   async dispatch => {
     const loginResponse = await userService.login ({email, password});
     console.log (loginResponse)
-    dispatch(loginUserAction(email, password))
+    dispatch(loginUserAction(loginResponse))
   }

@@ -1,5 +1,7 @@
 export const REGISTER_USER: 'REGISTER_USER' = 'REGISTER_USER'
 export const LOGIN_USER: 'LOGIN_USER' = 'LOGIN_USER'
+export const EMPTY_STRING: '' = ''
+export const NO_ID: -1 = -1
 
 type RegisterUserAction = {
   type: typeof REGISTER_USER
@@ -9,8 +11,7 @@ type RegisterUserAction = {
 
 type LoginUserAction = {
   type: typeof LOGIN_USER,
-  email: string,
-  password: string
+  userInfo: {id: number, email: string}
 }
 
 export type registrationActionTypes = RegisterUserAction | LoginUserAction
