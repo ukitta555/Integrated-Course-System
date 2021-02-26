@@ -10,6 +10,7 @@ import RegistrationForm from './RegistrationForm/RegistrationForm'
 import QuestionnaireForm from "./QuestionnaireForm/QuestionnaireForm";
 import Footer from "./Footer/Footer";
 import TeacherWaitingPage from "./TeacherWaitingPage/TeacherWaitingPage";
+import StudentWaitingPage from "./StudentWaitingPage/StudentWaitingPage";
 
 const App = () => {
     return (
@@ -27,8 +28,11 @@ const App = () => {
               <Route path = '/questionnaire'>
                   <QuestionnaireForm />
               </Route>
-              <Route path = '/test'>
+              <Route path = '/teacher_waiting_page'>
                   <TeacherWaitingPage />
+              </Route>
+              <Route path = '/student_waiting_page'>
+                  <StudentWaitingPage/>
               </Route>
               <Route path = '/'>
                   bruh
