@@ -1,10 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import {Grid, TextField} from "@material-ui/core";
+import Container from '@material-ui/core/Container';
+import { Grid, TextField} from "@material-ui/core";
+import DeletableTextField from "../DeletableTextField/DeletableTextField";
 
 const CourseCreatingPage = () => {
+  const [languages, setLanguages] = useState([0]);
+  const [roles, setRoles] = useState([0]);
+
+
   const GridWrapperStyle = {
     // gridTemplateAreas: "'document_icon title_text' 'python_icon programming_languages' 'people_search_icon roles' 'papers_icon general_info' 'create_button create_button'",
     paddingHorizontal: "calc(100vw * 1/12)",
@@ -30,6 +36,7 @@ const CourseCreatingPage = () => {
     // fontFamily: Roboto;
   }
   const documentIconStyle = {
+    height: "100%",
     backgroundRepeat: "no-repeat",
     backgroundImage: "url(img/document_icon.png)",
     backgroundSize: "contain",
@@ -37,12 +44,14 @@ const CourseCreatingPage = () => {
     // gridArea: "document_icon",
   }
   const pythonIconStyle = {
+    height: "100%",
     backgroundRepeat: "no-repeat",
     backgroundImage: "url(img/python_icon.png)",
     backgroundColor: "#97ACC4",
     borderRadius: "1.2vw",
     backgroundSize: "contain",
     backgroundPosition: "center",
+    backgroundOrigin: "content-box",
     padding: "2vw",
     // gridArea: "python_icon",
   }
@@ -52,6 +61,7 @@ const CourseCreatingPage = () => {
     // gridArea: "programming_languages",
   }
   const peopleSearchIconStyle = {
+    height: "100%",
     backgroundRepeat: "no-repeat",
     backgroundImage: "url(img/people_search_icon.png)",
     backgroundColor: "#97ACC4",
@@ -66,6 +76,7 @@ const CourseCreatingPage = () => {
     // gridArea: "roles",
   }
   const papersIconStyle = {
+    height: "100%",
     backgroundRepeat: "no-repeat",
     backgroundImage: "url(img/papers_icon.png)",
     backgroundColor: "#97ACC4",
@@ -79,8 +90,10 @@ const CourseCreatingPage = () => {
     borderRadius: "1.2vw",
     // gridArea: "general_info",
   }
+  const createButtonWrapperStyle = {
+  }
   const createButtonStyle = {
-    // gridArea: "create_button",
+    height: "25%",
   }
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -89,41 +102,50 @@ const CourseCreatingPage = () => {
 
   return (
       <form onSubmit = {onSubmit}>
-        <Grid style={GridWrapperStyle} container justify="center" spacing={0}>
-          <Grid item xs={5} style={documentIconStyle} />
+        <Grid style={GridWrapperStyle} container justify="center" spacing={5}>
+          <Grid item xs={5}>
+            <Container maxWidth="lg" style={documentIconStyle} children={false} />
+          </Grid>
           <Grid item xs={5} style={titleTextWrapperStyle}>
             <Typography component="h6" style = {titleTextStyle}>
               Створення нового інтегрованого курсу
             </Typography>
           </Grid>
-          <Grid item xs={5} style={pythonIconStyle} />
+          <Grid item xs={5}>
+            <Container maxWidth="lg" style={pythonIconStyle} children={false} />
+          </Grid>
           <Grid item xs={5}>
             <p>Мови програмування</p>
             <Grid container direction="column" style={programmingLanguagesWrapperStyle}>
+              {languages.map((langId) => <DeletableTextField id={`lang-${langId}`} key={langId} />)}
               <Grid item>
-                <TextField variant="outlined"/>
+                <Button onClick={() => setLanguages([...languages, languages.length])}>Додати нову мову</Button>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={5} style={peopleSearchIconStyle} />
+          <Grid item xs={5}>
+            <Container maxWidth="lg" style={peopleSearchIconStyle} children={false} />
+          </Grid>
           <Grid item xs={5}>
             <p>Ролі у проекті</p>
             <Grid container direction="column" style={rolesWrapperStyle}>
+              {roles.map((roleId) => <DeletableTextField id={`role-${roleId}`} key={roleId} />)}
               <Grid item>
-                <TextField variant="outlined" />
+                <Button onClick={() => setRoles([...roles, roles.length])}>Додати нову роль</Button>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={5} style={papersIconStyle} />
+          <Grid item xs={5}>
+            <Container maxWidth="lg" style={papersIconStyle} children={false} />
+          </Grid>
           <Grid item xs={5}>
             <p>Загальна інформація</p>
             <Grid container direction="column" style={generalInfoWrapperStyle}>
-              <Grid item>
-                <TextField variant="outlined" />
-              </Grid>
+              <TextField label="Назва курсу"/>
+              <TextField label="Пароль курсу"/>
             </Grid>
           </Grid>
-          <Grid xs={10} item>
+          <Grid container item xs={10} justify="center" style={createButtonWrapperStyle}>
             <Button type="submit" style={createButtonStyle} variant="contained" color="primary">Створити</Button>
           </Grid>
         </Grid>
