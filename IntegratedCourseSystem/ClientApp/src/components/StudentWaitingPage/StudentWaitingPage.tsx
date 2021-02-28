@@ -3,11 +3,11 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 
-class DeleteIcon extends React.Component {
-  render() {
-    return null;
-  }
-}
+// class DeleteIcon extends React.Component {
+//   render() {
+//     return null;
+//   }
+// }
 
 const StudentWaitingPage = () => {
   const GridWrapperStyle = {
@@ -60,7 +60,7 @@ const StudentWaitingPage = () => {
           </div>
           <div style={handStyle} />
           <div style={clockStyle} />
-          <Button style={regButtonStyle} variant="outlined" color="secondary" startIcon={<DeleteIcon />}>
+          <Button style={regButtonStyle} variant="outlined" color="secondary" /* startIcon={< />} */>
             Зареєструватися на новий курс
           </Button>
         </div>

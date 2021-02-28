@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 const Footer = () => {
   const footerWrapperStyle = {
     background: "#97ACC4",
-    position: "absolute" as "absolute",
+    position: "fixed" as "fixed",
     bottom: 0,
     // width: '100%'
   }

@@ -11,6 +11,8 @@ import QuestionnaireForm from "./QuestionnaireForm/QuestionnaireForm";
 import Footer from "./Footer/Footer";
 import TeacherWaitingPage from "./TeacherWaitingPage/TeacherWaitingPage";
 import StudentWaitingPage from "./StudentWaitingPage/StudentWaitingPage";
+import TeacherCabinet from "./TeacherCabinet/TeacherCabinet";
+import CourseCreatingPage from "./CourseCreatingPage/CourseCreatingPage";
 
 const App = () => {
     return (
@@ -33,6 +35,12 @@ const App = () => {
               </Route>
               <Route path = '/student_waiting_page'>
                   <StudentWaitingPage/>
+              </Route>
+              <Route path = '/teacher_cabinet'>
+                  <TeacherCabinet/>
+              </Route>
+              <Route path = '/course_creating_page'>
+                  <CourseCreatingPage/>
               </Route>
               <Route path = '/'>
                   bruh
