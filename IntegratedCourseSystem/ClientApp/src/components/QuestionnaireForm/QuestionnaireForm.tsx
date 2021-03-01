@@ -4,14 +4,12 @@ import useField from '../../hooks/useField'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select} from "@material-ui/core";
-
-interface RootState {
-    user: {email:string, id: number}
-}
+import {UserState, NO_ID} from '../../store/types'
 
 const QuestionnaireForm = () =>
 {
-    const user = useSelector((state: RootState) => state.user)
+    const user = useSelector((state:{user: UserState}) => state.user)
+
     type Role = "student" | "teacher"
     const [role, setRole] = useState<Role>("student");
     const handleRoleChange = () => setRole(role === "student" ? "teacher" : "student")
@@ -22,6 +20,10 @@ const QuestionnaireForm = () =>
     const course_id = useField('text');
     const course_password = useField ('password');
 
+    // when DB is ready change to data recieved from server
+    const [faculty, setFaculty] = useState ('ФКНК')
+    const [teacher, setTeacher] = useState ('Омельчук Л.')
+    const [cathedra, setCathedra] = useState ('ТТП') // do we need this stuff?
 
     const courseIdInputProps = {
         pattern: "\\d+"
@@ -33,13 +35,22 @@ const QuestionnaireForm = () =>
     console.log(name.value, surname.value, course_id.value, course_password.value)
   }
 
-  // const validateEmail: (email: string) => boolean
-  //     = email => email.search(/@knu\.ua$/) !== -1
+  const handleFacultyChange = (event:React.ChangeEvent<{ value: unknown }>) => {
+    setFaculty(event.target.value as string)
+  }
 
+  const handleTeacherChange = (event:React.ChangeEvent<{ value: unknown }>) => {
+      setTeacher(event.target.value as string)
+  }
+
+  const handleCathedraChange = (event:React.ChangeEvent<{ value: unknown }>) => {
+      setCathedra(event.target.value as string)
+  }
   return (
     <>
         <div>
-            {user.email} {user.id}
+            <p>User email:{user.email} </p>
+            <p>User ID: {user.id}</p>
         </div>
         <form onSubmit = {onSubmit}>
             <RadioGroup row name="role" value={role} onChange={handleRoleChange}>
@@ -48,31 +59,43 @@ const QuestionnaireForm = () =>
             </RadioGroup>
             <TextField label="Ім'я" {...name} />
             <TextField label="Прізвище" {...surname} />
-            { role === "student" && <>
+            {
+            role === "student" &&
+            <>
                 <TextField label="ID курсу" inputProps={courseIdInputProps} {...course_id} />
-                <TextField label="Пароль курсу" {...course_password} /> </> }
+                <TextField label="Пароль курсу" {...course_password} />
+            </>
+             }
             <InputLabel id="faculty">Факультет</InputLabel>
-            <Select labelId="faculty" id="select_faculty" value="ФКНК">
+            <Select labelId="faculty" id="select_faculty" value={faculty} onChange = {handleFacultyChange}>
                 <MenuItem value="ФКНК">ФКНК</MenuItem>
                 <MenuItem value="ФІТ">ФІТ</MenuItem>
                 <MenuItem value="ННЦ">ННЦ</MenuItem>
             </Select>
-            { role === "student" && <>
+            {
+            role === "student" &&
+            <>
                 <InputLabel id="teacher">Вчитель</InputLabel>
-                <Select labelId="teacher" id="select_teacher" value="Омельчук Л. Л.">
-                    <MenuItem value="Омельчук Л. Л.">Омельчук Л. Л.</MenuItem>
+                <Select labelId="teacher" id="select_teacher" value={teacher} onChange = {handleTeacherChange}>
+                    <MenuItem value="Омельчук Л.">Омельчук Л.</MenuItem>
                     <MenuItem value="Русіна Н.">Русіна Н.</MenuItem>
                     <MenuItem value="Шишацька О.">Шишацька О.</MenuItem>
-                </Select> </>}
-            { role === "teacher" && <>
+                </Select>
+            </>
+            }
+            {
+            role === "teacher" &&
+            <>
                 <InputLabel id="cathedra">Кафедра</InputLabel>
-                <Select labelId="cathedra" id="select_cathedra" value="ТТП">
+                <Select labelId="cathedra" id="select_cathedra" value={cathedra} onChange = {handleCathedraChange}>
                     <MenuItem value="ТТП">ТТП</MenuItem>
                     <MenuItem value="МІ">МІ</MenuItem>
                     <MenuItem value="ТК">ТК</MenuItem>
                     <MenuItem value="ОМ">ОМ</MenuItem>
                     <MenuItem value="ДО">ДО</MenuItem>
-                </Select> </>}
+                </Select>
+            </>
+            }
             <Button type="submit" variant="contained" color="primary">Далі</Button>
         </form>
     </>

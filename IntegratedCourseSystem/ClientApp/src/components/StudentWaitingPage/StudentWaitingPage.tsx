@@ -56,7 +56,7 @@ const StudentWaitingPage = () => {
           <div style={waitingTextWrapperStyle}>
             <Typography component="h1" style = {waitingTextStyle}>
               Ваша анкета була прийнята. Очікуйте розподілу по групам. В вашому кабінеті ви можете відредагувати свої побажання.
-          </Typography>
+            </Typography>
           </div>
           <div style={handStyle} />
           <div style={clockStyle} />
