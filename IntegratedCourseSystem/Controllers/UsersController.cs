@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IntegratedCourseSystem.Models;
-using IntegratedCourseSystem.Models.UserModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-
+using DataBase.Models;
+using DataBase.Models.UserModel;
 
 namespace IntegratedCourseSystem.Controllers
 {
