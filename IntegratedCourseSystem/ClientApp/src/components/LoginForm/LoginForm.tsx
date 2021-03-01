@@ -29,9 +29,9 @@ const LoginForm = () => {
     ...password
   }
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    dispatch(loginUser(email.value, password.value))
+    await dispatch(loginUser(email.value, password.value))
     history.push('/questionnaire')
   }
   return (

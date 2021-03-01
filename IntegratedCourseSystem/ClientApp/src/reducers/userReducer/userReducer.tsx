@@ -3,11 +3,12 @@ import {
   LOGIN_USER,
   EMPTY_STRING,
   NO_ID,
-  registrationActionTypes
+  registrationActionTypes,
+  UserState
 } from '../../store/types'
 
 
-const initialState: {email: string, id: number} = {email: EMPTY_STRING, id: NO_ID}
+const initialState: UserState = {email: EMPTY_STRING, id: NO_ID}
 
 const userReducer = (state = initialState, action: registrationActionTypes) => {
   switch (action.type) {

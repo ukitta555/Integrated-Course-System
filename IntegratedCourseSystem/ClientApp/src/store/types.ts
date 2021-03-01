@@ -3,6 +3,13 @@ export const LOGIN_USER: 'LOGIN_USER' = 'LOGIN_USER'
 export const EMPTY_STRING: '' = ''
 export const NO_ID: -1 = -1
 
+
+
+export interface UserState  {
+  email: string,
+  id: number
+}
+
 type RegisterUserAction = {
   type: typeof REGISTER_USER
   email: string,
