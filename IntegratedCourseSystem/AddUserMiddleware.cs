@@ -1,9 +1,5 @@
-﻿using IntegratedCourseSystem.Models;
+﻿using DataBase.Models;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace IntegratedCourseSystem
 {
@@ -13,17 +9,14 @@ namespace IntegratedCourseSystem
 
         public AddUserMiddleware(RequestDelegate next)
         {
-            this._next = next;
+            _next = next;
         }
 
         public async System.Threading.Tasks.Task InvokeAsync(HttpContext context, IntegratedCourseSystemContext db)
         {
-            db.Users.Add(new User { Email = "truth@gmail.com", Password = "superpass", Role = UserRole.Student});
-            //db.Users.RemoveRange(db.Users.Where(user => user.Id != 559 || user.Id != 549 || user.Id != 547));
-            //var list = db.Users.ToList();
-            db.SaveChanges();
+            db.Users.Add(new User { Email = "test email", Password = "superpass" });
+            await db.SaveChangesAsync();
             db.Dispose();
-            await _next.Invoke(context);
         }
     }
 }

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Antiforgery;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using DataBase;
 
 
 namespace IntegratedCourseSystem
@@ -96,7 +97,7 @@ namespace IntegratedCourseSystem
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //app.UseMiddleware<AddUserMiddleware>();
+            app.UseMiddleware<AddUserMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
