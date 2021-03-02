@@ -7,13 +7,14 @@ import { createRegisterUserAction, loginUserAction} from './userActionCreators'
 
 export const registerUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
   async dispatch => {
-    const addedUser = await userService.registerUser({email, password, role: 1})
+    const addedUser = await userService.registerUser({email, password, role: -1})
     dispatch(createRegisterUserAction(email, password))
   }
 
 export const loginUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
   async dispatch => {
-    const loginResponse = await userService.login ({email, password});
-    console.log (loginResponse)
-    dispatch(loginUserAction(loginResponse))
+    const loginResponse = await userService.login ({email, password})
+    if (loginResponse) {
+      dispatch(loginUserAction(loginResponse))
+    }
   }

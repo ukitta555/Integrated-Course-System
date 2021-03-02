@@ -855,19 +855,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Surface\\.nuget\\packages\\": {}
+    "C:\\Users\\Vlad_2\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\D\\files\\Study\\4_semester\\IEaPT\\IntegratedCourseSystem\\DataBase\\DataBase.csproj",
+      "projectUniqueName": "C:\\Users\\Vlad_2\\source\\repos\\JS and web stuff\\IntegratedCourseSystem\\DataBase\\DataBase.csproj",
       "projectName": "DataBase",
-      "projectPath": "C:\\D\\files\\Study\\4_semester\\IEaPT\\IntegratedCourseSystem\\DataBase\\DataBase.csproj",
-      "packagesPath": "C:\\Users\\Surface\\.nuget\\packages\\",
-      "outputPath": "C:\\D\\files\\Study\\4_semester\\IEaPT\\IntegratedCourseSystem\\DataBase\\obj\\",
+      "projectPath": "C:\\Users\\Vlad_2\\source\\repos\\JS and web stuff\\IntegratedCourseSystem\\DataBase\\DataBase.csproj",
+      "packagesPath": "C:\\Users\\Vlad_2\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Vlad_2\\source\\repos\\JS and web stuff\\IntegratedCourseSystem\\DataBase\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Surface\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Vlad_2\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

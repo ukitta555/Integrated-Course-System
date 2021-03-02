@@ -23,7 +23,6 @@ const QuestionnaireForm = () =>
     // when DB is ready change to data recieved from server
     const [faculty, setFaculty] = useState ('ФКНК')
     const [teacher, setTeacher] = useState ('Омельчук Л.')
-    const [cathedra, setCathedra] = useState ('ТТП') // do we need this stuff?
 
     const courseIdInputProps = {
         pattern: "\\d+"
@@ -43,9 +42,7 @@ const QuestionnaireForm = () =>
       setTeacher(event.target.value as string)
   }
 
-  const handleCathedraChange = (event:React.ChangeEvent<{ value: unknown }>) => {
-      setCathedra(event.target.value as string)
-  }
+
   return (
     <>
         <div>
@@ -80,19 +77,6 @@ const QuestionnaireForm = () =>
                     <MenuItem value="Омельчук Л.">Омельчук Л.</MenuItem>
                     <MenuItem value="Русіна Н.">Русіна Н.</MenuItem>
                     <MenuItem value="Шишацька О.">Шишацька О.</MenuItem>
-                </Select>
-            </>
-            }
-            {
-            role === "teacher" &&
-            <>
-                <InputLabel id="cathedra">Кафедра</InputLabel>
-                <Select labelId="cathedra" id="select_cathedra" value={cathedra} onChange = {handleCathedraChange}>
-                    <MenuItem value="ТТП">ТТП</MenuItem>
-                    <MenuItem value="МІ">МІ</MenuItem>
-                    <MenuItem value="ТК">ТК</MenuItem>
-                    <MenuItem value="ОМ">ОМ</MenuItem>
-                    <MenuItem value="ДО">ДО</MenuItem>
                 </Select>
             </>
             }

@@ -15,7 +15,6 @@ const userReducer = (state = initialState, action: registrationActionTypes) => {
     case REGISTER_USER: {
       console.log('register user!')
       console.log (action.email, action.password)
-
       return initialState
     }
     case LOGIN_USER: {
