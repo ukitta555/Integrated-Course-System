@@ -10,3 +10,15 @@ C:\D\files\Study\4_semester\IEaPT\IntegratedCourseSystem\DataBase\obj\Debug\netc
 C:\D\files\Study\4_semester\IEaPT\IntegratedCourseSystem\DataBase\bin\Debug\netcoreapp3.1\DataBase.runtimeconfig.json
 C:\D\files\Study\4_semester\IEaPT\IntegratedCourseSystem\DataBase\bin\Debug\netcoreapp3.1\DataBase.runtimeconfig.dev.json
 C:\D\files\Study\4_semester\IEaPT\IntegratedCourseSystem\DataBase\obj\Debug\netcoreapp3.1\DataBase.genruntimeconfig.cache
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\bin\Debug\netcoreapp3.1\DataBase.deps.json
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\bin\Debug\netcoreapp3.1\DataBase.runtimeconfig.json
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\bin\Debug\netcoreapp3.1\DataBase.runtimeconfig.dev.json
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\bin\Debug\netcoreapp3.1\DataBase.dll
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\bin\Debug\netcoreapp3.1\DataBase.pdb
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\obj\Debug\netcoreapp3.1\DataBase.csprojAssemblyReference.cache
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\obj\Debug\netcoreapp3.1\DataBase.AssemblyInfoInputs.cache
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\obj\Debug\netcoreapp3.1\DataBase.AssemblyInfo.cs
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\obj\Debug\netcoreapp3.1\DataBase.csproj.CoreCompileInputs.cache
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\obj\Debug\netcoreapp3.1\DataBase.dll
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\obj\Debug\netcoreapp3.1\DataBase.pdb
+C:\Users\Vlad_2\source\repos\JS and web stuff\IntegratedCourseSystem\DataBase\obj\Debug\netcoreapp3.1\DataBase.genruntimeconfig.cache
