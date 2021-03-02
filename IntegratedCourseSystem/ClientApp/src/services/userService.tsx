@@ -35,8 +35,23 @@ const login = async (userData: {email: string, password: string}) => {
   }
 }
 
+const changeUser = async (userData: {role: number}, id: number) => {
+  try {
+    const response = await axios.patch(
+      `${baseURL}/${id}`,
+      userData,
+      {withCredentials: true}
+    )
+    console.log('patch req:', response, userData)
+  }
+  catch (error) {
+    console.log (error)
+  }
+}
+
 export default
 {
   registerUser,
-  login
+  login,
+  changeUser
 }
