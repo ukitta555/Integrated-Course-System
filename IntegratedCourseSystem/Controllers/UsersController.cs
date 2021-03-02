@@ -82,6 +82,7 @@ namespace IntegratedCourseSystem.Controllers
             }
             else
             {
+                
                 if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
                 {
                     await Authenticate(user.Email);
@@ -117,7 +118,7 @@ namespace IntegratedCourseSystem.Controllers
                 }
 
 
-                //_context.Entry(user).State = EntityState.Modified;
+                _context.Entry(user).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();
 

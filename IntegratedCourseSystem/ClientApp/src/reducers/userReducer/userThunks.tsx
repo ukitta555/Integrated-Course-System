@@ -60,9 +60,9 @@ export const createStudent = (studentInfo: StudentInfo) : ThunkAction<void, Root
 export const updateUserRole = (role: number, id: number) : ThunkAction<void, RootState, unknown, Action<string>> =>
   async () => {
     try {
-      await userService.changeUser({role}, id)
+      await userService.changeUser({value: role, op: "replace", path: "/role"}, id)
     }
     catch (error) {
-      console.log (error)
+      console.log (error.response.data)
     }
   }

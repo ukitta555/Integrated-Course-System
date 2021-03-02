@@ -35,17 +35,19 @@ const login = async (userData: {email: string, password: string}) => {
   }
 }
 
-const changeUser = async (userData: {role: number}, id: number) => {
+const changeUser = async (userData: {value: number, op: string, path: string}, id: number) => {
   try {
+    console.log(userData)
+    const arrayWrapper = [userData]
     const response = await axios.patch(
       `${baseURL}/${id}`,
-      userData,
+      arrayWrapper,
       {withCredentials: true}
     )
     console.log('patch req:', response, userData)
   }
   catch (error) {
-    console.log (error)
+    console.log (error.response.data)
   }
 }
 

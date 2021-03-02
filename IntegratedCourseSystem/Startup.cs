@@ -54,7 +54,7 @@ namespace IntegratedCourseSystem
             services.AddIntegratedCourseSystemContext(Configuration);
 
 
-            // ��������� ������������ �����������
+            // настройка аутентификации (кукизы)
             services.AddAuthentication(options => {
                 options.DefaultScheme = "Cookies";
             }).AddCookie("Cookies", options => {
@@ -109,8 +109,8 @@ namespace IntegratedCourseSystem
 
             app.UseRouting();
 
-            app.UseAuthentication();    // ��������������
-            app.UseAuthorization();     // �����������
+            app.UseAuthentication();    // аутентификация
+            app.UseAuthorization();     // авторизация
 
             /*
              * anti-forgery token. didn't work.
