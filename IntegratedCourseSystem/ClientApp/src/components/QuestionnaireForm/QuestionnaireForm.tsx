@@ -1,24 +1,29 @@
 import React, {useState} from 'react'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import useField from '../../hooks/useField'
+import {UserState} from '../../store/types'
+import {createTeacher, createStudent, updateUserRole} from '../../reducers/userReducer/userThunks'
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select} from "@material-ui/core";
-import {UserState, NO_ID} from '../../store/types'
+
 
 const QuestionnaireForm = () =>
 {
+    const dispatch = useDispatch()
     const user = useSelector((state:{user: UserState}) => state.user)
 
     type Role = "student" | "teacher"
+
     const [role, setRole] = useState<Role>("student");
     const handleRoleChange = () => setRole(role === "student" ? "teacher" : "student")
 
 
     const name = useField('text');
     const surname = useField('text');
-    const course_id = useField('text');
-    const course_password = useField ('password');
+    const courseId = useField('text');
+    const coursePassword = useField ('password');
 
     // when DB is ready change to data recieved from server
     const [faculty, setFaculty] = useState ('ФКНК')
@@ -28,10 +33,32 @@ const QuestionnaireForm = () =>
         pattern: "\\d+"
     }
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     console.log('submitted registration form')
-    console.log(name.value, surname.value, course_id.value, course_password.value)
+    if (role === "student") {
+        const studentInfo = {
+            name: name.value,
+            surname: surname.value,
+            courseId: courseId.value,
+            coursePassword: coursePassword.value,
+            teacherId: 123,
+            facultyId: 123
+        }
+        await dispatch (createStudent(studentInfo))
+        await dispatch (updateUserRole(0, user.id))
+    }
+    else if (role === "teacher") {
+        const teacherInfo = {
+            name: name.value,
+            surname: surname.value,
+            facultyId: 123
+        }
+        await dispatch (createTeacher(teacherInfo))
+        await dispatch (updateUserRole(1, user.id))
+    }
+
+    console.log(name.value, surname.value, courseId.value, coursePassword.value)
   }
 
   const handleFacultyChange = (event:React.ChangeEvent<{ value: unknown }>) => {
@@ -59,12 +86,12 @@ const QuestionnaireForm = () =>
             {
             role === "student" &&
             <>
-                <TextField label="ID курсу" inputProps={courseIdInputProps} {...course_id} />
-                <TextField label="Пароль курсу" {...course_password} />
+                <TextField label="ID курсу" inputProps={courseIdInputProps} {...courseId} />
+                <TextField label="Пароль курсу" {...coursePassword} />
             </>
              }
             <InputLabel id="faculty">Факультет</InputLabel>
-            <Select labelId="faculty" id="select_faculty" value={faculty} onChange = {handleFacultyChange}>
+            <Select name = 'fac' labelId="faculty" id="select_faculty" value={faculty} onChange = {handleFacultyChange}>
                 <MenuItem value="ФКНК">ФКНК</MenuItem>
                 <MenuItem value="ФІТ">ФІТ</MenuItem>
                 <MenuItem value="ННЦ">ННЦ</MenuItem>

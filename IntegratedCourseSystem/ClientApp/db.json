@@ -29,6 +29,120 @@
       "email": "123",
       "password": "12343121",
       "id": 6
+    },
+    {
+      "email": "123@knu.ua",
+      "password": "123",
+      "id": 7
+    },
+    {
+      "email": "123@knu.ua",
+      "password": "123",
+      "role": 0,
+      "id": 8
+    }
+  ],
+  "teachers": [
+    {
+      "name": "Ludmila",
+      "surname": "Omelchuk",
+      "facultyId": 123,
+      "id": 1
+    },
+    {
+      "name": "Lol",
+      "surname": "Kek",
+      "facultyId": 123,
+      "id": 2
+    },
+    {
+      "name": "3",
+      "surname": "",
+      "facultyId": 123,
+      "id": 3
+    }
+  ],
+  "students": [
+    {
+      "name": "Ludmila",
+      "surname": "Omelchuk",
+      "courseId": "123",
+      "coursePassword": "321",
+      "teacherId": 123,
+      "facultyId": 123,
+      "id": 1
+    },
+    {
+      "name": "Lol",
+      "surname": "Kek",
+      "courseId": "43",
+      "coursePassword": "43",
+      "teacherId": 123,
+      "facultyId": 123,
+      "id": 2
+    },
+    {
+      "name": "3",
+      "surname": "",
+      "courseId": "",
+      "coursePassword": "",
+      "teacherId": 123,
+      "facultyId": 123,
+      "id": 3
+    },
+    {
+      "name": "3",
+      "surname": "",
+      "courseId": "",
+      "coursePassword": "",
+      "teacherId": 123,
+      "facultyId": 123,
+      "id": 4
+    },
+    {
+      "name": "3",
+      "surname": "",
+      "courseId": "",
+      "coursePassword": "",
+      "teacherId": 123,
+      "facultyId": 123,
+      "id": 5
+    },
+    {
+      "name": "3",
+      "surname": "",
+      "courseId": "",
+      "coursePassword": "",
+      "teacherId": 123,
+      "facultyId": 123,
+      "id": 6
+    },
+    {
+      "name": "3",
+      "surname": "",
+      "courseId": "",
+      "coursePassword": "",
+      "teacherId": 123,
+      "facultyId": 123,
+      "id": 7
+    },
+    {
+      "name": "3",
+      "surname": "",
+      "courseId": "",
+      "coursePassword": "",
+      "teacherId": 123,
+      "facultyId": 123,
+      "id": 8
+    },
+    {
+      "name": "3",
+      "surname": "",
+      "courseId": "",
+      "coursePassword": "",
+      "teacherId": 123,
+      "facultyId": 123,
+      "id": 9
     }
   ]
 }

@@ -30,7 +30,7 @@ const App = () => {
                   <RegistrationForm />
               </Route>
               <Route path = '/login'>
-                {user.id === NO_ID ? <LoginForm /> : <Redirect to="/questionnaire" />}
+                {(!user || user.id === NO_ID) ? <LoginForm /> : <Redirect to="/questionnaire" />}
               </Route>
               <Route path = '/questionnaire'>
                   <QuestionnaireForm />
