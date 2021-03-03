@@ -30,6 +30,16 @@ namespace IntegratedCourseSystem.Controllers
             return teacher;
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult<Teacher>> Post(Teacher teacher)
+        {
+            _context.Teachers.Add(teacher);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetStudent", new { id = teacher.Id }, teacher);
+        }
+
         // PUT api/teachers
         [HttpPut]
         public async Task<ActionResult<Teacher>> Put([FromBody] Teacher teacher)
