@@ -1,8 +1,8 @@
 import axios from 'axios'
 import {TeacherInfo} from '../store/types'
 
-const baseURL = 'http://localhost:3001/teachers'
-//const baseURL = '/api/teachers'
+//const baseURL = 'http://localhost:3001/teachers'
+const baseURL = '/api/teachers'
 
 const createTeacher = async (teacherInfo: TeacherInfo) => {
   try {
@@ -14,7 +14,7 @@ const createTeacher = async (teacherInfo: TeacherInfo) => {
     return response.data
   }
   catch (error) {
-    console.log (error)
+    console.log (error.response.data)
   }
 }
 export default

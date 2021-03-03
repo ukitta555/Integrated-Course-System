@@ -48,7 +48,6 @@ const App = () => {
                   <CourseCreatingPage/>
               </Route>
               <Route path = '/'>
-                  bruh
               </Route>
           </Switch>
           <Footer />
