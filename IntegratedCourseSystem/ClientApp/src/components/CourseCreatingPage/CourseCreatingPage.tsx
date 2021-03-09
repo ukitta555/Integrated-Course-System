@@ -10,6 +10,16 @@ const CourseCreatingPage = () => {
   const [languages, setLanguages] = useState([0]);
   const [roles, setRoles] = useState([0]);
 
+  const handleAddListItem: <T>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => (item: T) => () => void
+      = (list, setList) => item => () => {
+    setList([...list, item]);
+  };
+
+  const handleDeleteListItem: <T>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => (index: number) => () => void
+    = (list, setList) => index => () => {
+    setList(list.filter((_, id) => id != index));
+  };
+
 
   const GridWrapperStyle = {
     // gridTemplateAreas: "'document_icon title_text' 'python_icon programming_languages' 'people_search_icon roles' 'papers_icon general_info' 'create_button create_button'",
@@ -117,9 +127,9 @@ const CourseCreatingPage = () => {
           <Grid item xs={5}>
             <p>Мови програмування</p>
             <Grid container direction="column" style={programmingLanguagesWrapperStyle}>
-              {languages.map((langId) => <DeletableTextField id={`lang-${langId}`} key={langId} />)}
+              {languages.map((langId) => <DeletableTextField onDelete={handleDeleteListItem(languages, setLanguages)(langId)} id={`lang-${langId}`} key={langId} />)}
               <Grid item>
-                <Button onClick={() => setLanguages([...languages, languages.length])}>Додати нову мову</Button>
+                <Button onClick={handleAddListItem(languages, setLanguages)(languages.length)}>Додати нову мову</Button>
               </Grid>
             </Grid>
           </Grid>
@@ -129,9 +139,9 @@ const CourseCreatingPage = () => {
           <Grid item xs={5}>
             <p>Ролі у проекті</p>
             <Grid container direction="column" style={rolesWrapperStyle}>
-              {roles.map((roleId) => <DeletableTextField id={`role-${roleId}`} key={roleId} />)}
+              {roles.map((roleId) => <DeletableTextField onDelete={handleDeleteListItem(roles, setRoles)(roleId)} id={`role-${roleId}`} key={roleId} />)}
               <Grid item>
-                <Button onClick={() => setRoles([...roles, roles.length])}>Додати нову роль</Button>
+                <Button onClick={handleAddListItem(roles, setRoles)(roles.length)}>Додати нову роль</Button>
               </Grid>
             </Grid>
           </Grid>

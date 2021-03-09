@@ -1,8 +1,10 @@
 import React from 'react';
+import {useSelector} from 'react-redux'
 import Header from './Header/Header'
 import {
     Switch
     ,Route
+    ,Redirect
     }
     from 'react-router-dom'
 import LoginForm from './LoginForm/LoginForm';
@@ -13,8 +15,11 @@ import TeacherWaitingPage from "./TeacherWaitingPage/TeacherWaitingPage";
 import StudentWaitingPage from "./StudentWaitingPage/StudentWaitingPage";
 import TeacherCabinet from "./TeacherCabinet/TeacherCabinet";
 import CourseCreatingPage from "./CourseCreatingPage/CourseCreatingPage";
+import {UserState, NO_ID} from '../store/types'
 
 const App = () => {
+    const user = useSelector ((state: {user: UserState}) => state.user)
+
     return (
         <>
           <div>
@@ -25,7 +30,7 @@ const App = () => {
                   <RegistrationForm />
               </Route>
               <Route path = '/login'>
-                  <LoginForm />
+                {(!user || user.id === NO_ID) ? <LoginForm /> : <Redirect to="/questionnaire" />}
               </Route>
               <Route path = '/questionnaire'>
                   <QuestionnaireForm />
@@ -43,7 +48,6 @@ const App = () => {
                   <CourseCreatingPage/>
               </Route>
               <Route path = '/'>
-                  bruh
               </Route>
           </Switch>
           <Footer />
