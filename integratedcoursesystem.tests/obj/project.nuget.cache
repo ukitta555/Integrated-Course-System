@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8XUbNMjwFQoxFHfmhFJsIKYdal6yE6mAzp9U2ruvfV2LB3cvCIMGafn1j2jNlpFe0dItP5qCG7ynkwNUAVxOHg==",
+  "dgSpecHash": "J8acbEwaRQyWAPu4+fiDGh5w9HD8MyghgrKr3gYfFVQY8gikOXv1Lw1o7XVshaZQSbn8+77NtTdt7z+FaSSnbQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Andrew\\STUD\\Univ\\IntegratedCourseSystem\\IntegratedCourseSystem.Tests\\IntegratedCourseSystem.Tests.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,8 @@
     "C:\\Users\\Andrew\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Andrew\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
     "C:\\Users\\Andrew\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\Andrew\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\6.0.0-preview.1.21103.6\\microsoft.aspnetcore.jsonpatch.6.0.0-preview.1.21103.6.nupkg.sha512",
+    "C:\\Users\\Andrew\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\5.0.3\\microsoft.aspnetcore.mvc.newtonsoftjson.5.0.3.nupkg.sha512",
     "C:\\Users\\Andrew\\.nuget\\packages\\microsoft.aspnetcore.mvc.testing\\5.0.3\\microsoft.aspnetcore.mvc.testing.5.0.3.nupkg.sha512",
     "C:\\Users\\Andrew\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
     "C:\\Users\\Andrew\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\5.0.0\\microsoft.aspnetcore.razor.language.5.0.0.nupkg.sha512",
@@ -88,7 +90,8 @@
     "C:\\Users\\Andrew\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Andrew\\.nuget\\packages\\moq\\4.16.1\\moq.4.16.1.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
+    "C:\\Users\\Andrew\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\Andrew\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\Andrew\\.nuget\\packages\\npgsql\\5.0.2\\npgsql.5.0.2.nupkg.sha512",
     "C:\\Users\\Andrew\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\5.0.2\\npgsql.entityframeworkcore.postgresql.5.0.2.nupkg.sha512",
     "C:\\Users\\Andrew\\.nuget\\packages\\nuget.frameworks\\5.0.0\\nuget.frameworks.5.0.0.nupkg.sha512",

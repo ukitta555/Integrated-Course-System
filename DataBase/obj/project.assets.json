@@ -925,19 +925,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Vlad_2\\.nuget\\packages\\": {}
+    "C:\\Users\\Andrew\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Vlad_2\\source\\repos\\JS and web stuff\\IntegratedCourseSystem\\DataBase\\DataBase.csproj",
+      "projectUniqueName": "C:\\Users\\Andrew\\STUD\\Univ\\IntegratedCourseSystem\\DataBase\\DataBase.csproj",
       "projectName": "DataBase",
-      "projectPath": "C:\\Users\\Vlad_2\\source\\repos\\JS and web stuff\\IntegratedCourseSystem\\DataBase\\DataBase.csproj",
-      "packagesPath": "C:\\Users\\Vlad_2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Vlad_2\\source\\repos\\JS and web stuff\\IntegratedCourseSystem\\DataBase\\obj\\",
+      "projectPath": "C:\\Users\\Andrew\\STUD\\Univ\\IntegratedCourseSystem\\DataBase\\DataBase.csproj",
+      "packagesPath": "C:\\Users\\Andrew\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Andrew\\STUD\\Univ\\IntegratedCourseSystem\\DataBase\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Vlad_2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Andrew\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
