@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+п»їusing Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +14,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Antiforgery;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Options;
+using System.Linq;
+using DataBase;
 
 
 namespace IntegratedCourseSystem
@@ -30,9 +34,9 @@ namespace IntegratedCourseSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -50,7 +54,7 @@ namespace IntegratedCourseSystem
             services.AddIntegratedCourseSystemContext(Configuration);
 
 
-            // установка конфигурации подключения
+            // РЅР°СЃС‚СЂРѕР№РєР° Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё (РєСѓРєРёР·С‹)
             services.AddAuthentication(options => {
                 options.DefaultScheme = "Cookies";
             }).AddCookie("Cookies", options => {
@@ -83,7 +87,7 @@ namespace IntegratedCourseSystem
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             
             if (env.IsDevelopment())
@@ -96,7 +100,7 @@ namespace IntegratedCourseSystem
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //app.UseMiddleware<AddUserMiddleware>();
+          //  app.UseMiddleware<AddUserMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -105,8 +109,8 @@ namespace IntegratedCourseSystem
 
             app.UseRouting();
 
-            app.UseAuthentication();    // аутентификация
-            app.UseAuthorization();     // авторизация
+            app.UseAuthentication();    // Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёСЏ
+            app.UseAuthorization();     // Р°РІС‚РѕСЂРёР·Р°С†РёСЏ
 
             /*
              * anti-forgery token. didn't work.

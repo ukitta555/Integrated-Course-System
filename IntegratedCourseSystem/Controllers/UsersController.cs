@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using IntegratedCourseSystem.Models;
-using IntegratedCourseSystem.Models.UserModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-
+using DataBase.Models;
+using DataBase.Models.UserModel;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -82,6 +82,7 @@ namespace IntegratedCourseSystem.Controllers
             }
             else
             {
+                
                 if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
                 {
                     await Authenticate(user.Email);
@@ -95,6 +96,39 @@ namespace IntegratedCourseSystem.Controllers
 
         }
 
+
+        [HttpPatch]
+        [Route("{id:int}")]
+        public async Task<ActionResult<User>> ChangeRole([FromBody]JsonPatchDocument<User> patchDoc, int Id)
+        {
+            if (patchDoc != null)
+            {
+
+                var user = _context
+                    .Users
+                    .FirstOrDefault(user => user.Id == Id);
+
+                Console.WriteLine("{0} {1}", user.Email, user.Role.ToString());
+                patchDoc.ApplyTo(user, ModelState);
+                Console.WriteLine("{0} {1}", user.Email, user.Role.ToString());
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+
+                _context.Entry(user).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                return new ObjectResult(user);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()

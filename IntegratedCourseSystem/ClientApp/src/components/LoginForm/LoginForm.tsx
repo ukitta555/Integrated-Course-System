@@ -1,7 +1,7 @@
 import React from 'react'
 //import {useDispatch, useSelector} from 'react-redux'
-import {useDispatch} from 'react-redux'
-import {useHistory} from "react-router-dom"
+import {useDispatch, useSelector} from 'react-redux'
+
 
 import useField from '../../hooks/useField'
 import TextField from "@material-ui/core/TextField";
@@ -9,12 +9,12 @@ import Button from "@material-ui/core/Button";
 import {loginUser} from '../../reducers/userReducer/userThunks'
 import {EMAIL_VALIDATOR} from '../RegistrationForm/emailValidatingRegExp'
 
-const LoginForm = () => {
-  const history = useHistory()
-  const dispatch = useDispatch()
 
+const LoginForm = () => {
+  const dispatch = useDispatch()
   const email = useField('text')
   const password = useField ('password')
+
 
   const emailProps = {
     pattern: EMAIL_VALIDATOR,
@@ -29,10 +29,9 @@ const LoginForm = () => {
     ...password
   }
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    dispatch(loginUser(email.value, password.value))
-    history.push('/questionnaire')
+    await dispatch(loginUser(email.value, password.value))
   }
   return (
     <form onSubmit = {onSubmit}>

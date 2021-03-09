@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using DataBase.Models;
 
 namespace IntegratedCourseSystem.Extensions
 {
@@ -17,8 +18,6 @@ namespace IntegratedCourseSystem.Extensions
             string connection = configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<IntegratedCourseSystemContext>(options => options.UseNpgsql(connection));
-
-            //services.AddDbContext<IntegratedCourseSystemContext>(opt => opt.UseInMemoryDatabase("IntegratedCourseSystem"));
         }
 
         // put here Add.. methods for IServiceCollections for custom services
