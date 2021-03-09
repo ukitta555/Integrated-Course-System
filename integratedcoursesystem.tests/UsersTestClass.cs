@@ -1,11 +1,11 @@
 using System;
 using Xunit;
 using IntegratedCourseSystem.Controllers;
-using IntegratedCourseSystem.Models;
+using DataBase.Models;
 using System.Data.Entity;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using IntegratedCourseSystem.Models.UserModel;
+using DataBase.Models.UserModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
@@ -22,7 +22,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task UsersGetAll()
         {
             //Arrange
-            using (var context =CreateDatabaseContext("TestDatabaseGet1"))
+            using (var context = CreateDatabaseContext("TestDatabaseGet1"))
             {
                 var userController = new UsersController(context);
                 //Act
@@ -138,7 +138,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task UserLoginSuccesfull()
         {
             //Arrange
-            var context = CreateContext("TestDatabaseLogin1");
+            var context = CreateDatabaseContext("TestDatabaseLogin1");
             var userController = new UsersController(context);
             //Act
             var result = await userController.Login(new User { Id = 1, Email = "a@knu.ua", Password = "1", Role = UserRole.Student });
@@ -212,7 +212,7 @@ namespace IntegratedCourseSystem.Tests
         #endregion
 
         //Helper functions
-        private IntegratedCourseSystemContext CreateDatabaseContext(string DbName)
+        private static IntegratedCourseSystemContext CreateDatabaseContext(string DbName)
         {
             //Arrange
             var options = new DbContextOptionsBuilder<IntegratedCourseSystemContext>()
@@ -229,7 +229,7 @@ namespace IntegratedCourseSystem.Tests
             return new IntegratedCourseSystemContext(options);
         }
 
-        private ControllerContext CreateControllerContext(bool isAuth)
+        private static ControllerContext CreateControllerContext(bool isAuth)
         {
             var claims = new List<Claim>()
             {
