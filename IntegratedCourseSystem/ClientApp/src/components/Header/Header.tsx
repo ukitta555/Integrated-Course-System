@@ -49,7 +49,11 @@ const Header = () => {
   )
 
   const loggedInButtons = ( <div>
-      Billy Herrington!
+      <Button color = "inherit">
+        <Link to = '/course_creating_page'>
+          Create course
+        </Link>
+      </Button>
     </div>
   )
 

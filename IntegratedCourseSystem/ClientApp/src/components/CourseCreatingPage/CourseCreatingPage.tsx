@@ -1,25 +1,83 @@
 import React, {useState} from 'react'
 
+import useField from '../../hooks/useField'
+import {useSelector} from 'react-redux'
+import {UserState} from '../../store/types'
+import courseService from '../../services/courseService'
+import techService from '../../services/techService'
+import roleService from '../../services/roleService'
+import courseTechService from '../../services/courseTechService'
+import subjectService from '../../services/subjectService'
+import courseSubjectService from '../../services/courseSubjectService'
+
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import { Grid, TextField} from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 import DeletableTextField from "../DeletableTextField/DeletableTextField";
+import { LocationSearchingTwoTone } from '@material-ui/icons';
+import courseRoleService from '../../services/courseRoleService'
 
 const CourseCreatingPage = () => {
-  const [languages, setLanguages] = useState([0]);
-  const [roles, setRoles] = useState([0]);
+  const [languages, setLanguages] = useState([{id: 0, value: "C#"}]);
+  const [roles, setRoles] = useState([{id: 1, value: "Tester"}]);
+  const [subjects, setSubjects] = useState([{id: 2, value: "Obj.-oriented programming"}]);
+  const [idCounter, setIdCounter] = useState(3);
+  const courseName = useField ('text')
+  const coursePassword = useField ('password')
+  const user  = useSelector ((state:{user: UserState}) => state.user)
 
-  const handleAddListItem: <T>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => (item: T) => () => void
-      = (list, setList) => item => () => {
-    setList([...list, item]);
+  const handleAddListItem: <T>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) =>
+    (item: T) => () => void = (list, setList) => item => () => {
+    setList([...list, item])
+    setIdCounter(idCounter + 1)
   };
 
-  const handleDeleteListItem: <T>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => (index: number) => () => void
-    = (list, setList) => index => () => {
-    setList(list.filter((_, id) => id != index));
+  const handleDeleteListItem: <T extends { id: number; }>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => (idToRemove: number) => () => void
+    = (list, setList) => idToRemove => () => {
+    setList(list.filter(item => item.id != idToRemove));
   };
 
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const courseInfo = {
+      //languages,
+      //roles,
+      //subjects,
+      name: courseName.value,
+      inviteCode: coursePassword.value,
+      teacherId: user.id,
+      maxCapacity: 125
+    }
+
+
+    const techValues = languages.map (l => {return {name: l.value}})
+    const roleValues = roles.map (r => {return {name: r.value}})
+    const subjectValues = subjects.map (s => {return {name: s.value}})
+
+    console.log(courseInfo)
+    const courseResponse = await courseService.addCourse(courseInfo)
+    console.log("response from addCourse:", courseResponse)
+    const techResponse = await techService.addTechs({teches: techValues})
+    console.log("response from addTechs:", techResponse)
+    const roleResponse = await roleService.addRoles({roles: roleValues})
+    console.log("response from addRoles:", roleResponse)
+    const subjectResponse = await subjectService.addSubjects({subjects: subjectValues})
+    console.log("response from addSubjects:", subjectResponse)
+
+    const courseId = courseResponse.id
+    const techIds = techResponse.map (tech => tech.id)
+    const roleIds = roleResponse.map (role => role.id)
+    const subjectIds = subjectResponse.map (subject => subject.id)
+
+    const courseTechResponse = await courseTechService.addCourseTechs({techs: techIds, courseId})
+    console.log("response from addCourseTechs", courseTechResponse)
+    const courseRoleResponse = await courseRoleService.addCourseRoles({roles: roleIds, courseId})
+    console.log("response from addCourseRoles", courseRoleResponse)
+    const courseSubjectResponse = await courseSubjectService.addCourseSubjects({subjects: subjectIds, courseId})
+    console.log("response from addCourseSubjects:", courseSubjectResponse)
+
+  }
 
   const GridWrapperStyle = {
     // gridTemplateAreas: "'document_icon title_text' 'python_icon programming_languages' 'people_search_icon roles' 'papers_icon general_info' 'create_button create_button'",
@@ -105,10 +163,7 @@ const CourseCreatingPage = () => {
   const createButtonStyle = {
     height: "25%",
   }
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    console.log("submitted!")
-  }
+
 
   return (
       <form onSubmit = {onSubmit}>
@@ -127,9 +182,25 @@ const CourseCreatingPage = () => {
           <Grid item xs={5}>
             <p>Мови програмування</p>
             <Grid container direction="column" style={programmingLanguagesWrapperStyle}>
-              {languages.map((langId) => <DeletableTextField onDelete={handleDeleteListItem(languages, setLanguages)(langId)} id={`lang-${langId}`} key={langId} />)}
+              {languages.map( item =>
+                <DeletableTextField
+                  onDelete={handleDeleteListItem(languages, setLanguages)(item.id)}
+                  id={`lang-${item.id}`}
+                  key={item.id}
+                  value = {item.value}
+                  onChange = {
+                    (event: React.ChangeEvent<HTMLInputElement>) => setLanguages(
+                      languages.map(language =>
+                        language.id !== item.id
+                        ? language
+                        : {value: event.target.value, id: language.id}))
+                  }
+                />
+                )}
               <Grid item>
-                <Button onClick={handleAddListItem(languages, setLanguages)(languages.length)}>Додати нову мову</Button>
+                <Button onClick={handleAddListItem(languages, setLanguages)({id: idCounter, value: "C#"})}>
+                  Додати нову мову
+                </Button>
               </Grid>
             </Grid>
           </Grid>
@@ -139,9 +210,25 @@ const CourseCreatingPage = () => {
           <Grid item xs={5}>
             <p>Ролі у проекті</p>
             <Grid container direction="column" style={rolesWrapperStyle}>
-              {roles.map((roleId) => <DeletableTextField onDelete={handleDeleteListItem(roles, setRoles)(roleId)} id={`role-${roleId}`} key={roleId} />)}
+              {roles.map( item =>
+                <DeletableTextField
+                  onDelete={handleDeleteListItem(roles, setRoles)(item.id)}
+                  id={`role-${item.id}`}
+                  key={item.id}
+                  value = {item.value}
+                  onChange = {
+                    (event: React.ChangeEvent<HTMLInputElement>) => setRoles(
+                      roles.map(role =>
+                        role.id !== item.id
+                        ? role
+                        : {value: event.target.value, id: role.id}))
+                  }
+                />
+              )}
               <Grid item>
-                <Button onClick={handleAddListItem(roles, setRoles)(roles.length)}>Додати нову роль</Button>
+                <Button onClick={handleAddListItem(roles, setRoles)({id: idCounter, value: "Developer"})}>
+                  Додати нову роль
+                </Button>
               </Grid>
             </Grid>
           </Grid>
@@ -151,8 +238,36 @@ const CourseCreatingPage = () => {
           <Grid item xs={5}>
             <p>Загальна інформація</p>
             <Grid container direction="column" style={generalInfoWrapperStyle}>
-              <TextField label="Назва курсу"/>
-              <TextField label="Пароль курсу"/>
+              <TextField label="Назва курсу" {...courseName}/>
+              <TextField label="Пароль курсу" {...coursePassword}/>
+            </Grid>
+          </Grid>
+          <Grid item xs={5}>
+            <Container maxWidth="lg" style={pythonIconStyle} children={false} />
+          </Grid>
+          <Grid item xs={5}>
+            <p>Предмети для складання</p>
+            <Grid container direction="column" style={programmingLanguagesWrapperStyle}>
+              {subjects.map( item =>
+                <DeletableTextField
+                  onDelete={handleDeleteListItem(subjects, setSubjects)(item.id)}
+                  id={`lang-${item.id}`}
+                  key={item.id}
+                  value = {item.value}
+                  onChange = {
+                    (event: React.ChangeEvent<HTMLInputElement>) => setSubjects(
+                      subjects.map(subject =>
+                        subject.id !== item.id
+                        ? subject
+                        : {value: event.target.value, id: subject.id}))
+                  }
+                />
+                )}
+              <Grid item>
+                <Button onClick={handleAddListItem(subjects, setSubjects)({id: idCounter, value: "System verification"})}>
+                  Додати новий предмет
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
           <Grid container item xs={10} justify="center" style={createButtonWrapperStyle}>
