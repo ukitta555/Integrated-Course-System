@@ -51,8 +51,7 @@ const changeUser = async (userData: {value: number, op: string, path: string}, i
   }
 }
 
-export default
-{
+export default {
   registerUser,
   login,
   changeUser

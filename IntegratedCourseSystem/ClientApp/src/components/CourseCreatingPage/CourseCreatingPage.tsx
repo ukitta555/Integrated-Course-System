@@ -14,7 +14,7 @@ import courseSubjectService from '../../services/courseSubjectService'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import { Grid, TextField } from "@material-ui/core";
+import {Grid, InputBase, TextField} from "@material-ui/core";
 import DeletableTextField from "../DeletableTextField/DeletableTextField";
 import { LocationSearchingTwoTone } from '@material-ui/icons';
 import courseRoleService from '../../services/courseRoleService'
@@ -39,6 +39,7 @@ const CourseCreatingPage = () => {
     = (list, setList) => idToRemove => () => {
     setList(list.filter(item => item.id != idToRemove));
   };
+  const spacing = 4
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -82,14 +83,8 @@ const CourseCreatingPage = () => {
   }
 
   const GridWrapperStyle = {
-    // gridTemplateAreas: "'document_icon title_text' 'python_icon programming_languages' 'people_search_icon roles' 'papers_icon general_info' 'create_button create_button'",
-    paddingHorizontal: "calc(100vw * 1/12)",
-    height: "100vw",
-    // display: "grid",
-    // gridRowGap: "2vw",
-    // gridColumnGap: "10vw",
-    // gridTemplateColumns: "35vw 35vw",
-    // gridTemplateRows: "auto auto auto auto auto",
+    marginTop: "2vw",
+    height: "98vw",
   }
   const titleTextWrapperStyle = {
     gridArea: "title_text",
@@ -102,7 +97,7 @@ const CourseCreatingPage = () => {
     fontStyle: "normal",
     fontWeight: "normal" as "normal",
     textAlign: 'center' as 'center',
-    fontSize: "4vw",
+    fontSize: "3vw",
     // fontFamily: Roboto;
   }
   const documentIconStyle = {
@@ -122,13 +117,19 @@ const CourseCreatingPage = () => {
     backgroundSize: "contain",
     backgroundPosition: "center",
     backgroundOrigin: "content-box",
-    padding: "2vw",
+    padding: "2vw 0",
+
     // gridArea: "python_icon",
   }
   const programmingLanguagesWrapperStyle = {
     backgroundColor: "#CAE6D8",
     borderRadius: "1.2vw",
     // gridArea: "programming_languages",
+  }
+  const textFieldStyles = {
+    background: "#F5F5F5",
+    borderRadius: "50px",
+    margin: "5% 0",
   }
   const peopleSearchIconStyle = {
     height: "100%",
@@ -143,6 +144,7 @@ const CourseCreatingPage = () => {
   const rolesWrapperStyle = {
     backgroundColor: "#CAE6D8",
     borderRadius: "1.2vw",
+    paddingTop: "5%",
     // gridArea: "roles",
   }
   const papersIconStyle = {
@@ -163,13 +165,15 @@ const CourseCreatingPage = () => {
   const createButtonWrapperStyle = {
   }
   const createButtonStyle = {
-    height: "25%",
+    height: "30%",
+    width: "25%",
+    borderRadius: 50,
   }
 
 
   return (
-      <form onSubmit = {onSubmit}>
-        <Grid style={GridWrapperStyle} container justify="center" spacing={5}>
+      <form onSubmit = {onSubmit} style={{padding: `0 ${spacing * 4}px`}}>
+        <Grid style={GridWrapperStyle} container justify="space-around" spacing={spacing}>
           <Grid item xs={5}>
             <Container maxWidth="lg" style={documentIconStyle} children={false} />
           </Grid>
@@ -183,22 +187,22 @@ const CourseCreatingPage = () => {
           </Grid>
           <Grid item xs={5}>
             <p>Мови програмування</p>
-            <Grid container direction="column" style={programmingLanguagesWrapperStyle}>
+            <Grid container direction="column" justify="center" alignItems="center" style={programmingLanguagesWrapperStyle}>
               {languages.map( item =>
-                <DeletableTextField
-                  onDelete={handleDeleteListItem(languages, setLanguages)(item.id)}
-                  id={`lang-${item.id}`}
-                  key={item.id}
-                  value = {item.value}
-                  onChange = {
-                    (event: React.ChangeEvent<HTMLInputElement>) => setLanguages(
-                      languages.map(language =>
-                        language.id !== item.id
-                        ? language
-                        : {value: event.target.value, id: language.id}))
-                  }
-                />
-                )}
+                  <DeletableTextField
+                      onDelete={handleDeleteListItem(languages, setLanguages)(item.id)}
+                      id={`lang-${item.id}`}
+                      key={item.id}
+                      value = {item.value}
+                      onChange = {
+                        (event: React.ChangeEvent<HTMLInputElement>) => setLanguages(
+                            languages.map(language =>
+                                language.id !== item.id
+                                    ? language
+                                    : {value: event.target.value, id: language.id}))
+                      }
+                  />
+              )}
               <Grid item>
                 <Button onClick={handleAddListItem(languages, setLanguages)({id: idCounter, value: "C#"})}>
                   Додати нову мову
@@ -211,7 +215,7 @@ const CourseCreatingPage = () => {
           </Grid>
           <Grid item xs={5}>
             <p>Ролі у проекті</p>
-            <Grid container direction="column" style={rolesWrapperStyle}>
+            <Grid container direction="column" justify="center" alignItems="center" style={rolesWrapperStyle}>
               {roles.map( item =>
                 <DeletableTextField
                   onDelete={handleDeleteListItem(roles, setRoles)(item.id)}
@@ -239,9 +243,9 @@ const CourseCreatingPage = () => {
           </Grid>
           <Grid item xs={5}>
             <p>Загальна інформація</p>
-            <Grid container direction="column" style={generalInfoWrapperStyle}>
-              <TextField label="Назва курсу" {...courseName}/>
-              <TextField label="Пароль курсу" {...coursePassword}/>
+            <Grid container direction="column" justify="center" alignItems="center" style={generalInfoWrapperStyle}>
+              <InputBase style={textFieldStyles} placeholder="Назва курсу" inputProps={{style: {paddingLeft: "1em"}}} {...courseName}/>
+              <InputBase style={textFieldStyles} placeholder="Пароль курсу" inputProps={{style: {paddingLeft: "1em"}}} {...coursePassword}/>
             </Grid>
           </Grid>
           <Grid item xs={5}>
@@ -251,20 +255,20 @@ const CourseCreatingPage = () => {
             <p>Предмети для складання</p>
             <Grid container direction="column" style={programmingLanguagesWrapperStyle}>
               {subjects.map( item =>
-                <DeletableTextField
-                  onDelete={handleDeleteListItem(subjects, setSubjects)(item.id)}
-                  id={`lang-${item.id}`}
-                  key={item.id}
-                  value = {item.value}
-                  onChange = {
-                    (event: React.ChangeEvent<HTMLInputElement>) => setSubjects(
-                      subjects.map(subject =>
-                        subject.id !== item.id
-                        ? subject
-                        : {value: event.target.value, id: subject.id}))
-                  }
-                />
-                )}
+                  <DeletableTextField
+                      onDelete={handleDeleteListItem(subjects, setSubjects)(item.id)}
+                      id={`lang-${item.id}`}
+                      key={item.id}
+                      value = {item.value}
+                      onChange = {
+                        (event: React.ChangeEvent<HTMLInputElement>) => setSubjects(
+                            subjects.map(subject =>
+                                subject.id !== item.id
+                                    ? subject
+                                    : {value: event.target.value, id: subject.id}))
+                      }
+                  />
+              )}
               <Grid item>
                 <Button onClick={handleAddListItem(subjects, setSubjects)({id: idCounter, value: "System verification"})}>
                   Додати новий предмет
@@ -272,7 +276,7 @@ const CourseCreatingPage = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container item xs={10} justify="center" style={createButtonWrapperStyle}>
+          <Grid container item xs={10} justify="center" alignItems="center" style={createButtonWrapperStyle}>
             <Button type="submit" style={createButtonStyle} variant="contained" color="primary">Створити</Button>
           </Grid>
         </Grid>
