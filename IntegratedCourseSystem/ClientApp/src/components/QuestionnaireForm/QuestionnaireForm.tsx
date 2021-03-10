@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import useField from '../../hooks/useField'
 import { UserState } from '../../store/types'
 import { createTeacher, createStudent, updateUserRole } from '../../reducers/userReducer/userThunks'
-
+import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@material-ui/core";
@@ -15,7 +15,7 @@ const QuestionnaireForm = () =>
 	const NOT_SELECTED = -1;
 	const dispatch = useDispatch()
 	const user = useSelector((state: { user: UserState }) => state.user)
-
+	const history = useHistory()
 	type Role = "student" | "teacher"
 	type Faculty = {
 		name: string,
@@ -92,7 +92,7 @@ const QuestionnaireForm = () =>
 			await dispatch(createTeacher(teacherInfo))
 			await dispatch(updateUserRole(1, user.id))
 		}
-
+		history.push("/course_creating_page")
 		// console.log(name.value, surname.value, courseId.value, coursePassword.value)
 	}
 
