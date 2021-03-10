@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {loginUser} from '../../reducers/userReducer/userThunks'
 import {EMAIL_VALIDATOR} from '../RegistrationForm/emailValidatingRegExp'
+import {Grid} from "@material-ui/core";
 
 
 const LoginForm = () => {
@@ -35,9 +36,17 @@ const LoginForm = () => {
   }
   return (
     <form onSubmit = {onSubmit}>
-        <TextField name="email" label="Enter email:" inputProps = {emailProps} />
-        <TextField name="password" label="Enter password:" inputProps = {passwordProps} />
-        <Button type="submit" variant="contained" color="primary">submit!</Button>
+      <Grid container direction="column">
+        <Grid item>
+          <TextField name="email" label="Enter email:" inputProps = {emailProps} />
+        </Grid>
+        <Grid item>
+          <TextField name="password" label="Enter password:" inputProps = {passwordProps} />
+        </Grid>
+        <Grid item>
+          <Button type="submit" variant="contained" color="primary">submit!</Button>
+        </Grid>
+      </Grid>
     </form>
   )
 }
