@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 
 import useField from '../../hooks/useField'
 import {useSelector} from 'react-redux'
+import {useHistory} from 'react-router-dom'
 import {UserState} from '../../store/types'
 import courseService from '../../services/courseService'
 import techService from '../../services/techService'
@@ -26,6 +27,7 @@ const CourseCreatingPage = () => {
   const courseName = useField ('text')
   const coursePassword = useField ('password')
   const user  = useSelector ((state:{user: UserState}) => state.user)
+  const history = useHistory()
 
   const handleAddListItem: <T>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) =>
     (item: T) => () => void = (list, setList) => item => () => {
@@ -76,7 +78,7 @@ const CourseCreatingPage = () => {
     console.log("response from addCourseRoles", courseRoleResponse)
     const courseSubjectResponse = await courseSubjectService.addCourseSubjects({subjects: subjectIds, courseId})
     console.log("response from addCourseSubjects:", courseSubjectResponse)
-
+    history.push("/course_view")
   }
 
   const GridWrapperStyle = {

@@ -15,6 +15,7 @@ import TeacherWaitingPage from "./TeacherWaitingPage/TeacherWaitingPage";
 import StudentWaitingPage from "./StudentWaitingPage/StudentWaitingPage";
 import TeacherCabinet from "./TeacherCabinet/TeacherCabinet";
 import CourseCreatingPage from "./CourseCreatingPage/CourseCreatingPage";
+import CoursesView from './AllCoursesView/CoursesView'
 import {UserState, NO_ID} from '../store/types'
 
 const App = () => {
@@ -46,6 +47,9 @@ const App = () => {
               </Route>
               <Route path = '/course_creating_page'>
                   <CourseCreatingPage/>
+              </Route>
+              <Route path = '/course_view'>
+                  <CoursesView/>
               </Route>
               <Route path = '/'>
               </Route>
