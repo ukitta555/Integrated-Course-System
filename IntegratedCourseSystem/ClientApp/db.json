@@ -1,26 +1,6 @@
 {
   "users": [
     {
-      "id": 1,
-      "email": "gymboss",
-      "password": "balalaika"
-    },
-    {
-      "email": "1",
-      "password": "1",
-      "id": 2
-    },
-    {
-      "email": "bossbitch",
-      "password": "123",
-      "id": 3
-    },
-    {
-      "email": "ilovemyteam@gmail.com",
-      "password": "bruh",
-      "id": 4
-    },
-    {
       "email": "123",
       "password": "123",
       "id": 5
@@ -77,186 +57,62 @@
       "teacherId": 123,
       "facultyId": 123,
       "id": 1
-    },
-    {
-      "name": "Lol",
-      "surname": "Kek",
-      "courseId": "43",
-      "coursePassword": "43",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 2
-    },
-    {
-      "name": "3",
-      "surname": "",
-      "courseId": "",
-      "coursePassword": "",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 3
-    },
-    {
-      "name": "3",
-      "surname": "",
-      "courseId": "",
-      "coursePassword": "",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 4
-    },
-    {
-      "name": "3",
-      "surname": "",
-      "courseId": "",
-      "coursePassword": "",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 5
-    },
-    {
-      "name": "3",
-      "surname": "",
-      "courseId": "",
-      "coursePassword": "",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 6
-    },
-    {
-      "name": "3",
-      "surname": "",
-      "courseId": "",
-      "coursePassword": "",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 7
-    },
-    {
-      "name": "3",
-      "surname": "",
-      "courseId": "",
-      "coursePassword": "",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 8
-    },
-    {
-      "name": "3",
-      "surname": "",
-      "courseId": "",
-      "coursePassword": "",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 9
-    },
-    {
-      "name": "123",
-      "surname": "321",
-      "courseId": "321",
-      "coursePassword": "321",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 10
-    },
-    {
-      "name": "123",
-      "surname": "321",
-      "courseId": "321",
-      "coursePassword": "321",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 11
-    },
-    {
-      "name": "123",
-      "surname": "321",
-      "courseId": "321",
-      "coursePassword": "321",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 12
-    },
-    {
-      "name": "3",
-      "surname": "3",
-      "courseId": "3",
-      "coursePassword": "3",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 13
-    },
-    {
-      "name": "3",
-      "surname": "3",
-      "courseId": "3",
-      "coursePassword": "3",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 14
-    },
-    {
-      "name": "3",
-      "surname": "3",
-      "courseId": "3",
-      "coursePassword": "3",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 15
-    },
-    {
-      "name": "3",
-      "surname": "3",
-      "courseId": "3",
-      "coursePassword": "3",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 16
-    },
-    {
-      "name": "3",
-      "surname": "3",
-      "courseId": "3",
-      "coursePassword": "3",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 17
-    },
-    {
-      "name": "3",
-      "surname": "3",
-      "courseId": "3",
-      "coursePassword": "3",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 18
-    },
-    {
-      "name": "123",
-      "surname": "123",
-      "courseId": "123",
-      "coursePassword": "123",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 19
-    },
-    {
-      "name": "123",
-      "surname": "123",
-      "courseId": "123",
-      "coursePassword": "123",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 20
-    },
-    {
-      "name": "123",
-      "surname": "123",
-      "courseId": "123",
-      "coursePassword": "123",
-      "teacherId": 123,
-      "facultyId": 123,
-      "id": 21
     }
+  ],
+  "courses": [
+    {
+      "courseName": "qwe@knu.ua",
+      "coursePassword": "123",
+      "teacherId": -1,
+      "maxCapacity": 125,
+      "id": 1
+    }
+  ],
+  "techs": [
+    {
+      "techs": [
+        "C#",
+        "F#"
+      ],
+      "id": 1
+    }
+  ],
+  "roles": [
+    {
+      "roles": [
+        "Tester",
+        "Developer",
+        "321"
+      ],
+      "id": 1
+    }
+  ],
+  "courseTechs": [
+    [
+      {
+        "tech": "C#",
+        "courseId": 1
+      },
+      {
+        "tech": "F#",
+        "courseId": 1
+      }
+    ]
+  ],
+  "courseRoles": [
+    [
+      {
+        "role": "Tester",
+        "courseId": 1
+      },
+      {
+        "role": "Developer",
+        "courseId": 1
+      },
+      {
+        "role": "321",
+        "courseId": 1
+      }
+    ]
   ]
 }
