@@ -9,6 +9,7 @@ import {registerUser} from '../../reducers/userReducer/userThunks'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {EMAIL_VALIDATOR} from './emailValidatingRegExp'
+import {Grid} from "@material-ui/core";
 
 const RegistrationForm = () => {
   const dispatch = useDispatch()
@@ -55,10 +56,20 @@ const RegistrationForm = () => {
 
   return (
     <form onSubmit = {onSubmit}>
-        <TextField label="Enter email:" inputProps = {emailProps}  />
-        <TextField label="Enter password:" error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {passwordProps} />
-        <TextField label="Repeat password:"  error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {repeatPasswordProps} />
-        <Button type="submit" variant="contained" color="primary">Register!</Button>
+      <Grid container direction="column">
+        <Grid item>
+          <TextField label="Enter email:" inputProps = {emailProps}  />
+        </Grid>
+        <Grid item>
+          <TextField label="Enter password:" error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {passwordProps} />
+        </Grid>
+        <Grid item>
+          <TextField label="Repeat password:"  error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {repeatPasswordProps} />
+        </Grid>
+        <Grid item>
+          <Button type="submit" variant="contained" color="primary">Register!</Button>
+        </Grid>
+      </Grid>
     </form>
   )
 }
