@@ -9,7 +9,7 @@ import {registerUser} from '../../reducers/userReducer/userThunks'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {EMAIL_VALIDATOR} from './emailValidatingRegExp'
-import {Grid} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 
 const RegistrationForm = () => {
   const dispatch = useDispatch()
@@ -53,23 +53,42 @@ const RegistrationForm = () => {
       dispatch (registerUser(email.value, password.value))
     }
   }
+  const wrapperStyle = {
+    height: "80vh",
+  }
+
+  const catOnBooksStyle = {
+    height: "100%",
+    backgroundRepeat: "no-repeat",
+    backgroundImage: "url(img/cat_on_books.png)",
+    backgroundSize: "contain",
+    backgroundPosition: "center",
+  }
+  const regWrapperStyle = {
+    height: "100%",
+    backgroundColor: "#A5CACC",
+  }
 
   return (
     <form onSubmit = {onSubmit}>
-      <Grid container direction="column">
-        <Grid item>
-          <TextField label="Enter email:" inputProps = {emailProps}  />
-        </Grid>
-        <Grid item>
-          <TextField label="Enter password:" error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {passwordProps} />
-        </Grid>
-        <Grid item>
-          <TextField label="Repeat password:"  error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {repeatPasswordProps} />
-        </Grid>
-        <Grid item>
-          <Button type="submit" variant="contained" color="primary">Register!</Button>
+      <Grid container direction="row" justify="space-evenly" alignItems="center" style={wrapperStyle}>
+        <Grid item xs={6} style={catOnBooksStyle} />
+        <Grid container item xs={6} spacing={3} direction="column" justify="center" alignItems="center" style={regWrapperStyle}>
+          <Grid item>
+            <TextField label="Enter email:" inputProps = {emailProps}  />
+          </Grid>
+          <Grid item>
+            <TextField label="Enter password:" error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {passwordProps} />
+          </Grid>
+          <Grid item>
+            <TextField label="Repeat password:"  error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {repeatPasswordProps} />
+          </Grid>
+          <Grid item>
+            <Button type="submit" variant="contained" color="primary">Register!</Button>
+          </Grid>
         </Grid>
       </Grid>
+
     </form>
   )
 }
