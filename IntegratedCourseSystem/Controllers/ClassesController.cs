@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DataBase.Models;
 using IntegratedCourseSystem;
+using Newtonsoft.Json;
 
 
 //TODO!
@@ -22,6 +23,8 @@ namespace IntegratedCourseSystem.Controllers
         {
             _context = context;
         }
+
+
 
         // GET: api/Classes
         [HttpGet]
@@ -42,6 +45,23 @@ namespace IntegratedCourseSystem.Controllers
             }
 
             return @class;
+        }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<IEnumerable<Class>>> TeacherClasses([FromBody] int Id)
+        {
+            Console.WriteLine("ID {0}", Id);
+            var teacherClasses = await _context
+                .Classes
+                .Where(_class => _class.TeacherId == Id)
+                .ToListAsync();
+            foreach (var @class in teacherClasses)
+            {
+                Console.WriteLine(@class.Id);
+            }
+            return teacherClasses;
         }
 
         // PUT: api/Classes/5
