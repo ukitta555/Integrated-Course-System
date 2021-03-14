@@ -1,7 +1,12 @@
 import React, {useState, useEffect} from "react"
 import courseService from '../../services/courseService'
+import {useSelector} from 'react-redux'
+import {UserState} from '../../store/types'
+import { useRadioGroup } from "@material-ui/core"
 
 const CoursesView = () => {
+  const user = useSelector((state: { user: UserState }) => state.user)
+  console.log(user)
   const [courses, setCourses] = useState
   <{id:number,
     inviteCode: string,
@@ -11,7 +16,8 @@ const CoursesView = () => {
 
   useEffect ( () => {
     async function fetchClasses() {
-      const response = await courseService.getCourses()
+      const response = await courseService.getCourses(user.id)
+      console.log(response)
       setCourses(response)
     }
     fetchClasses()

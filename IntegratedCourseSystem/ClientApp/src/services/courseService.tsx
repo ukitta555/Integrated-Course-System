@@ -17,13 +17,18 @@ const addCourse = async (courseInfo: {name: string, inviteCode: string, teacherI
   }
 }
 
-const getCourses = async () => {
+const getCourses = async (id: number) => {
   try {
-    const response = await axios.get (
-      baseURL,
-      {withCredentials: true}
+    const response = await axios.post (
+      `${baseURL}/TeacherClasses`,
+      id,
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      }
     )
-    console.log(response.data)
     return response.data
   }
   catch (error) {
