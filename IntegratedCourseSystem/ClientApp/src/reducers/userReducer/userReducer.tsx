@@ -7,7 +7,13 @@ import {
 } from '../../store/types'
 
 
-const initialState: UserState = {email: EMPTY_STRING, id: NO_ID}
+const initialState: UserState  = {
+  email: EMPTY_STRING,
+  id: NO_ID,
+  name: null,
+  surname: null,
+  role: "user"
+}
 
 const userReducer = (state = initialState, action: registrationActionTypes) => {
   switch (action.type) {
