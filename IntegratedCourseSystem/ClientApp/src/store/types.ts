@@ -6,9 +6,14 @@ export const NO_ID: -1 = -1
 
 //state interfaces
 
+export type Role = "student" | "teacher" | "admin" | "user"
+
 export interface UserState  {
   email: string,
-  id: number
+  id: number,
+  name: string | null,
+  surname: string | null,
+  role: Role
 }
 
 // service interfaces
@@ -32,7 +37,13 @@ export interface TeacherInfo {
 
 type LoginUserAction = {
   type: typeof LOGIN_USER,
-  userInfo: {id: number, email: string}
+  userInfo: {
+    id: number,
+    email: string,
+    name: string | null,
+    surname: string | null,
+    role: Role
+  }
 }
 
 export type registrationActionTypes = LoginUserAction

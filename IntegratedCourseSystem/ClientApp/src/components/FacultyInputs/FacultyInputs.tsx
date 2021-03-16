@@ -1,7 +1,16 @@
 import { InputLabel, MenuItem, Select} from "@material-ui/core";
 import React, {useEffect} from "react"
-import {Faculty, Role} from '../QuestionnaireForm/QuestionnaireForm'
 
+export type Role = "student" | "teacher"
+export type Faculty = {
+		name: string,
+		id: number,
+		facultyTeachers: {
+			name: string,
+			surname: string,
+			id: number
+		}[]
+	}
 
 
 const FacultyInputs = (props : {

@@ -9,17 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import { FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@material-ui/core";
 import facultyService from '../../services/facultyService'
 import FacultyInputs from '../FacultyInputs/FacultyInputs'
+import {Faculty, Role} from '../FacultyInputs/FacultyInputs'
 
-export type Role = "student" | "teacher"
-export type Faculty = {
-		name: string,
-		id: number,
-		facultyTeachers: {
-			name: string,
-			surname: string,
-			id: number
-		}[]
-	}
 
 const QuestionnaireForm = () =>
 {
