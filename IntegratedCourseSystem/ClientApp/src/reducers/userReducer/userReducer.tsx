@@ -3,7 +3,8 @@ import {
   EMPTY_STRING,
   NO_ID,
   registrationActionTypes,
-  UserState
+  UserState,
+  UPDATE_USER_WITH_QUE_INFO
 } from '../../store/types'
 
 
@@ -12,7 +13,9 @@ const initialState: UserState  = {
   id: NO_ID,
   name: null,
   surname: null,
-  role: "user"
+  role: "user",
+  teacherId: null,
+  facultyId: null
 }
 
 const userReducer = (state = initialState, action: registrationActionTypes) => {
@@ -21,6 +24,9 @@ const userReducer = (state = initialState, action: registrationActionTypes) => {
       console.log ('login user!')
       console.log (action.userInfo)
       return action.userInfo
+    }
+    case UPDATE_USER_WITH_QUE_INFO: {
+      return {...state, ...action.userInfo}
     }
     default: {
       return initialState
