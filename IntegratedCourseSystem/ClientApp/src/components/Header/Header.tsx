@@ -54,6 +54,12 @@ const Header = () => {
           Create course
         </Link>
       </Button>
+
+      <Button color = "inherit">
+        <Link to = '/course_registration'>
+          CourseReg
+        </Link>
+      </Button>
     </div>
   )
 
