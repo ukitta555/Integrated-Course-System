@@ -16,6 +16,7 @@ import StudentWaitingPage from "./StudentWaitingPage/StudentWaitingPage";
 import TeacherCabinet from "./TeacherCabinet/TeacherCabinet";
 import CourseCreatingPage from "./CourseCreatingPage/CourseCreatingPage";
 import CoursesView from './AllCoursesView/CoursesView'
+import CourseRegistrationForm from './CourseRegistrationForm/CourseRegistrationForm'
 import {UserState, NO_ID} from '../store/types'
 
 const App = () => {
@@ -28,7 +29,7 @@ const App = () => {
           </div>
           <Switch>
               <Route path = '/register'>
-                  <RegistrationForm />
+                <RegistrationForm />
               </Route>
               <Route path = '/login'>
                 {(!user || user.id === NO_ID) ? <LoginForm /> : <Redirect to="/questionnaire" />}
@@ -50,6 +51,9 @@ const App = () => {
               </Route>
               <Route path = '/course_view'>
                   <CoursesView/>
+              </Route>
+              <Route path = '/course_registration'>
+                  <CourseRegistrationForm />
               </Route>
               <Route path = '/'>
               </Route>
