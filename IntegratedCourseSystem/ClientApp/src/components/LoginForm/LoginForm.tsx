@@ -39,7 +39,7 @@ const LoginForm = () => {
   }
 
   const wrapperStyle = {
-    height: "80vh",
+    height: "65vh",
     marginTop: "50px",
   }
 

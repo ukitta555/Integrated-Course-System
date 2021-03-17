@@ -18,8 +18,8 @@ const Header = () => {
   const user = useSelector ((state: {user: UserState}) => state.user)
 
   const logoImgStyle = {
-      width: 50,
-      height: 50
+      width: 70,
+      height: 70
   }
 
   const logoWrapperStyle = {
@@ -30,16 +30,13 @@ const Header = () => {
       fontFamily: "Ribeye",
   }
 
-
   const wholeHeaderStyle = {
       backgroundColor: "inherit",
+      borderRadius: "inherit",
   }
 
   const headerWrapperStyle = {
-      flexDirection: 'row' as 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center' as 'center',
-      width: '100%'
+      padding: "0 1vw 0 1vw",
   }
   const registrationButtonsWrapperStyle = {
         marginRight: "5px",
@@ -52,7 +49,7 @@ const Header = () => {
 
   const registrationButtons = (
       <div>
-          <Grid container item justify="space-between" spacing={3} style={registrationButtonsWrapperStyle}>
+          <Grid container item justify="space-between" spacing={4} style={registrationButtonsWrapperStyle}>
               <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonsStyle}>
                   <Grid item>
                       <Button color="inherit">
@@ -88,7 +85,7 @@ const Header = () => {
 
   return (
     <ThemeProvider theme={light}>
-        <Box bgcolor="theme_grey.light">
+        <Box bgcolor="theme_white.main" style={{borderRadius: "0px 0px 35px 35px",}}>
             <AppBar position="static" color="inherit" style={wholeHeaderStyle}>
               <Toolbar>
                   <Grid container direction="row" justify="space-between" alignItems="center" style={headerWrapperStyle}>
