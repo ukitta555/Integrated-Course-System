@@ -25,7 +25,15 @@ export const loginUser = (email: string, password: string) : ThunkAction<void, R
   async dispatch => {
     try
     {
-      const loginResponse = await userService.login ({email, password})
+      let loginResponse = await userService.login ({email, password})
+
+      const roleMap = new Map();
+      roleMap.set(-1, "user");
+      roleMap.set(0, "admin")
+      roleMap.set(1, "teacher")
+      roleMap.set(2, "student")
+      const stringRole = roleMap.get(loginResponse.role)
+      loginResponse = {...loginResponse, role: stringRole}
       if (loginResponse) {
         dispatch(loginUserAction(loginResponse))
       }
@@ -43,8 +51,6 @@ export const createTeacher = (teacherInfo: TeacherInfo) : ThunkAction<void, Root
       dispatch (updateUserWithQueInfo({
         name: teacherInfo.name,
         surname: teacherInfo.surname,
-        teacherId: null,
-        facultyId: teacherInfo.facultyId,
         role: "teacher"
       }))
     }
@@ -61,8 +67,6 @@ export const createStudent = (studentInfo: StudentInfo) : ThunkAction<void, Root
       dispatch (updateUserWithQueInfo({
         name: studentInfo.name,
         surname: studentInfo.surname,
-        teacherId: studentInfo.teacherId,
-        facultyId: studentInfo.facultyId,
         role: "student"
       }))
     }

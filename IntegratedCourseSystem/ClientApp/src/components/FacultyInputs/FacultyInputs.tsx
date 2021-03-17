@@ -1,7 +1,7 @@
 import { InputLabel, MenuItem, Select} from "@material-ui/core";
 import React, {useEffect} from "react"
 
-export type Role = "student" | "teacher"
+export type Role = "student" | "teacher" | "admin" | "user"
 export type Faculty = {
 		name: string,
 		id: number,

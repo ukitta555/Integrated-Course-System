@@ -1,26 +1,26 @@
 import React, {useState} from 'react'
-import facultyService from '../../services/facultyService'
-import FacultyInputs from '../FacultyInputs/FacultyInputs'
-import {Faculty, Role} from '../FacultyInputs/FacultyInputs'
+import useField from '../../hooks/useField'
+import {useSelector} from 'react-redux'
+import { UserState } from '../../store/types'
+import { Button, TextField } from '@material-ui/core'
 
 const CourseRegistrationForm = () => {
   const NOT_SELECTED = -1
-  const [faculties, setFaculties] = useState<Faculty[]>([])
-	const [selectedFacultyId, setSelectedFacultyID] = useState<number>(NOT_SELECTED)
-	const [selectedTeacherId, setSelectedTeacherId] = useState<number>(NOT_SELECTED)
+  const user = useSelector ((state: {user: UserState}) => state.user)
+  const name = useField('text')
+  const surname = useField('text')
 
-  const fetchFaculties = async () =>
-	{
-		const response = await facultyService.getFaculties()
-		setFaculties(response)
-		setSelectedFacultyID(response[0].id)
-		setSelectedTeacherId(response[0].facultyTeachers[0].id)
-	}
-
-
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log ("fuck!")
+  }
   return (
     <div>
-      {//<FacultyInputs />
+      {
+        <form onSubmit = {handleSubmit}>
+          <TextField  {...name}> </TextField>
+          <TextField {...surname}> </TextField>
+          <Button type="submit" variant="contained" color="primary">Далі</Button>
+         </form>
       }
     </div>
   )
