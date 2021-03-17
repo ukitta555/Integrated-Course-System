@@ -1,6 +1,7 @@
 import userService from '../../services/userService'
 import teacherService from '../../services/teacherService'
 import studentService from '../../services/studentService'
+import courseService from '../../services/courseService'
 
 import {RootState} from '../../store/configureStore'
 import {Action} from 'redux'
@@ -23,8 +24,6 @@ export const registerUser = (email: string, password: string) : ThunkAction<void
 
 export const loginUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
   async dispatch => {
-    try
-    {
       let loginResponse = await userService.login ({email, password})
 
       const roleMap = new Map();
@@ -33,14 +32,22 @@ export const loginUser = (email: string, password: string) : ThunkAction<void, R
       roleMap.set(1, "teacher")
       roleMap.set(2, "student")
       const stringRole = roleMap.get(loginResponse.role)
+      if (stringRole === "teacher") {
+        const coursesForTeacher = await courseService.getCourses(loginResponse.id)
+        const teacherCreatedCourse = coursesForTeacher.length > 0
+        if (teacherCreatedCourse) {
+          const currentCourseId = coursesForTeacher[0].id
+          console.log (coursesForTeacher[0].id)
+          loginResponse = {...loginResponse, currentCourseId: currentCourseId}
+        }
+      }
+      else if (stringRole === "student") {
+
+      }
       loginResponse = {...loginResponse, role: stringRole}
       if (loginResponse) {
         dispatch(loginUserAction(loginResponse))
       }
-    }
-    catch (error) {
-      console.log (error)
-    }
   }
 
 export const createTeacher = (teacherInfo: TeacherInfo) : ThunkAction<void, RootState, unknown, Action<string>> =>
@@ -51,7 +58,8 @@ export const createTeacher = (teacherInfo: TeacherInfo) : ThunkAction<void, Root
       dispatch (updateUserWithQueInfo({
         name: teacherInfo.name,
         surname: teacherInfo.surname,
-        role: "teacher"
+        role: "teacher",
+        currentCourseId: null
       }))
     }
     catch (error) {
@@ -67,7 +75,8 @@ export const createStudent = (studentInfo: StudentInfo) : ThunkAction<void, Root
       dispatch (updateUserWithQueInfo({
         name: studentInfo.name,
         surname: studentInfo.surname,
-        role: "student"
+        role: "student",
+        currentCourseId: studentInfo.courseId
       }))
     }
     catch (error) {

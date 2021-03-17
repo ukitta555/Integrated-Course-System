@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import useField from '../../hooks/useField'
 import { UserState } from '../../store/types'
 import { createTeacher, createStudent, updateUserRole } from '../../reducers/userReducer/userThunks'
+import questionnaireService from '../../services/questionnaireService'
 import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -61,7 +62,7 @@ const QuestionnaireForm = () =>
 			const studentInfo = {
 				name: name.value,
 				surname: surname.value,
-				courseId: courseId.value,
+				courseId: Number(courseId.value), // add check to whether it is actually a number!
 				coursePassword: coursePassword.value,
 				teacherId: selectedTeacherId,
 				facultyId: selectedFacultyId,
@@ -69,6 +70,11 @@ const QuestionnaireForm = () =>
 			}
 			await dispatch(createStudent(studentInfo))
 			await dispatch(updateUserRole(2, user.id))
+			const queResponse = await questionnaireService.createQuestionnaire({
+				studentId: user.id,
+				classId: Number(courseId.value)
+			})
+			console.log(queResponse)
 		}
 		else if (role === "teacher") {
 			const teacherInfo = {
@@ -81,7 +87,6 @@ const QuestionnaireForm = () =>
 			await dispatch(createTeacher(teacherInfo))
 			await dispatch(updateUserRole(1, user.id))
 		}
-		history.push("/course_creating_page")
 		// console.log(name.value, surname.value, courseId.value, coursePassword.value)
 	}
 
