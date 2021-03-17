@@ -13,7 +13,8 @@ const initialState: UserState  = {
   id: NO_ID,
   name: null,
   surname: null,
-  role: "user"
+  role: null,
+  currentCourseId: null
 }
 
 const userReducer = (state = initialState, action: registrationActionTypes) => {

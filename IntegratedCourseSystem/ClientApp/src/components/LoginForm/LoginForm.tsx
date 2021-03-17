@@ -10,14 +10,18 @@ import {loginUser} from '../../reducers/userReducer/userThunks'
 import {EMAIL_VALIDATOR} from '../RegistrationForm/emailValidatingRegExp'
 import {Box, Grid, InputLabel, ThemeProvider} from "@material-ui/core";
 import InputBase from "@material-ui/core/InputBase";
-import {Link} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import light from "../../themes/light";
+import { UserState } from '../../store/types';
 
 
 const LoginForm = () => {
+  const user = useSelector ((state: {user: UserState}) => state.user)
   const dispatch = useDispatch()
+  const history = useHistory()
   const email = useField('text')
   const password = useField ('password')
+
 
 
   const emailProps = {
@@ -35,7 +39,13 @@ const LoginForm = () => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await dispatch(loginUser(email.value, password.value))
+    try {
+      await dispatch(loginUser(email.value, password.value))
+      history.push("/questionnaire")
+    }
+    catch (error) {
+      console.log (error.response.data)
+    }
   }
 
   const wrapperStyle = {

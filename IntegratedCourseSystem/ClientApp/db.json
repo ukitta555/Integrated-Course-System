@@ -114,5 +114,12 @@
         "courseId": 1
       }
     ]
+  ],
+  "questionnaire": [
+    {
+      "studentId": 66,
+      "classId": 123,
+      "id": 1
+    }
   ]
 }

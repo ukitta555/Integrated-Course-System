@@ -62,7 +62,7 @@ namespace IntegratedCourseSystem.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<UserLoginDTO>> Login(User user)
+        public async Task<ActionResult<UserDTO>> Login(User user)
         {
 
             if (!ModelState.IsValid)
@@ -82,12 +82,12 @@ namespace IntegratedCourseSystem.Controllers
             }
             else
             {
-                
+
                 if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
                 {
-                     await Authenticate(user.Email);
-                     return Created("", ItemToDTO(userByEmail));
-                
+                    await Authenticate(user.Email);
+                    return Created("", ItemToDTO(userByEmail));
+                }
                 else
                 {
                     return NotFound();
@@ -212,13 +212,6 @@ namespace IntegratedCourseSystem.Controllers
               Role = user.Role
             };
 
-        private static UserLoginDTO ItemToLoginDTO(User user) =>
-            new UserLoginDTO
-            {
-                Email = user.Email,
-                Id = user.Id,
-                Role = user.Role
-            };
 
         private async System.Threading.Tasks.Task Authenticate(string userName)
         {

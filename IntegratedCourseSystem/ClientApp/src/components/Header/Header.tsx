@@ -76,18 +76,52 @@ const Header = () => {
       </div>
   )
 
-  const loggedInButtons = ( <div>
-      <Button color = "inherit">
-        <Link to = '/course_creating_page'>
-          Create course
-        </Link>
-      </Button>
+  const loggedInButtons = (
+  <div>
+      <Grid container item justify="space-between" spacing={3} style={registrationButtonsWrapperStyle}>
+              <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonsStyle}>
+                  <Grid item>
+                      <Button color="inherit">
+                          <Link to = '/register' style={{color: "inherit"}}>
+                              register
+                          </Link>
+                      </Button>
+                  </Grid>
+              </Box>
 
-      <Button color = "inherit">
-        <Link to = '/course_registration'>
-          CourseReg
-        </Link>
-      </Button>
+              <Box bgcolor="theme_green.dark" color="theme_black.main"  style={registrationButtonsStyle}>
+                  <Grid item>
+                      <Button color = "inherit">
+                          <Link to = '/login' style={{color: "inherit"}}>
+                              login
+                          </Link>
+                      </Button>
+                  </Grid>
+              </Box>
+
+              <Box bgcolor="theme_grey.main" color="theme_white.main"  style={registrationButtonsStyle}>
+                  <Grid item>
+                    <Button color = "inherit">
+                        <Link to = '/course_registration' style={{color: "inherit"}}>
+                            CourseReg
+                        </Link>
+                    </Button>
+                  </Grid>
+              </Box>
+
+
+
+              <Box bgcolor="theme_green.dark" color="theme_black.main"  style={registrationButtonsStyle}>
+                  <Grid item>
+                    <Button color = "inherit">
+                        <Link to = '/course_creating_page' style={{color: "inherit"}}>
+                            Create course
+                        </Link>
+                    </Button>
+                  </Grid>
+              </Box>
+
+          </Grid>
     </div>
 
   )

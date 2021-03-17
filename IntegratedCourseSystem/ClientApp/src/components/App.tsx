@@ -32,10 +32,16 @@ const App = () => {
                 <RegistrationForm />
               </Route>
               <Route path = '/login'>
-                {(!user || user.id === NO_ID) ? <LoginForm /> : <Redirect to="/questionnaire" />}
+                <LoginForm />
               </Route>
               <Route path = '/questionnaire'>
-                  <QuestionnaireForm />
+                {
+                  (user.role === "user")
+                  ? <QuestionnaireForm />
+                  : (user.role === "student")
+                    ? <Redirect to = "/course_registration" />
+                    : <Redirect to = "/course_creating_page" />
+                }
               </Route>
               <Route path = '/teacher_waiting_page'>
                   <TeacherWaitingPage />
@@ -47,7 +53,13 @@ const App = () => {
                   <TeacherCabinet/>
               </Route>
               <Route path = '/course_creating_page'>
-                  <CourseCreatingPage/>
+                {
+                  user.role === "teacher"
+                  ? user.currentCourseId
+                    ? <Redirect to = '/course_view' />
+                    : <CourseCreatingPage/>
+                  : <Redirect to = '/' />
+                }
               </Route>
               <Route path = '/course_view'>
                   <CoursesView/>
