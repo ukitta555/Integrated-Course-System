@@ -13,15 +13,12 @@ const initialState: UserState  = {
   id: NO_ID,
   name: null,
   surname: null,
-  role: "user",
-  teacherId: null,
-  facultyId: null
+  role: "user"
 }
 
 const userReducer = (state = initialState, action: registrationActionTypes) => {
   switch (action.type) {
     case LOGIN_USER: {
-      console.log ('login user!')
       console.log (action.userInfo)
       return action.userInfo
     }

@@ -48,7 +48,7 @@ namespace IntegratedCourseSystem.Controllers
 
             PasswordHasher<User> pwh = new PasswordHasher<User>();
             user.Password = pwh.HashPassword(user, user.Password);
-
+            Console.WriteLine(user.Role);
             if (User.Identity.IsAuthenticated)
             {
                 Console.WriteLine("Xd already in");
@@ -62,7 +62,7 @@ namespace IntegratedCourseSystem.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<UserDTO>> Login(User user)
+        public async Task<ActionResult<UserLoginDTO>> Login(User user)
         {
 
             if (!ModelState.IsValid)
@@ -75,7 +75,7 @@ namespace IntegratedCourseSystem.Controllers
             var userByEmail = _context
                     .Users
                     .FirstOrDefault(entry => (entry.Email == user.Email));
-
+            
             if (userByEmail == null)
             {
                 return NotFound();
@@ -85,9 +85,9 @@ namespace IntegratedCourseSystem.Controllers
                 
                 if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
                 {
-                    await Authenticate(user.Email);
-                    return Created("", ItemToDTO(userByEmail));
-                }
+                     await Authenticate(user.Email);
+                     return Created("", ItemToDTO(userByEmail));
+                
                 else
                 {
                     return NotFound();
@@ -208,7 +208,16 @@ namespace IntegratedCourseSystem.Controllers
             new UserDTO
             {
               Email = user.Email,
-              Id = user.Id
+              Id = user.Id,
+              Role = user.Role
+            };
+
+        private static UserLoginDTO ItemToLoginDTO(User user) =>
+            new UserLoginDTO
+            {
+                Email = user.Email,
+                Id = user.Id,
+                Role = user.Role
             };
 
         private async System.Threading.Tasks.Task Authenticate(string userName)

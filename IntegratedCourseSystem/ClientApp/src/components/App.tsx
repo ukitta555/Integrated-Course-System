@@ -60,6 +60,7 @@ const App = () => {
           </Switch>
           <Footer />
         </>
+
     )
 }
 

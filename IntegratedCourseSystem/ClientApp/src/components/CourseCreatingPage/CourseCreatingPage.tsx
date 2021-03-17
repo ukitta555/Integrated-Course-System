@@ -13,11 +13,13 @@ import courseSubjectService from '../../services/courseSubjectService'
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import {Grid, InputBase, TextField} from "@material-ui/core";
+import {Box, Grid, InputBase, TextField} from "@material-ui/core";
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import DeletableTextField from "../DeletableTextField/DeletableTextField";
 import { LocationSearchingTwoTone } from '@material-ui/icons';
 import courseRoleService from '../../services/courseRoleService'
+
+import light from "../../themes/light"
 
 const CourseCreatingPage = () => {
   const [languages, setLanguages] = useState([{id: 0, value: "C#"}]);
@@ -86,12 +88,7 @@ const CourseCreatingPage = () => {
     marginTop: "2vw",
     height: "98vw",
   }
-  const titleTextWrapperStyle = {
-    gridArea: "title_text",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center" as "center",
-  }
+  const titleTextWrapperStyle = {}
   const titleTextStyle = {
     color: "#606675",
     fontStyle: "normal",
@@ -106,30 +103,24 @@ const CourseCreatingPage = () => {
     backgroundImage: "url(img/document_icon.png)",
     backgroundSize: "contain",
     backgroundPosition: "center",
-    // gridArea: "document_icon",
   }
   const pythonIconStyle = {
     height: "100%",
     backgroundRepeat: "no-repeat",
     backgroundImage: "url(img/python_icon.png)",
-    backgroundColor: "#97ACC4",
     borderRadius: "1.2vw",
     backgroundSize: "contain",
     backgroundPosition: "center",
     backgroundOrigin: "content-box",
     padding: "2vw 0",
-
-    // gridArea: "python_icon",
   }
-  const programmingLanguagesWrapperStyle = {
-    backgroundColor: "#CAE6D8",
+  const textFieldsWrapperStyle = {
     borderRadius: "1.2vw",
-    // gridArea: "programming_languages",
+    paddingTop: "3%",
   }
   const textFieldStyles = {
-    background: "#F5F5F5",
     borderRadius: "50px",
-    margin: "5% 0",
+    margin: "3% 0",
   }
   const peopleSearchIconStyle = {
     height: "100%",
@@ -164,141 +155,158 @@ const CourseCreatingPage = () => {
   }
   const createButtonWrapperStyle = {
   }
-  const createButtonStyle = {
-    height: "30%",
+  const createButtonBoxStyle = {
+    height: "50%",
     width: "25%",
     borderRadius: 50,
+}
+  const createButtonStyle = {
+    height: "100%",
+    width: "100%",
+    borderRadius: "inherit",
+    color: "inherit",
   }
-
-
+  const addButtonStyle = {
+    color: "inherit",
+  }
   return (
+      <ThemeProvider theme={light}>
       <form onSubmit = {onSubmit} style={{padding: `0 ${spacing * 4}px`}}>
-        <Grid style={GridWrapperStyle} container justify="space-around" spacing={spacing}>
+        <Grid container style={GridWrapperStyle} justify="space-around" spacing={spacing}>
           <Grid item xs={5}>
-            <Container maxWidth="lg" style={documentIconStyle} children={false} />
+            <Box maxWidth="lg" bgcolor="" style={documentIconStyle} children={false} />
           </Grid>
-          <Grid item xs={5} style={titleTextWrapperStyle}>
+          <Grid item container justify="center" alignItems="center" xs={5} style={titleTextWrapperStyle}>
             <Typography component="h6" style = {titleTextStyle}>
               Створення нового інтегрованого курсу
             </Typography>
           </Grid>
           <Grid item xs={5}>
-            <Container maxWidth="lg" style={pythonIconStyle} children={false} />
+            <Box maxWidth="lg" bgcolor="theme_grey.main" style={pythonIconStyle} children={false} />
           </Grid>
           <Grid item xs={5}>
-            <p>Мови програмування</p>
-            <Grid container direction="column" justify="center" alignItems="center" style={programmingLanguagesWrapperStyle}>
-              {languages.map( item =>
-                  <DeletableTextField
-                      onDelete={handleDeleteListItem(languages, setLanguages)(item.id)}
-                      id={`lang-${item.id}`}
-                      key={item.id}
-                      value = {item.value}
-                      onChange = {
-                        (event: React.ChangeEvent<HTMLInputElement>) => setLanguages(
-                            languages.map(language =>
-                                language.id !== item.id
-                                    ? language
-                                    : {value: event.target.value, id: language.id}))
-                      }
-                  />
-              )}
-              <Grid item>
-                <Button onClick={handleAddListItem(languages, setLanguages)({id: idCounter, value: "C#"})}>
-                  Додати нову мову
-                </Button>
-              </Grid>
-            </Grid>
+            <Box color="theme_black.main">
+              <p>Мови програмування</p>
+              <Box bgcolor="theme_green.main" style={textFieldsWrapperStyle}>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  {languages.map( item =>
+                      <DeletableTextField
+                          onDelete={handleDeleteListItem(languages, setLanguages)(item.id)}
+                          id={`lang-${item.id}`}
+                          key={item.id}
+                          value = {item.value}
+                          onChange = {
+                            (event: React.ChangeEvent<HTMLInputElement>) => setLanguages(
+                                languages.map(language =>
+                                    language.id !== item.id
+                                        ? language
+                                        : {value: event.target.value, id: language.id}))
+                          }
+                      />
+                  )}
+                  <Grid item>
+                    <Button style={addButtonStyle} onClick={handleAddListItem(languages, setLanguages)({id: idCounter, value: "C#"})}>
+                      Додати нову мову
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
           </Grid>
           <Grid item xs={5}>
-            <Container maxWidth="lg" style={peopleSearchIconStyle} children={false} />
+            <Box maxWidth="lg" bgcolor="theme_grey.main" style={peopleSearchIconStyle} children={false} />
           </Grid>
           <Grid item xs={5}>
-            <p>Ролі у проекті</p>
-            <Grid container direction="column" justify="center" alignItems="center" style={rolesWrapperStyle}>
-              {roles.map( item =>
-                <DeletableTextField
-                  onDelete={handleDeleteListItem(roles, setRoles)(item.id)}
-                  id={`role-${item.id}`}
-                  key={item.id}
-                  value = {item.value}
-                  onChange = {
-                    (event: React.ChangeEvent<HTMLInputElement>) => setRoles(
-                      roles.map(role =>
-                        role.id !== item.id
-                        ? role
-                        : {value: event.target.value, id: role.id}))
-                  }
-                />
-              )}
-              <Grid item>
-                <Button onClick={handleAddListItem(roles, setRoles)({id: idCounter, value: "Developer"})}>
-                  Додати нову роль
-                </Button>
-              </Grid>
-            </Grid>
+            <Box color="theme_black.main">
+              <p>Ролі у проекті</p>
+              <Box bgcolor="theme_green.main" style={textFieldsWrapperStyle}>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  {roles.map( item =>
+                      <DeletableTextField
+                          onDelete={handleDeleteListItem(roles, setRoles)(item.id)}
+                          id={`role-${item.id}`}
+                          key={item.id}
+                          value = {item.value}
+                          onChange = {
+                            (event: React.ChangeEvent<HTMLInputElement>) => setRoles(
+                                roles.map(role =>
+                                    role.id !== item.id
+                                        ? role
+                                        : {value: event.target.value, id: role.id}))
+                          }
+                      />
+                  )}
+                  <Grid item>
+                    <Button style={addButtonStyle} onClick={handleAddListItem(roles, setRoles)({id: idCounter, value: "Developer"})}>
+                      Додати нову роль
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
           </Grid>
           <Grid item xs={5}>
-            <Container maxWidth="lg" style={papersIconStyle} children={false} />
+            <Box maxWidth="lg" bgcolor="theme_grey.main" style={papersIconStyle} children={false} />
           </Grid>
           <Grid item xs={5}>
-            <p>Загальна інформація</p>
-            <Grid container direction="column" justify="center" alignItems="center" style={generalInfoWrapperStyle}>
-              <InputBase style={textFieldStyles} placeholder="Назва курсу" inputProps={{style: {paddingLeft: "1em"}}} {...courseName}/>
-              <InputBase style={textFieldStyles} placeholder="Пароль курсу" inputProps={{style: {paddingLeft: "1em"}}} {...coursePassword}/>
-            </Grid>
+            <Box color="theme_black.main">
+              <p>Загальна інформація</p>
+              <Box bgcolor="theme_green.main" style={textFieldsWrapperStyle}>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <Box bgcolor="theme_white.main" style={textFieldStyles}>
+                    <Grid item>
+                        <InputBase placeholder="Назва курсу" inputProps={{style: {paddingLeft: "1em"}}} style={{color: "inherit"}} {...courseName}/>
+                    </Grid>
+                  </Box>
+                  <Box bgcolor="theme_white.main" style={textFieldStyles}>
+                    <Grid item>
+                      <InputBase placeholder="Пароль курсу" inputProps={{style: {paddingLeft: "1em"}}} {...coursePassword}/>
+                    </Grid>
+                  </Box>
+                </Grid>
+              </Box>
+            </Box>
           </Grid>
           <Grid item xs={5}>
-            <Container maxWidth="lg" style={pythonIconStyle} children={false} />
+            <Box maxWidth="lg" bgcolor="theme_grey.main" style={pythonIconStyle} children={false} />
           </Grid>
           <Grid item xs={5}>
-            <p>Предмети для складання</p>
-            <Grid container direction="column" style={programmingLanguagesWrapperStyle}>
-              {subjects.map( item =>
-                  <DeletableTextField
-                      onDelete={handleDeleteListItem(subjects, setSubjects)(item.id)}
-                      id={`lang-${item.id}`}
-                      key={item.id}
-                      value = {item.value}
-                      onChange = {
-                        (event: React.ChangeEvent<HTMLInputElement>) => setSubjects(
-                            subjects.map(subject =>
-                                subject.id !== item.id
-                                    ? subject
-                                    : {value: event.target.value, id: subject.id}))
-                      }
-                  />
-              )}
-              <Grid item>
-                <Button onClick={handleAddListItem(subjects, setSubjects)({id: idCounter, value: "System verification"})}>
-                  Додати новий предмет
-                </Button>
-              </Grid>
-            </Grid>
+            <Box color="theme_black.main">
+              <p>Предмети для складання</p>
+              <Box bgcolor="theme_green.main" color="theme_black.main" style={textFieldsWrapperStyle}>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  {subjects.map( item =>
+                      <DeletableTextField
+                          onDelete={handleDeleteListItem(subjects, setSubjects)(item.id)}
+                          id={`lang-${item.id}`}
+                          key={item.id}
+                          value = {item.value}
+                          onChange = {
+                            (event: React.ChangeEvent<HTMLInputElement>) => setSubjects(
+                                subjects.map(subject =>
+                                    subject.id !== item.id
+                                        ? subject
+                                        : {value: event.target.value, id: subject.id}))
+                          }
+                      />
+                  )}
+                  <Grid item>
+                    <Button style={addButtonStyle} onClick={handleAddListItem(subjects, setSubjects)({id: idCounter, value: "System verification"})}>
+                      Додати новий предмет
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
           </Grid>
           <Grid container item xs={10} justify="center" alignItems="center" style={createButtonWrapperStyle}>
-            <Button type="submit" style={createButtonStyle} variant="contained" color="primary">Створити</Button>
+            <Box bgcolor="theme_green.dark" color="theme_black.main" style={createButtonBoxStyle}>
+              <Button type="submit" style={createButtonStyle}>Створити</Button>
+            </Box>
           </Grid>
         </Grid>
       </form>
-      // <div style={GridWrapperStyle}>
-      //   <div style={documentIconStyle} />
-      //   <div style={pythonIconStyle} />
-      //   <div style={programmingLanguagesWrapperStyle}>
-      //
-      //   </div>
-      //   <div style={peopleSearchIconStyle} />
-      //   <div style={rolesWrapperStyle}></div>
-      //   <div style={papersIconStyle} />
-      //   <div style={generalInfoWrapperStyle}></div>
-      //   <div style={titleTextWrapperStyle}>
-      //     <Typography component="h6" style = {titleTextStyle}>
-      //       Створення нового інтегрованого курсу
-      //     </Typography>
-      //   </div>
-      //   <Button style={createButtonStyle} variant="contained" color="primary">Створити</Button>
-      // </div>
-
+      </ThemeProvider>
   )
 }
 

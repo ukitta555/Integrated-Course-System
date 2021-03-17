@@ -68,7 +68,7 @@ const QuestionnaireForm = () =>
 				id: user.id
 			}
 			await dispatch(createStudent(studentInfo))
-			await dispatch(updateUserRole(0, user.id))
+			await dispatch(updateUserRole(2, user.id))
 		}
 		else if (role === "teacher") {
 			const teacherInfo = {

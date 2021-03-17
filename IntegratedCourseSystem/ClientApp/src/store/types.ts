@@ -14,9 +14,7 @@ export interface UserState  {
   id: number,
   name: string | null,
   surname: string | null,
-  role: Role,
-  teacherId: number | null,
-  facultyId: number | null
+  role: Role
 }
 
 // service interfaces
@@ -24,9 +22,7 @@ export interface StudentInfo {
   name: string,
   surname: string,
   courseId: string,
-  coursePassword: string,
-  teacherId: number,
-  facultyId: number
+  coursePassword: string
 }
 
 export interface TeacherInfo {
@@ -48,9 +44,7 @@ type UpdateUserWithQueInfoAction = {
   userInfo: {
     name: string,
     surname: string,
-    role: Role,
-    teacherId: number | null,
-    facultyid: number | null
+    role: Role
   }
 }
 
