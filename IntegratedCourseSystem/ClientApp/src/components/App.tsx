@@ -23,39 +23,38 @@ const App = () => {
 
     return (
         <>
-          <div>
-              <Header />
-          </div>
-          <Switch>
-              <Route path = '/register'>
-                  <RegistrationForm />
-              </Route>
-              <Route path = '/login'>
-                {(!user || user.id === NO_ID) ? <LoginForm /> : <Redirect to="/questionnaire" />}
-              </Route>
-              <Route path = '/questionnaire'>
-                  <QuestionnaireForm />
-              </Route>
-              <Route path = '/teacher_waiting_page'>
-                  <TeacherWaitingPage />
-              </Route>
-              <Route path = '/student_waiting_page'>
-                  <StudentWaitingPage/>
-              </Route>
-              <Route path = '/teacher_cabinet'>
-                  <TeacherCabinet/>
-              </Route>
-              <Route path = '/course_creating_page'>
-                  <CourseCreatingPage/>
-              </Route>
-              <Route path = '/course_view'>
-                  <CoursesView/>
-              </Route>
-              <Route path = '/'>
-              </Route>
-          </Switch>
-          <Footer />
-        </>
+            <Header />
+            <Switch>
+                <Route path = '/register'>
+                    <RegistrationForm />
+                </Route>
+                <Route path = '/login'>
+                    {(!user || user.id === NO_ID) ? <LoginForm /> : <Redirect to="/questionnaire" />}
+                </Route>
+                <Route path = '/questionnaire'>
+                    <QuestionnaireForm />
+                </Route>
+                <Route path = '/teacher_waiting_page'>
+                    <TeacherWaitingPage />
+                </Route>
+                <Route path = '/student_waiting_page'>
+                    <StudentWaitingPage/>
+                </Route>
+                <Route path = '/teacher_cabinet'>
+                    <TeacherCabinet/>
+                </Route>
+                <Route path = '/course_creating_page'>
+                    <CourseCreatingPage/>
+                </Route>
+                <Route path = '/course_view'>
+                    <CoursesView/>
+                </Route>
+                <Route path = '/'>
+
+                </Route>
+            </Switch>
+            <Footer />
+            </>
     )
 }
 
