@@ -8,7 +8,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {loginUser} from '../../reducers/userReducer/userThunks'
 import {EMAIL_VALIDATOR} from '../RegistrationForm/emailValidatingRegExp'
-import {Grid} from "@material-ui/core";
+import {Box, Grid, InputLabel, ThemeProvider} from "@material-ui/core";
+import InputBase from "@material-ui/core/InputBase";
+import {Link} from "react-router-dom";
+import light from "../../themes/light";
 
 
 const LoginForm = () => {
@@ -34,20 +37,78 @@ const LoginForm = () => {
     event.preventDefault()
     await dispatch(loginUser(email.value, password.value))
   }
+
+  const wrapperStyle = {
+    height: "80vh",
+    marginTop: "50px",
+  }
+
+  const catOnBooksStyle = {
+    height: "100%",
+    backgroundRepeat: "no-repeat",
+    backgroundImage: "url(img/cat_on_books.png)",
+    backgroundSize: "contain",
+    backgroundPosition: "center",
+  }
+  const logWrapperStyle = {
+    height: "100%",
+    borderRadius: 44,
+    backgroundColor: "#A5CACC",
+  }
+  const textFieldWrapperStyle = {
+    width: "80%",
+  }
+  const textFieldStyle = {
+    background: "#F5F5F5",
+    borderRadius: 50,
+    width: "100%",
+    margin: "3% 0",
+    color: "inherit",
+  }
+  const submitButtonWrapperStyle = {
+    width: "50%",
+    textAlign: "center" as "center",
+  }
+  const submitButtonBoxStyle = {
+    borderRadius: 50,
+  }
+  const submitButtonStyle = {
+    borderRadius: 50,
+    width: "100%",
+  }
   return (
-    <form onSubmit = {onSubmit}>
-      <Grid container direction="column">
-        <Grid item>
-          <TextField name="email" label="Enter email:" inputProps = {emailProps} />
-        </Grid>
-        <Grid item>
-          <TextField name="password" label="Enter password:" inputProps = {passwordProps} />
-        </Grid>
-        <Grid item>
-          <Button type="submit" variant="contained" color="primary">submit!</Button>
-        </Grid>
-      </Grid>
-    </form>
+      <ThemeProvider theme={light}>
+        <form onSubmit = {onSubmit}>
+          <Grid container direction="row" justify="space-evenly" alignItems="center" style={wrapperStyle}>
+            <Grid item xs={5} style={catOnBooksStyle} />
+              <Grid container item xs={5} spacing={3} direction="column" justify="center" alignItems="center" style={logWrapperStyle}>
+              <Grid item style={textFieldWrapperStyle}>
+                {/*<TextField name="email" label="Enter email:" inputProps = {emailProps} />*/}
+                <InputLabel>Enter email:</InputLabel>
+                {/*<Box bgcolor="theme_white.main">*/}
+                  <InputBase name="email" style={textFieldStyle} inputProps={{...emailProps, style: {paddingLeft: "1em"}}}/>
+                {/*</Box>*/}
+              </Grid>
+              <Grid item style={textFieldWrapperStyle}>
+                {/*<TextField name="password" label="Enter password:" inputProps = {passwordProps} />*/}
+                <InputLabel>Enter password:</InputLabel>
+                {/*<Box>*/}
+                  <InputBase name="password" style={textFieldStyle} inputProps={{...passwordProps, style: {paddingLeft: "1em"}}}/>
+                {/*</Box>*/}
+              </Grid>
+              <Grid item style={submitButtonWrapperStyle}>
+                <Box bgcolor="theme_grey.main" color="theme_white.main" style={submitButtonBoxStyle}>
+                  <Grid item>
+                    <Button type="submit" color="inherit" style={submitButtonStyle}>
+                        submit!
+                    </Button>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+        </form>
+      </ThemeProvider>
   )
 }
 
