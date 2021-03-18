@@ -16,6 +16,8 @@ import StudentWaitingPage from "./StudentWaitingPage/StudentWaitingPage";
 import TeacherCabinet from "./TeacherCabinet/TeacherCabinet";
 import CourseCreatingPage from "./CourseCreatingPage/CourseCreatingPage";
 import CoursesView from './AllCoursesView/CoursesView'
+import {UserState, NO_ID} from '../store/types'
+import TestingPage from "./TestingPage/TestingPage";
 import CourseRegistrationForm from './CourseRegistrationForm/CourseRegistrationForm'
 import {UserState} from '../store/types'
 import { LinearProgress } from '@material-ui/core';
@@ -80,6 +82,9 @@ const App = () => {
                 : <Redirect to = '/' />
               }
             </Route>
+            <Route path = '/testing_page'>
+                <TestingPage/>
+            </Route>
             <Route path = '/'>
             </Route>
         </Switch>
@@ -88,16 +93,12 @@ const App = () => {
 
     return (
       <>
-        <div>
           <Header />
-        </div>
-        {
-          user.isAuthLoading
-          ? <LinearProgress />
-          : <>
-              {routes}
-            </>
-        }
+          {
+              user.isAuthLoading
+                  ? <LinearProgress />
+                  : <> {routes} </>
+          }
         <Footer />
       </>
     )
