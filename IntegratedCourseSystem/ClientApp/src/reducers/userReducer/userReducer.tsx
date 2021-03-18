@@ -14,7 +14,8 @@ const initialState: UserState  = {
   name: null,
   surname: null,
   role: null,
-  currentCourseId: null
+  currentCourseId: null,
+  isRegFilledIn: null
 }
 
 const userReducer = (state = initialState, action: registrationActionTypes) => {

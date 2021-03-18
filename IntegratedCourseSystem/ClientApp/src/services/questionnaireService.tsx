@@ -16,6 +16,22 @@ const createQuestionnaire = async (queInfo: {studentId: number, classId: number}
   }
 }
 
+
+// refactor when back end arrives
+const getQuestionnaires = async (studentId: number) => {
+  try {
+    const response = await axios.get (
+      `${baseURL}?studentId=${studentId}`,
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log (error.response.data)
+  }
+}
+
 export default {
-  createQuestionnaire
+  createQuestionnaire,
+  getQuestionnaires
 }

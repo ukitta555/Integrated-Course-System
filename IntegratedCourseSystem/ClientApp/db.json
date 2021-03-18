@@ -120,6 +120,18 @@
       "studentId": 66,
       "classId": 123,
       "id": 1
+    },
+    {
+      "studentId": 42,
+      "classId": 321,
+      "id": 2
+    }
+  ],
+  "subjectQuestionnaire": [
+    {
+      "questionnaireId": 1,
+      "classSubjectId": 321,
+      "id": 1
     }
   ]
 }

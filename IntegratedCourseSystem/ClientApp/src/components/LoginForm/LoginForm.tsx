@@ -44,7 +44,7 @@ const LoginForm = () => {
       history.push("/questionnaire")
     }
     catch (error) {
-      console.log (error.response.data)
+      console.log (error)
     }
   }
 

@@ -9,6 +9,8 @@ import { ThunkAction } from 'redux-thunk'
 import {StudentInfo, TeacherInfo} from '../../store/types'
 
 import { loginUserAction, updateUserWithQueInfo } from './userActionCreators'
+import questionnaireService from '../../services/questionnaireService'
+import subjectQuestionnaire from '../../services/subjectQuestionnaire'
 
 
 export const registerUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
@@ -38,13 +40,23 @@ export const loginUser = (email: string, password: string) : ThunkAction<void, R
         if (teacherCreatedCourse) {
           const currentCourseId = coursesForTeacher[0].id
           console.log (coursesForTeacher[0].id)
-          loginResponse = {...loginResponse, currentCourseId: currentCourseId}
+          loginResponse.currentCourseId = currentCourseId
+          loginResponse.isRegFilledIn = null // N/A for teacher as they only fill in questionnaire
         }
       }
       else if (stringRole === "student") {
-
+        const queObjects = await questionnaireService.getQuestionnaires(loginResponse.id) // get que id by student id (at least one)
+        console.log (`questionnaires for student ${loginResponse.id}`, queObjects)
+        // queObjects[0] should always exist as it is created when the student entity is created
+        const queSubjects = await subjectQuestionnaire.getSubjects(queObjects[0].id)
+        const studentFilledReg = queSubjects.length > 0
+        const currentCourseId = queObjects[0].classId
+        loginResponse.currentCourseId = currentCourseId
+        if (studentFilledReg) {
+          loginResponse.isRegFilledIn = true
+        }
       }
-      loginResponse = {...loginResponse, role: stringRole}
+      loginResponse.role = stringRole
       if (loginResponse) {
         dispatch(loginUserAction(loginResponse))
       }
@@ -59,7 +71,8 @@ export const createTeacher = (teacherInfo: TeacherInfo) : ThunkAction<void, Root
         name: teacherInfo.name,
         surname: teacherInfo.surname,
         role: "teacher",
-        currentCourseId: null
+        currentCourseId: null,
+        isRegFilledIn: null
       }))
     }
     catch (error) {
@@ -76,7 +89,8 @@ export const createStudent = (studentInfo: StudentInfo) : ThunkAction<void, Root
         name: studentInfo.name,
         surname: studentInfo.surname,
         role: "student",
-        currentCourseId: studentInfo.courseId
+        currentCourseId: studentInfo.courseId,
+        isRegFilledIn: null
       }))
     }
     catch (error) {

@@ -66,7 +66,8 @@ const QuestionnaireForm = () =>
 				coursePassword: coursePassword.value,
 				teacherId: selectedTeacherId,
 				facultyId: selectedFacultyId,
-				id: user.id
+				id: user.id,
+				isRegFilledIn: false
 			}
 			await dispatch(createStudent(studentInfo))
 			await dispatch(updateUserRole(2, user.id))
