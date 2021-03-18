@@ -15,7 +15,8 @@ export interface UserState  {
   name: string | null,
   surname: string | null,
   role: Role | null,
-  currentCourseId: number | null
+  currentCourseId: number | null,
+  isRegFilledIn: boolean | null
 }
 
 // service interfaces
@@ -23,7 +24,8 @@ export interface StudentInfo {
   name: string,
   surname: string,
   courseId: number,
-  coursePassword: string
+  coursePassword: string,
+  isRegFilledIn: boolean
 }
 
 export interface TeacherInfo {
@@ -46,7 +48,8 @@ type UpdateUserWithQueInfoAction = {
     name: string,
     surname: string,
     role: Role | null,
-    currentCourseId: number | null
+    currentCourseId: number | null,
+    isRegFilledIn: boolean | null
   }
 }
 

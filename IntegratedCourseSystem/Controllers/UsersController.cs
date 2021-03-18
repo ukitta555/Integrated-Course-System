@@ -48,7 +48,7 @@ namespace IntegratedCourseSystem.Controllers
 
             PasswordHasher<User> pwh = new PasswordHasher<User>();
             user.Password = pwh.HashPassword(user, user.Password);
-            Console.WriteLine(user.Role);
+
             if (User.Identity.IsAuthenticated)
             {
                 Console.WriteLine("Xd already in");
@@ -86,6 +86,33 @@ namespace IntegratedCourseSystem.Controllers
                 if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
                 {
                     await Authenticate(user.Email);
+                    if (userByEmail.Role == UserRole.Student)
+                    {
+                        var student = await _context
+                            .Students
+                            .FirstOrDefaultAsync(entry => entry.Id == userByEmail.Id);
+                        if (student != null)
+                        {
+                            UserDTO dto = ItemToDTO(userByEmail);
+                            dto.Name = student.Name;
+                            dto.Surname = student.Surname;
+                            return Created("", dto);
+                        }
+                    }
+                    else if (userByEmail.Role == UserRole.Teacher)
+                    {
+                        var teacher = await _context
+                            .Teachers
+                            .FirstOrDefaultAsync(entry => entry.Id == userByEmail.Id);
+                        if (teacher != null)
+                        {
+
+                            UserDTO dto = ItemToDTO(userByEmail);
+                            dto.Name = teacher.Name;
+                            dto.Surname = teacher.Surname;
+                            return Created("", dto);
+                        }
+                    }
                     return Created("", ItemToDTO(userByEmail));
                 }
                 else
@@ -107,9 +134,7 @@ namespace IntegratedCourseSystem.Controllers
                     .Users
                     .FirstOrDefault(user => user.Id == Id);
 
-                Console.WriteLine("{0} {1}", user.Email, user.Role.ToString());
                 patchDoc.ApplyTo(user, ModelState);
-                Console.WriteLine("{0} {1}", user.Email, user.Role.ToString());
 
                 if (!ModelState.IsValid)
                 {
@@ -204,7 +229,7 @@ namespace IntegratedCourseSystem.Controllers
             return _context.Users.Any(e => e.Id == id);
         }
 
-        private static UserDTO ItemToDTO(User user) =>
+        private static UserDTO ItemToDTO(dynamic user) =>
             new UserDTO
             {
               Email = user.Email,

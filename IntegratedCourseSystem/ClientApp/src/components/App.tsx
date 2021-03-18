@@ -36,9 +36,9 @@ const App = () => {
               </Route>
               <Route path = '/questionnaire'>
                 {
-                  (user.role === "user")
+                  user.role === "user"
                   ? <QuestionnaireForm />
-                  : (user.role === "student")
+                  : user.role === "student"
                     ? <Redirect to = "/course_registration" />
                     : <Redirect to = "/course_creating_page" />
                 }
@@ -65,7 +65,13 @@ const App = () => {
                   <CoursesView/>
               </Route>
               <Route path = '/course_registration'>
-                  <CourseRegistrationForm />
+                {
+                  user.role === "student"
+                  ? user.isRegFilledIn
+                    ? <Redirect to = '/course_view' />
+                    : <CourseRegistrationForm />
+                  : <Redirect to = '/' />
+                }
               </Route>
               <Route path = '/'>
               </Route>
