@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import useField from '../../hooks/useField'
 import { UserState } from '../../store/types'
 import { createTeacher, createStudent, updateUserRole } from '../../reducers/userReducer/userThunks'
+import questionnaireService from '../../services/questionnaireService'
 import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@material-ui/core";
 import facultyService from '../../services/facultyService'
-import { EEXIST } from 'constants'
+import FacultyInputs from '../FacultyInputs/FacultyInputs'
+import {Faculty, Role} from '../FacultyInputs/FacultyInputs'
+
 
 const QuestionnaireForm = () =>
 {
@@ -16,16 +19,7 @@ const QuestionnaireForm = () =>
 	const dispatch = useDispatch()
 	const user = useSelector((state: { user: UserState }) => state.user)
 	const history = useHistory()
-	type Role = "student" | "teacher"
-	type Faculty = {
-		name: string,
-		id: number,
-		facultyTeachers: {
-			name: string,
-			surname: string,
-			id: number
-		}[]
-	}
+
 
 	const [role, setRole] = useState<Role>("student");
 	const handleRoleChange = () => setRole(role === "student" ? "teacher" : "student")
@@ -52,18 +46,14 @@ const QuestionnaireForm = () =>
 		...coursePassword
 	}
 
-	useEffect(() =>
+	const fetchFaculties = async () =>
 	{
-		async function fetchFaculties()
-		{
-			const response = await facultyService.getFaculties()
-			setFaculties(response)
-			setSelectedFacultyID(response[0].id)
-			setSelectedTeacherId(response[0].facultyTeachers[0].id)
-		}
-		fetchFaculties()
-	}, [])
-	console.log(faculties)
+		const response = await facultyService.getFaculties()
+		setFaculties(response)
+		setSelectedFacultyID(response[0].id)
+		setSelectedTeacherId(response[0].facultyTeachers[0].id)
+	}
+
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) =>
 	{
 		event.preventDefault()
@@ -72,14 +62,20 @@ const QuestionnaireForm = () =>
 			const studentInfo = {
 				name: name.value,
 				surname: surname.value,
-				courseId: courseId.value,
+				courseId: Number(courseId.value), // add check to whether it is actually a number!
 				coursePassword: coursePassword.value,
 				teacherId: selectedTeacherId,
 				facultyId: selectedFacultyId,
-				id: user.id
+				id: user.id,
+				isRegFilledIn: false
 			}
 			await dispatch(createStudent(studentInfo))
-			await dispatch(updateUserRole(0, user.id))
+			await dispatch(updateUserRole(2, user.id))
+			const queResponse = await questionnaireService.createQuestionnaire({
+				studentId: user.id,
+				classId: Number(courseId.value)
+			})
+			console.log(queResponse)
 		}
 		else if (role === "teacher") {
 			const teacherInfo = {
@@ -92,7 +88,6 @@ const QuestionnaireForm = () =>
 			await dispatch(createTeacher(teacherInfo))
 			await dispatch(updateUserRole(1, user.id))
 		}
-		history.push("/course_creating_page")
 		// console.log(name.value, surname.value, courseId.value, coursePassword.value)
 	}
 
@@ -125,54 +120,27 @@ const QuestionnaireForm = () =>
 				<TextField label="Ім'я" {...name} />
 				<TextField label="Прізвище" {...surname} />
 				{
-					role === "student" &&
-					<>
-						<TextField label="ID курсу" inputProps={courseIdInputProps} />
-						<TextField label="Пароль курсу"  inputProps={coursePasswordProps}/>
-					</>
-				}
-				{
-					(faculties.length === 0 || selectedFacultyId === NOT_SELECTED)
-						? null
-						:
-						<>
-							<InputLabel id="faculty">Факультет</InputLabel>
-							<Select name='faculty' labelId="faculty" id="select_faculty" value={selectedFacultyId} onChange={handleSelectedFacultyChange}>
-								{
-									faculties.map((faculty: Faculty) =>
-									{
-										return <MenuItem key={faculty.id} value={faculty.id}> {faculty.name} </MenuItem>
-									})
-								}
-							</Select>
-						</>
-				}
-				{
-					(faculties.length === 0 || selectedFacultyId === NOT_SELECTED || selectedTeacherId === NOT_SELECTED || role === "teacher")
-						? null
-						:
-						<>
-							<InputLabel id="teacher">Вчитель</InputLabel>
-							<Select name="teacher" labelId="teacher" id="select_teacher" value={selectedTeacherId} onChange={handleSelectedTeacherChange}>
-								{
-									faculties
-										.find((f: Faculty) => {return f.id === selectedFacultyId })
-										?.facultyTeachers
-										.map(teacher =>
-										{
-											console.log(teacher)
-											return (<MenuItem value={teacher.id} key={teacher.id}>
-												{`${teacher.surname} ${teacher.name.charAt(0)}.`}
-											</MenuItem>)
-										})
-								}
-							</Select>
-						</>
-				}
+     		 role === "student" &&
+     	 		<>
+        	<TextField label="ID курсу" inputProps={courseIdInputProps} />
+      	  <TextField label="Пароль курсу"  inputProps={coursePasswordProps}/>
+     		 </>
+    		}
+				<FacultyInputs
+					faculties = {faculties}
+					selectedFacultyId = {selectedFacultyId}
+					selectedTeacherId = {selectedTeacherId}
+					handleSelectedFacultyChange = {handleSelectedFacultyChange}
+					handleSelectedTeacherChange = {handleSelectedTeacherChange}
+					role = {role}
+					fetchFaculties = {fetchFaculties}
+				/>
 				<Button type="submit" variant="contained" color="primary">Далі</Button>
+
 			</form>
 		</>
 	)
+
 }
 
 export default QuestionnaireForm
