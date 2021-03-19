@@ -10,8 +10,8 @@ namespace DataBase.Models
         public int Id { get; set; }
         public int InitiatorId { get; set; }
         public int EnemyId1 { get; set; }
-        public int EnemyId2 { get; set; }
-        public int EnemyId3 { get; set; }
+        public int? EnemyId2 { get; set; }
+        public int? EnemyId3 { get; set; }
 
         public virtual Student Enemy1 { get; set; }
         public virtual Student Enemy2 { get; set; }

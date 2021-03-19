@@ -22,10 +22,19 @@ namespace IntegratedCourseSystem.Controllers
         }
 
         // GET: api/ClassTeches
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClassTech>>> GetClassTeches()
+        public async Task<ActionResult<IEnumerable<object>>> GetClassSubjectNames([FromBody] ClassTech cs)
         {
-            return await _context.ClassTeches.ToListAsync();
+            var techs = await _context.ClassTeches
+                                             .Where(x => x.ClassId == cs.ClassId)
+                                             .Select(x => new { x.TechId, x.Tech.Name })
+                                             .ToListAsync();
+
+            if (techs == null)
+            {
+                return NotFound();
+            }
+
+            return techs;
         }
 
         // GET: api/ClassTeches/5

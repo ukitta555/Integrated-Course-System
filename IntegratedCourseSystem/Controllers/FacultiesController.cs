@@ -43,9 +43,8 @@ namespace IntegratedCourseSystem.Controllers
         [HttpGet]
         public async Task<ActionResult> GetFaculties()
         {
-            var list = _context.Teachers;
+            var list = await _context.Teachers.ToListAsync();
             var groupedList = list
-                .AsEnumerable()
                 .GroupBy(entry => entry.FacultyId)
                 .Select(g => new
                 {

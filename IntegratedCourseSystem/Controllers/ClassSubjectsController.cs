@@ -21,12 +21,7 @@ namespace IntegratedCourseSystem.Controllers
             _context = context;
         }
 
-        // GET: api/ClassSubjects
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClassSubject>>> GetClassSubjects()
-        {
-            return await _context.ClassSubjects.ToListAsync();
-        }
+        
 
         // GET: api/ClassSubjects/5
         [HttpGet("{id}")]
@@ -40,6 +35,23 @@ namespace IntegratedCourseSystem.Controllers
             }
 
             return classSubject;
+        }
+
+        // GET: api/ClassSubjects/
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<object>>> GetClassSubjectNames([FromBody] ClassSubject cs)
+        {
+            var subjects = await _context.ClassSubjects
+                                             .Where(x => x.ClassId == cs.ClassId)
+                                             .Select(x => new { x.SubjectId, x.Subject.Name })
+                                             .ToListAsync();
+
+            if (subjects == null)
+            {
+                return NotFound();
+            }
+
+            return subjects;
         }
 
         // PUT: api/ClassSubjects/5
