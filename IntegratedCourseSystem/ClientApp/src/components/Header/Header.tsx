@@ -1,7 +1,7 @@
 import React from 'react'
-import {Link}
+import {Link, useHistory}
   from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 
 import ImageFitToParent from '../ImageFitToParent/ImageFitToParent'
 
@@ -10,12 +10,16 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import {logout} from '../../reducers/userReducer/userThunks'
+
 import {UserState, NO_ID} from '../../store/types'
 import {Box, Grid, ThemeProvider} from "@material-ui/core";
 import light from "../../themes/light";
 
 const Header = () => {
   const user = useSelector ((state: {user: UserState}) => state.user)
+  const dispatch = useDispatch()
+  const history = useHistory()
 
   const logoImgStyle = {
       width: 70,
@@ -32,7 +36,7 @@ const Header = () => {
 
   const wholeHeaderStyle = {
       backgroundColor: "inherit",
-      borderRadius: "inherit",
+     // borderRadius: "inherit",
   }
 
   const headerWrapperStyle = {
@@ -45,6 +49,11 @@ const Header = () => {
       borderRadius: 50,
   }
 
+
+  const handleLogout = async () => {
+      await dispatch (logout())
+      history.push('/login')
+  }
 
 
   const registrationButtons = (
@@ -114,6 +123,14 @@ const Header = () => {
                         <Link to = '/course_creating_page' style={{color: "inherit"}}>
                             Create course
                         </Link>
+                    </Button>
+                  </Grid>
+              </Box>
+
+              <Box bgcolor="theme_grey.main" color="theme_white.main"  style={registrationButtonsStyle}>
+                  <Grid item>
+                    <Button color = "inherit" onClick = {handleLogout}>
+                            Logout
                     </Button>
                   </Grid>
               </Box>

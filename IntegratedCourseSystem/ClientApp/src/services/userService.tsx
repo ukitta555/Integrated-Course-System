@@ -60,9 +60,23 @@ const loginInOnEnteringApp = async () => {
   }
 }
 
+const logout = async () => {
+  try {
+    const reponse = await axios.post (
+      `${baseURL}/logout`,
+      null,
+      {withCredentials: true}
+    )
+  }
+  catch (error) {
+    console.log (error)
+  }
+}
+
 export default {
   registerUser,
   login,
   changeUser,
-  loginInOnEnteringApp
+  loginInOnEnteringApp,
+  logout
 }

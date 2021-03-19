@@ -4,7 +4,8 @@ import {
   NO_ID,
   registrationActionTypes,
   UserState,
-  UPDATE_USER_WITH_QUE_INFO
+  UPDATE_USER_WITH_QUE_INFO,
+  LOGOUT_USER
 } from '../../store/types'
 
 
@@ -28,8 +29,13 @@ const userReducer = (state = initialState, action: registrationActionTypes) => {
     case UPDATE_USER_WITH_QUE_INFO: {
       return {...state, ...action.userInfo}
     }
+    case LOGOUT_USER: {
+      const newState = initialState
+      newState.isAuthLoading = false
+      return newState
+    }
     default: {
-      return initialState
+      return state
     }
   }
 }

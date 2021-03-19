@@ -1,12 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import Header from './Header/Header'
-import {
-    Switch
-    ,Route
-    ,Redirect
-    }
-    from 'react-router-dom'
+import { Switch ,Route ,Redirect } from 'react-router-dom'
 import LoginForm from './LoginForm/LoginForm';
 import RegistrationForm from './RegistrationForm/RegistrationForm'
 import QuestionnaireForm from "./QuestionnaireForm/QuestionnaireForm";
@@ -16,12 +11,13 @@ import StudentWaitingPage from "./StudentWaitingPage/StudentWaitingPage";
 import TeacherCabinet from "./TeacherCabinet/TeacherCabinet";
 import CourseCreatingPage from "./CourseCreatingPage/CourseCreatingPage";
 import CoursesView from './AllCoursesView/CoursesView'
-import {UserState, NO_ID} from '../store/types'
+import {UserState} from '../store/types'
 import TestingPage from "./TestingPage/TestingPage";
 import CourseRegistrationForm from './CourseRegistrationForm/CourseRegistrationForm'
-import {UserState} from '../store/types'
 import { LinearProgress } from '@material-ui/core';
 import { loginUser } from '../reducers/userReducer/userThunks';
+import { withCookies } from 'react-cookie';
+
 
 
 const App = () => {
@@ -104,4 +100,4 @@ const App = () => {
     )
 }
 
-export default App
+export default withCookies(App)

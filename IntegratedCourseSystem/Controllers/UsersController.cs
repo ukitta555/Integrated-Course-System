@@ -67,7 +67,17 @@ namespace IntegratedCourseSystem.Controllers
                 }
                 return Created("", ItemToDTO(userByEmail));
             }
-                return Created("", null);
+            return Created("", null);
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        public async Task<ActionResult<UserDTO>> Logout(){
+            if (User.Identity.IsAuthenticated)
+            {
+                await HttpContext.SignOutAsync();
+            }
+            return Created("", null);
         }
 
         [HttpPost]

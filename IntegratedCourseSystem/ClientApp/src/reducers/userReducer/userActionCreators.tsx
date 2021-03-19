@@ -3,7 +3,8 @@ import {
   UPDATE_USER_WITH_QUE_INFO,
   registrationActionTypes,
   UserState,
-  Role
+  Role,
+  LOGOUT_USER
 } from '../../store/types'
 
 export const loginUserAction = (userInfo: UserState) : registrationActionTypes => {
@@ -23,5 +24,11 @@ export const updateUserWithQueInfo = (userInfo: {
   return {
     type: UPDATE_USER_WITH_QUE_INFO,
     userInfo
+  }
+}
+
+export const logoutUser = () => {
+  return {
+    type: LOGOUT_USER
   }
 }

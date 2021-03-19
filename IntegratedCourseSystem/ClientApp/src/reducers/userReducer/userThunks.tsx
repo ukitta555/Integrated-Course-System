@@ -8,7 +8,7 @@ import {Action} from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import {StudentInfo, TeacherInfo, LoginSource, NO_ID, EMPTY_STRING} from '../../store/types'
 
-import { loginUserAction, updateUserWithQueInfo } from './userActionCreators'
+import { loginUserAction, logoutUser, updateUserWithQueInfo } from './userActionCreators'
 import questionnaireService from '../../services/questionnaireService'
 import subjectQuestionnaire from '../../services/subjectQuestionnaire'
 
@@ -95,6 +95,12 @@ export const loginUser = (email: string, password: string, loginSource: LoginSou
       if (loginResponse) {
         dispatch(loginUserAction(loginResponse))
       }
+  }
+
+export const logout = () : ThunkAction<void, RootState, unknown, Action<string>> =>
+  async dispatch => {
+    await userService.logout();
+    dispatch(logoutUser());
   }
 
 export const createTeacher = (teacherInfo: TeacherInfo) : ThunkAction<void, RootState, unknown, Action<string>> =>
