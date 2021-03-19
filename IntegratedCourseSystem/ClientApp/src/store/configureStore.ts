@@ -5,7 +5,6 @@ import userReducer from '../reducers/userReducer/userReducer'
 import loginReducer from '../reducers/loginReducer'
 
 
-
 const reducer = combineReducers(
     {
         user: userReducer,

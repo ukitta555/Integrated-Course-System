@@ -27,6 +27,50 @@ namespace IntegratedCourseSystem.Controllers
         }
 
         [HttpPost]
+        [Route("logged_in")]
+        public async Task<ActionResult<UserDTO>> GetInfoOnEnteringSite()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                UserDTO userDTO = new UserDTO();
+                var userByEmail = await _context
+                    .Users
+                    .FirstOrDefaultAsync(entry => entry.Email == User.Identity.Name);
+
+
+                if (userByEmail.Role == UserRole.Student)
+                {
+                    var student = await _context
+                        .Students
+                        .FirstOrDefaultAsync(entry => entry.Id == userByEmail.Id);
+                    if (student != null)
+                    {
+                        UserDTO dto = ItemToDTO(userByEmail);
+                        dto.Name = student.Name;
+                        dto.Surname = student.Surname;
+                        return Created("", dto);
+                    }
+                }
+                else if (userByEmail.Role == UserRole.Teacher)
+                {
+                    var teacher = await _context
+                        .Teachers
+                        .FirstOrDefaultAsync(entry => entry.Id == userByEmail.Id);
+                    if (teacher != null)
+                    {
+
+                        UserDTO dto = ItemToDTO(userByEmail);
+                        dto.Name = teacher.Name;
+                        dto.Surname = teacher.Surname;
+                        return Created("", dto);
+                    }
+                }
+                return Created("", ItemToDTO(userByEmail));
+            }
+                return Created("", null);
+        }
+
+        [HttpPost]
         [Route("[action]")]
         public async Task<ActionResult<UserDTO>> Register(User user)
         {
@@ -75,17 +119,44 @@ namespace IntegratedCourseSystem.Controllers
             var userByEmail = _context
                     .Users
                     .FirstOrDefault(entry => (entry.Email == user.Email));
-
+            
             if (userByEmail == null)
             {
                 return NotFound();
             }
             else
             {
-                
+
                 if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
                 {
                     await Authenticate(user.Email);
+                    if (userByEmail.Role == UserRole.Student)
+                    {
+                        var student = await _context
+                            .Students
+                            .FirstOrDefaultAsync(entry => entry.Id == userByEmail.Id);
+                        if (student != null)
+                        {
+                            UserDTO dto = ItemToDTO(userByEmail);
+                            dto.Name = student.Name;
+                            dto.Surname = student.Surname;
+                            return Created("", dto);
+                        }
+                    }
+                    else if (userByEmail.Role == UserRole.Teacher)
+                    {
+                        var teacher = await _context
+                            .Teachers
+                            .FirstOrDefaultAsync(entry => entry.Id == userByEmail.Id);
+                        if (teacher != null)
+                        {
+
+                            UserDTO dto = ItemToDTO(userByEmail);
+                            dto.Name = teacher.Name;
+                            dto.Surname = teacher.Surname;
+                            return Created("", dto);
+                        }
+                    }
                     return Created("", ItemToDTO(userByEmail));
                 }
                 else
@@ -107,9 +178,7 @@ namespace IntegratedCourseSystem.Controllers
                     .Users
                     .FirstOrDefault(user => user.Id == Id);
 
-                Console.WriteLine("{0} {1}", user.Email, user.Role.ToString());
                 patchDoc.ApplyTo(user, ModelState);
-                Console.WriteLine("{0} {1}", user.Email, user.Role.ToString());
 
                 if (!ModelState.IsValid)
                 {
@@ -204,25 +273,35 @@ namespace IntegratedCourseSystem.Controllers
             return _context.Users.Any(e => e.Id == id);
         }
 
-        private static UserDTO ItemToDTO(User user) =>
+        private static UserDTO ItemToDTO(dynamic user) =>
             new UserDTO
             {
               Email = user.Email,
-              Id = user.Id
+              Id = user.Id,
+              Role = user.Role
             };
 
-        private async System.Threading.Tasks.Task Authenticate(string userName)
+
+        private async System.Threading.Tasks.Task Authenticate(string userEmail)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userEmail)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             // установка аутентификационных куки
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme, 
+                new ClaimsPrincipal(id),
+                new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.UtcNow.AddDays(30),
+                    IsPersistent = true
+                });
         }
+
 
     }
 }
