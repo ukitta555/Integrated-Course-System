@@ -45,8 +45,24 @@ const changeUser = async (userData: {value: number, op: string, path: string}, i
   }
 }
 
+const loginInOnEnteringApp = async () => {
+  try {
+    const response = await axios.post (
+      `${baseURL}/logged_in`,
+      null,
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log (error)
+    return undefined
+  }
+}
+
 export default {
   registerUser,
   login,
-  changeUser
+  changeUser,
+  loginInOnEnteringApp
 }

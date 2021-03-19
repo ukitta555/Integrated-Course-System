@@ -15,14 +15,15 @@ const initialState: UserState  = {
   surname: null,
   role: null,
   currentCourseId: null,
-  isRegFilledIn: null
+  isRegFilledIn: null,
+  isAuthLoading: true
 }
 
 const userReducer = (state = initialState, action: registrationActionTypes) => {
   switch (action.type) {
     case LOGIN_USER: {
       console.log (action.userInfo)
-      return action.userInfo
+      return {...state , ...action.userInfo}
     }
     case UPDATE_USER_WITH_QUE_INFO: {
       return {...state, ...action.userInfo}

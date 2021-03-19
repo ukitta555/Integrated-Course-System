@@ -6,7 +6,7 @@ import courseService from '../../services/courseService'
 import {RootState} from '../../store/configureStore'
 import {Action} from 'redux'
 import { ThunkAction } from 'redux-thunk'
-import {StudentInfo, TeacherInfo} from '../../store/types'
+import {StudentInfo, TeacherInfo, LoginSource, NO_ID, EMPTY_STRING} from '../../store/types'
 
 import { loginUserAction, updateUserWithQueInfo } from './userActionCreators'
 import questionnaireService from '../../services/questionnaireService'
@@ -24,23 +24,53 @@ export const registerUser = (email: string, password: string) : ThunkAction<void
     }
   }
 
-export const loginUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
+export const loginUser = (email: string, password: string, loginSource: LoginSource) : ThunkAction<void, RootState, unknown, Action<string>> =>
   async dispatch => {
-      let loginResponse = await userService.login ({email, password})
+      let loginResponse
+      if (loginSource === "loginPage") {
+        loginResponse = await userService.login ({email, password})
+      }
+      else if (loginSource === "onEnteringApp") {
+        // undefined === error
+        // null === not logged in (no cookies)
+        // object === info about user
+        loginResponse = await userService.loginInOnEnteringApp()
+        console.log (loginResponse, typeof(loginResponse))
+        // null returned by API (converted to empty string) or actually null
+        if (loginResponse === '' || !loginResponse) {
+          loginResponse = {
+            email: EMPTY_STRING,
+            id: NO_ID,
+            name: null,
+            surname: null,
+            role: null,
+            currentCourseId: null,
+            isRegFilledIn: null,
+            isAuthLoading: false,
+          }
+          dispatch(loginUserAction(loginResponse))
+          return ;
+        }
+      }
 
+      // set to false so that loading line won't show up again
+      loginResponse.isAuthLoading = false
+
+      // map int representation of roles to the corresponding string
       const roleMap = new Map();
       roleMap.set(-1, "user");
       roleMap.set(0, "admin")
       roleMap.set(1, "teacher")
       roleMap.set(2, "student")
       const stringRole = roleMap.get(loginResponse.role)
+
       if (stringRole === "teacher") {
         const coursesForTeacher = await courseService.getCourses(loginResponse.id)
         const teacherCreatedCourse = coursesForTeacher.length > 0
         if (teacherCreatedCourse) {
           const currentCourseId = coursesForTeacher[0].id
-          console.log (coursesForTeacher[0].id)
-          loginResponse.currentCourseId = currentCourseId
+
+          loginResponse.currentCourseId = currentCourseId // if there is a course in DB, we will redirect teacher to course page
           loginResponse.isRegFilledIn = null // N/A for teacher as they only fill in questionnaire
         }
       }
@@ -51,9 +81,14 @@ export const loginUser = (email: string, password: string) : ThunkAction<void, R
         const queSubjects = await subjectQuestionnaire.getSubjects(queObjects[0].id)
         const studentFilledReg = queSubjects.length > 0
         const currentCourseId = queObjects[0].classId
+        // if student didn't fill in the course reg. form,
+        // we will need this in order to know what course he had used before in questionnaire
         loginResponse.currentCourseId = currentCourseId
         if (studentFilledReg) {
           loginResponse.isRegFilledIn = true
+        }
+        else {
+          loginResponse.isRegFilledIn = false
         }
       }
       loginResponse.role = stringRole
