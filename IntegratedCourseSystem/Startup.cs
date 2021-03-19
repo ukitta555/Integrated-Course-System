@@ -60,6 +60,7 @@ namespace IntegratedCourseSystem
             }).AddCookie("Cookies", options => {
                 options.Cookie.Name = "auth_cookie";
                 options.Cookie.SameSite = SameSiteMode.None;
+                //options.ExpireTimeSpan = TimeSpan.FromDays(30);
                 options.Events = new CookieAuthenticationEvents
                 {
                     OnRedirectToLogin = redirectContext =>

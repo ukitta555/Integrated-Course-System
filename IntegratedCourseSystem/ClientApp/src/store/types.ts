@@ -8,6 +8,7 @@ export const NO_ID: -1 = -1
 //state interfaces
 
 export type Role = "student" | "teacher" | "admin" | "user"
+export type LoginSource = "loginPage" | "onEnteringApp"
 
 export interface UserState  {
   email: string,
@@ -16,7 +17,8 @@ export interface UserState  {
   surname: string | null,
   role: Role | null,
   currentCourseId: number | null,
-  isRegFilledIn: boolean | null
+  isRegFilledIn: boolean | null,
+  isAuthLoading: boolean
 }
 
 // service interfaces
@@ -39,7 +41,15 @@ export interface TeacherInfo {
 
 type LoginUserAction = {
   type: typeof LOGIN_USER,
-  userInfo: UserState
+  userInfo: {
+    email: string,
+    id: number,
+    name: string | null,
+    surname: string | null,
+    role: Role | null,
+    currentCourseId: number | null,
+    isRegFilledIn: boolean | null
+  }
 }
 
 type UpdateUserWithQueInfoAction = {
