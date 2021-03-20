@@ -17,6 +17,7 @@ import CourseRegistrationForm from './CourseRegistrationForm/CourseRegistrationF
 import { LinearProgress } from '@material-ui/core';
 import { loginUser } from '../reducers/userReducer/userThunks';
 import { withCookies } from 'react-cookie';
+import TaskPage from "./TaskPage/TaskPage";
 
 
 
@@ -77,6 +78,9 @@ const App = () => {
                   : <CourseRegistrationForm />
                 : <Redirect to = '/' />
               }
+            </Route>
+            <Route path = '/task_page'>
+                <TaskPage/>
             </Route>
             <Route path = '/testing_page'>
                 <TestingPage/>
