@@ -1,7 +1,13 @@
 import React from "react";
 import Task, {TaskProps} from "../Task/Task";
+import Comments from "../Comments/Comments";
+import {Container} from "@material-ui/core";
 
-const testProps: TaskProps = {
+const testingPageWrapperStyle = {
+    marginTop: "20px",
+}
+
+const testTaskProps: TaskProps = {
     name: "Почати щось робити",
     text: "Починаємо роботу! Чим швидше, тим краще! ....",
     isHandedOver: true,
@@ -11,7 +17,18 @@ const testProps: TaskProps = {
     commentCount: 2,
 }
 
+const testCommentsProps = {
+    comments: [
+        {author: "Скоробагатько Карина", text: "А можна не робити?"},
+        {author: "Омельчук Людмила", text: "Треба!"},
+    ]
+}
 
-const TestingPage = () => <Task {...testProps}/>
+
+const TestingPage = () =>
+    <Container style={testingPageWrapperStyle}>
+        <Task {...testTaskProps}/>
+        <Comments {...testCommentsProps}/>
+    </Container>
 
 export default TestingPage

@@ -36,6 +36,7 @@ export type TaskProps = {
     marks: Map<string, [number, number]>;
     deadline: Date;
     commentCount: number;
+    style?: React.CSSProperties
 }
 
 const pickBGColor = (props: TaskProps): Color => {
@@ -47,8 +48,8 @@ const pickBGColor = (props: TaskProps): Color => {
 }
 const parseMarks = (marks: Map<string, [number, number]>) => {
     const marks_array = Array.from(marks.entries())
-    return marks_array.map(([subject, [mark, max_mark]]) => (
-        <Grid container item alignItems="center" style={{}}>
+    return marks_array.map(([subject, [mark, max_mark]], i) => (
+        <Grid container item alignItems="center" style={{}} key={i}>
             <Typography style={{}}>
                 {subject}: {mark} / {max_mark}
             </Typography>
@@ -59,50 +60,50 @@ const parseMarks = (marks: Map<string, [number, number]>) => {
 
 const taskWrapperStyle = {
     padding: "7px 21px",
-    borderRadius: 28,
+    borderRadius: 27.5,
 }
 
 const dividerStyle = {
     width: "100%",
 };
 const Task = (props: TaskProps) => (
-        <ThemeProvider theme={light}>
-            <Box bgcolor={pickBGColor(props)} style={taskWrapperStyle}>
-                        <Grid container direction="column" /* justify="space-between" */ alignItems="center" style={{}}>
-                            <Grid container item alignItems="center" style={{}}>
-                                <Typography variant="h6" style={{}}>
-                                    Завдання: {props.name}
-                                </Typography>
-                            </Grid>
-                            <Grid container item alignItems="center" style={{}}>
-                                <Typography style={{}}>
-                                    Автор: {props.author}
-                                </Typography>
-                            </Grid>
-                            <Divider style={dividerStyle}/>
-                            <Grid container item alignItems="center" style={{}}>
-                                <Typography variant="h6" style={{}}>
-                                    Оцінки:
-                                </Typography>
-                            </Grid>
-                            {parseMarks(props.marks)}
-                            <Divider style={dividerStyle}/>
-                            <Grid container item alignItems="center" style={{}}>
-                                <Typography style={{}}>
-                                    {props.text}
-                                </Typography>
-                            </Grid>
-                            <Grid container item direction="row" justify="space-between" alignItems="center" style={{}}>
-                                <Typography style={{}}>
-                                     Дедлайн: {props.deadline.toDateString()}
-                                </Typography>
-                                <Typography style={{}}>
-                                    Коментарів: {props.commentCount}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-            </Box>
-        </ThemeProvider>
+    <ThemeProvider theme={light}>
+        <Box bgcolor={pickBGColor(props)} color="theme_black.main" style={{...taskWrapperStyle, ...props.style}}>
+            <Grid container direction="column" /* justify="space-between" */ alignItems="center" style={{}}>
+                <Grid container item alignItems="center" style={{}}>
+                    <Typography variant="h6" style={{}}>
+                        Завдання: {props.name}
+                    </Typography>
+                </Grid>
+                <Grid container item alignItems="center" style={{}}>
+                    <Typography style={{}}>
+                        Автор: {props.author}
+                    </Typography>
+                </Grid>
+                <Divider style={dividerStyle}/>
+                <Grid container item alignItems="center" style={{}}>
+                    <Typography variant="h6" style={{}}>
+                        Оцінки:
+                    </Typography>
+                </Grid>
+                {parseMarks(props.marks)}
+                <Divider style={dividerStyle}/>
+                <Grid container item alignItems="center" style={{}}>
+                    <Typography style={{}}>
+                        {props.text}
+                    </Typography>
+                </Grid>
+                <Grid container item direction="row" justify="space-between" alignItems="center" style={{}}>
+                    <Typography style={{}}>
+                        Дедлайн: {props.deadline.toDateString()}
+                    </Typography>
+                    <Typography style={{}}>
+                        Коментарів: {props.commentCount}
+                    </Typography>
+                </Grid>
+            </Grid>
+        </Box>
+    </ThemeProvider>
     )
 
 export default Task
