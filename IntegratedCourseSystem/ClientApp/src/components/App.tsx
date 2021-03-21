@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import Header from './Header/Header'
 import { Switch ,Route ,Redirect } from 'react-router-dom'
@@ -16,7 +16,6 @@ import TestingPage from "./TestingPage/TestingPage";
 import CourseRegistrationForm from './CourseRegistrationForm/CourseRegistrationForm'
 import { LinearProgress } from '@material-ui/core';
 import { loginUser } from '../reducers/userReducer/userThunks';
-import { withCookies } from 'react-cookie';
 
 
 
@@ -100,4 +99,4 @@ const App = () => {
     )
 }
 
-export default withCookies(App)
+export default App

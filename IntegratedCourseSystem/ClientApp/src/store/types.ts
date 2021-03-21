@@ -11,7 +11,7 @@ export const NO_ID: -1 = -1
 //state interfaces
 
 export type Role = "student" | "teacher" | "admin" | "user"
-export type LoginSource = "loginPage" | "onEnteringApp"
+export type LoginType = "manually" | "onEnteringApp"
 
 export interface UserState  {
   email: string,

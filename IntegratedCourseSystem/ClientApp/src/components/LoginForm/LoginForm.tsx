@@ -40,7 +40,7 @@ const LoginForm = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
-      await dispatch(loginUser(email.value, password.value, "loginPage"))
+      await dispatch(loginUser(email.value, password.value, "manually"))
       history.push("/questionnaire")
     }
     catch (error) {

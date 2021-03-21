@@ -6,7 +6,7 @@ import courseService from '../../services/courseService'
 import {RootState} from '../../store/configureStore'
 import {Action} from 'redux'
 import { ThunkAction } from 'redux-thunk'
-import {StudentInfo, TeacherInfo, LoginSource, NO_ID, EMPTY_STRING} from '../../store/types'
+import {StudentInfo, TeacherInfo, LoginType, NO_ID, EMPTY_STRING} from '../../store/types'
 
 import { loginUserAction, logoutUser, updateUserWithQueInfo } from './userActionCreators'
 import questionnaireService from '../../services/questionnaireService'
@@ -24,13 +24,13 @@ export const registerUser = (email: string, password: string) : ThunkAction<void
     }
   }
 
-export const loginUser = (email: string, password: string, loginSource: LoginSource) : ThunkAction<void, RootState, unknown, Action<string>> =>
+export const loginUser = (email: string, password: string, loginType: LoginType) : ThunkAction<void, RootState, unknown, Action<string>> =>
   async dispatch => {
       let loginResponse
-      if (loginSource === "loginPage") {
+      if (loginType === "manually") {
         loginResponse = await userService.login ({email, password})
       }
-      else if (loginSource === "onEnteringApp") {
+      else if (loginType === "onEnteringApp") {
         // undefined === error
         // null === not logged in (no cookies)
         // object === info about user
