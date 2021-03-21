@@ -43,12 +43,14 @@ const Header = () => {
       padding: "0 1vw 0 1vw",
   }
   const registrationButtonsWrapperStyle = {
-        marginRight: "5px",
-    }
-  const registrationButtonsStyle = {
-      borderRadius: 50,
+      marginRight: "5px",
   }
-
+  const registrationButtonsStyle = {
+      borderRadius: 21,
+  }
+  const registrationButtonStyle = {
+      borderRadius: 21,
+  }
 
   const handleLogout = async () => {
       await dispatch (logout())
@@ -61,7 +63,7 @@ const Header = () => {
           <Grid container item justify="space-between" spacing={4} style={registrationButtonsWrapperStyle}>
               <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonsStyle}>
                   <Grid item>
-                      <Button color="inherit">
+                      <Button color="inherit" style={registrationButtonStyle}>
                           <Link to = '/register' style={{color: "inherit"}}>
                               register
                           </Link>
@@ -71,7 +73,7 @@ const Header = () => {
 
               <Box bgcolor="theme_green.dark" color="theme_black.main"  style={registrationButtonsStyle}>
                   <Grid item>
-                      <Button color = "inherit">
+                      <Button color = "inherit" style={registrationButtonStyle}>
                           <Link to = '/login' style={{color: "inherit"}}>
                               login
                           </Link>

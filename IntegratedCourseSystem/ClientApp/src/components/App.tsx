@@ -16,6 +16,7 @@ import TestingPage from "./TestingPage/TestingPage";
 import CourseRegistrationForm from './CourseRegistrationForm/CourseRegistrationForm'
 import { LinearProgress } from '@material-ui/core';
 import { loginUser } from '../reducers/userReducer/userThunks';
+import TaskPage from "./TaskPage/TaskPage";
 
 
 
@@ -76,6 +77,9 @@ const App = () => {
                   : <CourseRegistrationForm />
                 : <Redirect to = '/' />
               }
+            </Route>
+            <Route path = '/task_page'>
+                <TaskPage/>
             </Route>
             <Route path = '/testing_page'>
                 <TestingPage/>
