@@ -40,6 +40,36 @@ namespace IntegratedCourseSystem.Controllers
 
         #region HTTP GET Methods
 
+
+        // GET api/Questionnaire
+        [HttpGet]
+        [Route("getByStudent")]
+        public async Task<ActionResult<IEnumerable<Questionnaire>>> GetQuestionnairesByStudent([FromBody] QuestionnaireIdentityArgs info)
+        {
+            //Check questionnaire for existance
+            Questionnaire questionnaire = null;
+            try
+            {
+                questionnaire = await _context
+                    .Questionnaires
+                    .Where(item => item.StudentId == info.StudentId)
+                    .Select(entry => new Questionnaire {
+                        ClassId = entry.ClassId,
+                        StudentId = entry.StudentId,
+                        Id = entry.Id });
+            }
+            catch (InvalidOperationException) { }
+
+            if (questionnaire is null)
+            {
+                return NotFound();
+            }
+
+            return questionnaire;
+        }
+
+
+
         // GET api/Questionnaire
         [HttpGet]
         public async Task<ActionResult<Questionnaire>> GetQuestionnaire([FromBody] QuestionnaireIdentityArgs info)
@@ -50,9 +80,7 @@ namespace IntegratedCourseSystem.Controllers
             {
                 questionnaire = await _context
                     .Questionnaires
-                    .FirstAsync(item =>
-                                    item.ClassId == info.class_id && item.StudentId == info.student_id
-                                );
+                    .FirstAsync(item => item.StudentId == info.StudentId && item.ClassId == info.ClassId);
             }
             catch (InvalidOperationException){ }
 
@@ -97,8 +125,8 @@ namespace IntegratedCourseSystem.Controllers
             return CreatedAtAction(nameof(GetQuestionnaire),
                                    new QuestionnaireIdentityArgs
                                    {
-                                       class_id = questionnaire.ClassId,
-                                       student_id = questionnaire.StudentId
+                                       ClassId = questionnaire.ClassId,
+                                       StudentId = questionnaire.StudentId
                                    }, questionnaire);
         }
 
@@ -133,8 +161,8 @@ namespace IntegratedCourseSystem.Controllers
         /// </summary>
         public struct QuestionnaireIdentityArgs
         {
-            public int class_id { get; set; }
-            public int student_id { get; set; }
+            public int ClassId { get; set; }
+            public int StudentId { get; set; }
         }
 
         #endregion

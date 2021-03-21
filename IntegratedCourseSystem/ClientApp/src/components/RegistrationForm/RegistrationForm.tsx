@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
+import {useHistory} from 'react-router-dom'
 import useField from '../../hooks/useField'
 
 // react-redux
 import {useDispatch} from 'react-redux'
-import {registerUser} from '../../reducers/userReducer/userThunks'
+import {registerUser, loginUser} from '../../reducers/userReducer/userThunks'
 
 // design
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import {EMAIL_VALIDATOR} from './emailValidatingRegExp'
 import Grid from "@material-ui/core/Grid";
 import {Box, InputLabel, ThemeProvider} from "@material-ui/core";
@@ -16,6 +16,7 @@ import light from "../../themes/light";
 
 const RegistrationForm = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const email = useField('text');
   const password = useField ('password')
@@ -42,7 +43,7 @@ const RegistrationForm = () => {
     ...repeatPassword
   }
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (password.value !== repeatPassword.value) {
       setArePwdsWrong(true)
@@ -53,7 +54,9 @@ const RegistrationForm = () => {
       }, 2000)
     }
     else {
-      dispatch (registerUser(email.value, password.value))
+      await dispatch(registerUser(email.value, password.value))
+      await dispatch(loginUser(email.value, password.value, "manually"))
+      history.push('/questionnaire') // from questionnaire, the user will be redirected to the page needed
     }
   }
   const wrapperStyle = {

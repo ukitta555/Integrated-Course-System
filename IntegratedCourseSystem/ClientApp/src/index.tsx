@@ -11,16 +11,13 @@ import App from './components/App';
 // react-redux and redux imports
 import store from './store/configureStore'
 import {Provider} from 'react-redux'
-// cookies provider
-import {CookiesProvider} from 'react-cookie'
+
 
 
 ReactDOM.render(
     <Provider store = {store}>
-        <CookiesProvider>
-            <Router>
-                <App />
-            </Router>
-        </CookiesProvider>
+        <Router>
+            <App />
+        </Router>
     </Provider>
 ,document.getElementById('root'));
