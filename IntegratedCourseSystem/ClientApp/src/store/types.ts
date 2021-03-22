@@ -38,19 +38,45 @@ export interface TeacherInfo {
   facultyId: number
 }
 
+/// components interfaces / types
+
 export interface ClassSubject {
-  subjectId: number,
-  subjectName: string
+  id: number,
+  name: string
 }
 
 export interface ClassTech {
-  techId: number,
-  techName: string
+  id: number,
+  name: string
 }
 
 export interface ClassRole {
+  id: number,
+  name: string
+}
+
+export interface RolePreference {
   roleId: number,
-  roleName: string
+  roleName: string,
+  preferenceLevel: PreferenceLevel
+}
+
+export interface TechPreference {
+  techId: number,
+  techName: string,
+  preferenceLevel: PreferenceLevel
+}
+
+export enum PreferenceLevel {
+  Hate = -1,
+  IDK = 0,
+  Love = 1
+}
+
+export interface StudentSelect {
+  id: number,
+  name: string,
+  surname: string
 }
 
 // action types

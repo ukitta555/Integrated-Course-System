@@ -41,32 +41,6 @@ namespace IntegratedCourseSystem.Controllers
         #region HTTP GET Methods
 
 
-        // GET api/Questionnaire
-        [HttpPost]
-        [Route("getByStudent")]
-        public async Task<ActionResult<IEnumerable<Questionnaire>>> GetQuestionnairesByStudent([FromBody] QuestionnaireIdentityArgs info)
-        {
-            //Check questionnaire for existance
-            List<Questionnaire> questionnaires = null;
-            try
-            {
-                questionnaires = await _context
-                    .Questionnaires
-                    .Where(item => item.StudentId == info.StudentId)
-                    .ToListAsync();
-
-            }
-            catch (InvalidOperationException) { }
-
-            if (questionnaires.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return questionnaires;
-        }
-
-
 
         // GET api/Questionnaire
         [HttpGet]
@@ -93,6 +67,36 @@ namespace IntegratedCourseSystem.Controllers
         #endregion
 
         #region HTTP POST Methods
+
+
+        [HttpPost]
+        [Route("getByStudent")]
+        public async Task<ActionResult<IEnumerable<Questionnaire>>> GetQuestionnairesByStudent([FromBody] QuestionnaireIdentityArgs info)
+        {
+            //Check questionnaire for existance
+            List<Questionnaire> questionnaires = null;
+            try
+            {
+                questionnaires = await _context
+                    .Questionnaires
+                    .Where(item => item.StudentId == info.StudentId)
+                    .ToListAsync();
+
+            }
+            catch (InvalidOperationException) { }
+
+            if (questionnaires.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return questionnaires;
+        }
+
+
+        
+
+
 
         // POST api/Questionnaire
         [HttpPost]

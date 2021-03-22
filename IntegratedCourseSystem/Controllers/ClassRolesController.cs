@@ -75,11 +75,12 @@ namespace IntegratedCourseSystem.Controllers
 
         [HttpPost]
         [Route("getByClass")]
-        public async Task<ActionResult<IEnumerable<ClassRole>>> GetByClass([FromBody] ClassTech cs)
+        public async Task<ActionResult<IEnumerable<object>>> GetByClass([FromBody] ClassTech cs)
         {
             var roles = await _context
                 .ClassRoles
                 .Where(role => role.ClassId == cs.ClassId)
+                .Select(x => new { x.Id, x.Role.Name })
                 .ToListAsync();
 
             return roles;

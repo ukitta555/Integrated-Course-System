@@ -44,7 +44,7 @@ namespace IntegratedCourseSystem.Controllers
         {
             var subjects = await _context.ClassSubjects
                                              .Where(x => x.ClassId == cs.ClassId)
-                                             .Select(x => new { x.SubjectId, x.Subject.Name })
+                                             .Select(x => new { Id = x.SubjectId, x.Subject.Name })
                                              .ToListAsync();
 
             if (subjects == null)
