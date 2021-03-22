@@ -17,7 +17,24 @@ const createStudent = async (studentInfo: StudentInfo) => {
   }
 }
 
+const getStudentsByClass = async (classId: number | null) => {
+  try {
+    if (!classId) return []
+    const response = await axios.post(
+      `${baseURL}/getStudentsByClass`,
+      {classId},
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error){
+    console.log(error.response.data)
+    return []
+  }
+}
+
 export default
 {
+  getStudentsByClass,
   createStudent
 }

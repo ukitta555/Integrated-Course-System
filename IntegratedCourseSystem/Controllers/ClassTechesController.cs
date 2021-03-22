@@ -28,7 +28,7 @@ namespace IntegratedCourseSystem.Controllers
         {
             var techs = await _context.ClassTeches
                                              .Where(x => x.ClassId == cs.ClassId)
-                                             .Select(x => new { x.TechId, x.Tech.Name })
+                                             .Select(x => new { x.Id, x.Tech.Name })
                                              .ToListAsync();
 
             if (techs == null)

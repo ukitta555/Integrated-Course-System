@@ -20,6 +20,35 @@ namespace IntegratedCourseSystem.Controllers
             _context = context;
         }
 
+        [HttpPost]
+        [Route("getStudentsByClass")]
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudentsByClass([FromBody] Questionnaire info)
+        {
+            //Check questionnaire for existance
+            List<Student> students = null;
+            try
+            {
+                List<int> studentIds = await _context
+                    .Questionnaires
+                    .Where(item => item.ClassId == info.ClassId)
+                    .Select(item => item.StudentId)
+                    .ToListAsync();
+
+
+                students = await _context
+                    .Students
+                    .Where(student => studentIds.Contains(student.Id))
+                    .ToListAsync();
+            }
+            catch (InvalidOperationException)
+            {
+                return StatusCode(500);
+            }
+
+            return students;
+        }
+
+
         // GET: api/Students
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()

@@ -8,6 +8,7 @@ const Footer = () => {
     background: "#97ACC4",
     position: "fixed" as "fixed",
     bottom: 0,
+    //margin: "3vh"
     // width: '100%'
   }
 

@@ -11,6 +11,7 @@ import {StudentInfo, TeacherInfo, LoginType, NO_ID, EMPTY_STRING} from '../../st
 import { loginUserAction, logoutUser, updateUserWithQueInfo } from './userActionCreators'
 import questionnaireService from '../../services/questionnaireService'
 import subjectQuestionnaire from '../../services/subjectQuestionnaire'
+import roleMapper from '../../misc/roleMapper'
 
 
 export const registerUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
@@ -57,12 +58,7 @@ export const loginUser = (email: string, password: string, loginType: LoginType)
       loginResponse.isAuthLoading = false
 
       // map int representation of roles to the corresponding string
-      const roleMap = new Map();
-      roleMap.set(-1, "user");
-      roleMap.set(0, "admin")
-      roleMap.set(1, "teacher")
-      roleMap.set(2, "student")
-      const stringRole = roleMap.get(loginResponse.role)
+      const stringRole = roleMapper(loginResponse.role)
 
       if (stringRole === "teacher") {
         const coursesForTeacher = await courseService.getCourses(loginResponse.id)

@@ -16,8 +16,6 @@ const createQuestionnaire = async (queInfo: {studentId: number, classId: number}
   }
 }
 
-
-// refactor when back end arrives
 const getQuestionnaires = async (studentId: number) => {
   try {
     const response = await axios.post (
