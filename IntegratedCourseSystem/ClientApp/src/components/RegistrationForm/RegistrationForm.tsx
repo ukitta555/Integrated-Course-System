@@ -98,42 +98,34 @@ const RegistrationForm = () => {
   }
   return (
       <ThemeProvider theme={light}>
-    <form onSubmit = {onSubmit}>
-      <Grid container direction="row" justify="space-evenly" alignItems="center" style={wrapperStyle}>
-        <Grid item xs={5} style={catOnBooksStyle} />
-        <Grid container item xs={5} spacing={3} direction="column" justify="center" alignItems="center" style={regWrapperStyle}>
-          <Grid item style={textFieldWrapperStyle}>
-              <InputLabel>Enter email:</InputLabel>
-              {/*<Box>*/}
-              <InputBase name="email" style={textFieldStyle} inputProps={{...emailProps, style: {paddingLeft: "1em"}}}/>
-              {/*</Box>*/}
-          </Grid>
-          <Grid item style={textFieldWrapperStyle}>
-            {/*<TextField label="Enter password:" error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {passwordProps} />*/}
-            <InputLabel>Enter password:</InputLabel>
-            {/*<Box>*/}
-            <InputBase name="password" error = {arePwdsWrong} /* helperText = {pwdErrorMsg} */ style={textFieldStyle} inputProps={{...passwordProps, style: {paddingLeft: "1em"}}}/>
-            {/*</Box>*/}
-          </Grid>
-          <Grid item style={textFieldWrapperStyle}>
-            {/*<TextField label="Repeat password:"  error = {arePwdsWrong} helperText = {pwdErrorMsg} inputProps = {repeatPasswordProps} />*/}
-            <InputLabel>Repeat password:</InputLabel>
-            {/*<Box>*/}
-            <InputBase name="repeat_password" error = {arePwdsWrong} /* helperText = {pwdErrorMsg} */ style={textFieldStyle} inputProps={{...repeatPasswordProps, style: {paddingLeft: "1em"}}}/>
-            {/*</Box>*/}
-          </Grid>
-          <Grid item style={submitButtonWrapperStyle}>
-            <Box bgcolor="theme_grey.main" color="theme_white.main" style={submitButtonBoxStyle}>
-              <Grid item>
-                <Button type="submit" color="inherit" style={submitButtonStyle}>
-                  Register!
-                </Button>
+        <form onSubmit = {onSubmit}>
+          <Grid container direction="row" justify="space-evenly" alignItems="center" style={wrapperStyle}>
+            <Grid item xs={5} style={catOnBooksStyle} />
+            <Grid container item xs={5} spacing={3} direction="column" justify="center" alignItems="center" style={regWrapperStyle}>
+              <Grid item style={textFieldWrapperStyle}>
+                <InputLabel>Enter email:</InputLabel>
+                <InputBase name="email" style={textFieldStyle} inputProps={{...emailProps, style: {paddingLeft: "1em"}}}/>
               </Grid>
-            </Box>
+              <Grid item style={textFieldWrapperStyle}>
+                <InputLabel>Enter password:</InputLabel>
+                <InputBase name="password" error = {arePwdsWrong} /* helperText = {pwdErrorMsg} */ style={textFieldStyle} inputProps={{...passwordProps, style: {paddingLeft: "1em"}}}/>
+              </Grid>
+              <Grid item style={textFieldWrapperStyle}>
+                <InputLabel>Repeat password:</InputLabel>
+                <InputBase name="repeat_password" error = {arePwdsWrong} style={textFieldStyle} inputProps={{...repeatPasswordProps, style: {paddingLeft: "1em"}}}/>
+              </Grid>
+              <Grid item style={submitButtonWrapperStyle}>
+                <Box bgcolor="theme_grey.main" color="theme_white.main" style={submitButtonBoxStyle}>
+                  <Grid item>
+                    <Button type="submit" color="inherit" style={submitButtonStyle}>
+                      Register!
+                    </Button>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-    </form>
+        </form>
       </ThemeProvider>
   )
 }
