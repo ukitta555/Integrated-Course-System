@@ -73,9 +73,23 @@ namespace IntegratedCourseSystem
             return NoContent();
         }
 
-        // POST: api/SubjectQuestionnaires
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPost]
+        [Route("getByQue")]
+        public async Task<ActionResult<IEnumerable<SubjectQuestionnaire>>> GetByQuestionnaire([FromBody] Questionnaire que)
+        {
+            var subjects = await _context
+                .SubjectQuestionnaires
+                .Where(item => item.QuestionnaireId == que.Id)
+                .ToListAsync();
+            
+            return subjects;
+        }
+
+
+            // POST: api/SubjectQuestionnaires
+            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+            [HttpPost]
         public async Task<ActionResult<object>> PostSubjectsQuestionnaire([FromBody]List<SubjectQuestionnaire> subjectQuestionnaire)
         {
             subjectQuestionnaire = subjectQuestionnaire.Except(await _context.SubjectQuestionnaires.ToListAsync())

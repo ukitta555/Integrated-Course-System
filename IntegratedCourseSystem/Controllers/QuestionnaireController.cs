@@ -42,30 +42,28 @@ namespace IntegratedCourseSystem.Controllers
 
 
         // GET api/Questionnaire
-        [HttpGet]
+        [HttpPost]
         [Route("getByStudent")]
         public async Task<ActionResult<IEnumerable<Questionnaire>>> GetQuestionnairesByStudent([FromBody] QuestionnaireIdentityArgs info)
         {
             //Check questionnaire for existance
-            Questionnaire questionnaire = null;
+            List<Questionnaire> questionnaires = null;
             try
             {
-                questionnaire = await _context
+                questionnaires = await _context
                     .Questionnaires
                     .Where(item => item.StudentId == info.StudentId)
-                    .Select(entry => new Questionnaire {
-                        ClassId = entry.ClassId,
-                        StudentId = entry.StudentId,
-                        Id = entry.Id });
+                    .ToListAsync();
+
             }
             catch (InvalidOperationException) { }
 
-            if (questionnaire is null)
+            if (questionnaires.Count == 0)
             {
                 return NotFound();
             }
 
-            return questionnaire;
+            return questionnaires;
         }
 
 
