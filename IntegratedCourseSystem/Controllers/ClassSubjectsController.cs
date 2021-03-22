@@ -38,7 +38,8 @@ namespace IntegratedCourseSystem.Controllers
         }
 
         // GET: api/ClassSubjects/
-        [HttpGet]
+        [HttpPost]
+        [Route("getByClass")]
         public async Task<ActionResult<IEnumerable<object>>> GetClassSubjectNames([FromBody] ClassSubject cs)
         {
             var subjects = await _context.ClassSubjects

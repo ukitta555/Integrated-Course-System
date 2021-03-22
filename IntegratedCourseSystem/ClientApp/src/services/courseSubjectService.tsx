@@ -3,6 +3,22 @@ const baseURL = "/api/classSubjects"
 //const baseURL = "http://localhost:3001/courseTechs"
 
 
+const getCourseSubjects = async (classId: number | null) => {
+  try {
+    if (!classId) return []
+    const response = await axios.post(
+      `${baseURL}/getByClass`,
+      {classId},
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error){
+    console.log (error.response.data)
+    return []
+  }
+}
+
 const addCourseSubjects = async (requestData: {subjects: {id:number}[], courseId: number}) => {
   try {
     const modifiedRequest = requestData.subjects.map (item => {
@@ -32,5 +48,6 @@ const addCourseSubjects = async (requestData: {subjects: {id:number}[], courseId
 
 
 export default {
+  getCourseSubjects,
   addCourseSubjects
 }
