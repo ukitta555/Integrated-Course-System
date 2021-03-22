@@ -1,5 +1,5 @@
 import axios from "axios"
-const baseURL = "/api/questionnaires"
+const baseURL = "/api/questionnaire"
 //const baseURL = "http://localhost:3001/questionnaire"
 
 const createQuestionnaire = async (queInfo: {studentId: number, classId: number}) => {
@@ -22,7 +22,7 @@ const getQuestionnaires = async (studentId: number) => {
   try {
     const response = await axios.post (
       `${baseURL}/getByStudent`,
-      {studentId},
+      {studentId: studentId},
       {withCredentials: true}
     )
     return response.data

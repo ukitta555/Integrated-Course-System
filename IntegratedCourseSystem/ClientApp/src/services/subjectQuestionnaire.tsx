@@ -1,13 +1,14 @@
 import axios from "axios"
-//const baseURL = "/api/questionnaireSubjects"
-const baseURL = "http://localhost:3001/subjectQuestionnaire"
+const baseURL = "/api/subjectQuestionnaires"
+//const baseURL = "http://localhost:3001/subjectQuestionnaire"
 
 
 // refactor when backend arrives
 const getSubjects = async (queId: number) => {
   try {
-    const response = await axios.get(
-      `${baseURL}?questionnaireId=${queId}`,
+    const response = await axios.post(
+      `${baseURL}/getByQue`,
+      {questionnaireId: queId},
       {withCredentials: true}
     )
     return response.data
