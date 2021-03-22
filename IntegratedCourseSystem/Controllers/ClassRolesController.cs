@@ -73,6 +73,18 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+        [HttpPost]
+        [Route("getByClass")]
+        public async Task<ActionResult<IEnumerable<ClassRole>>> GetByClass([FromBody] ClassTech cs)
+        {
+            var roles = await _context
+                .ClassRoles
+                .Where(role => role.ClassId == cs.ClassId)
+                .ToListAsync();
+
+            return roles;
+        }
+
         // POST: api/ClassRoles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

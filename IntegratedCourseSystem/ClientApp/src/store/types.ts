@@ -1,4 +1,3 @@
-import { logoutUser } from "../reducers/userReducer/userActionCreators"
 
 //constants
 export const REGISTER_USER: 'REGISTER_USER' = 'REGISTER_USER'
@@ -39,6 +38,20 @@ export interface TeacherInfo {
   facultyId: number
 }
 
+export interface ClassSubject {
+  subjectId: number,
+  subjectName: string
+}
+
+export interface ClassTech {
+  techId: number,
+  techName: string
+}
+
+export interface ClassRole {
+  roleId: number,
+  roleName: string
+}
 
 // action types
 

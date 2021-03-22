@@ -2,6 +2,22 @@ import axios from "axios"
 const baseURL = "/api/classRoles"
 //const baseURL = "http://localhost:3001/courseRoles"
 
+const getCourseRoles = async (classId: number | null) => {
+  try {
+    if (!classId) return []
+    const response = await axios.post(
+      `${baseURL}/getByClass`,
+      {classId},
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log (error.request.data)
+    return []
+  }
+}
+
 
 const addCourseRoles = async (requestData: {roles: {id:number}[], courseId: number}) => {
   try {
@@ -32,5 +48,6 @@ const addCourseRoles = async (requestData: {roles: {id:number}[], courseId: numb
 
 
 export default {
+  getCourseRoles,
   addCourseRoles
 }

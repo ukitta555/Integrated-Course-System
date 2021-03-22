@@ -22,7 +22,9 @@ namespace IntegratedCourseSystem.Controllers
         }
 
         // GET: api/ClassTeches
-        public async Task<ActionResult<IEnumerable<object>>> GetClassSubjectNames([FromBody] ClassTech cs)
+        [HttpPost]
+        [Route("getByClass")]
+        public async Task<ActionResult<IEnumerable<object>>> GetClassTechesByClassId([FromBody] ClassTech cs)
         {
             var techs = await _context.ClassTeches
                                              .Where(x => x.ClassId == cs.ClassId)
