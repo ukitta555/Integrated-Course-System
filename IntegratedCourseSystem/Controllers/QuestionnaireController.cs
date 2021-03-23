@@ -109,7 +109,7 @@ namespace IntegratedCourseSystem.Controllers
 
             try
             {
-                questionnaire = await _context
+                entry = await _context
                     .Questionnaires
                     .FirstAsync(item =>
                                     item.ClassId == questionnaire.ClassId &&
