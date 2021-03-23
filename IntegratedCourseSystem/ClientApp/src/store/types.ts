@@ -55,6 +55,12 @@ export interface ClassRole {
   name: string
 }
 
+export interface SubjectPreference {
+  id: number,
+  name: string,
+  isPreferred: boolean
+}
+
 export interface RolePreference {
   roleId: number,
   roleName: string,

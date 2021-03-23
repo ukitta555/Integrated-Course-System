@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {ClassRole, ClassSubject, ClassTech, RolePreference, TechPreference, UserState, PreferenceLevel, StudentSelect} from '../../store/types'
+import {ClassRole, ClassSubject, ClassTech, RolePreference, TechPreference, UserState, PreferenceLevel, StudentSelect, SubjectPreference} from '../../store/types'
 import {useSelector} from 'react-redux'
 import { Button, Checkbox, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
 import courseSubjectService from '../../services/courseSubjectService'
@@ -17,13 +17,11 @@ const CourseRegistrationForm = () => {
   const [classId, setClassId] = useState<number | undefined> (user.currentCourseId ? user.currentCourseId : undefined)
 
   const [classSubjects, setClassSubjects] =  useState<ClassSubject[]> ([])
-  const [classTeches, setClassTeches] = useState<ClassTech[]> ([])
-  const [classRoles, setClassRoles] = useState<ClassRole[]> ([])
 
   const [selectedFriends, setSelectedFriends] = useState<StudentSelect[]> ([])
   const [selectedEnemies, setSelectedEnemies] = useState<StudentSelect[]> ([])
 
-  const [subjectsChecked, setSubjectsChecked] = useState<boolean[]> ([])
+  const [subjectsChecked, setSubjectsChecked] = useState<SubjectPreference[]> ([])
   const [rolePreferences, setRolePreferences] = useState<RolePreference[]> ([])
   const [techPreferences, setTechPreferences] = useState<TechPreference[]> ([])
 
@@ -45,12 +43,18 @@ const CourseRegistrationForm = () => {
       const [classSubjectsResponse, classRolesResponse, classTechesResponse, classStudentsResponse] = [...response]
 
       setClassSubjects(classSubjectsResponse)
-      setClassRoles(classRolesResponse)
-      setClassTeches(classTechesResponse)
+
       setClassStudents(classStudentsResponse)
 
-      setSubjectsChecked(new Array(classSubjectsResponse.length).fill(false))
+      setSubjectsChecked(classSubjectsResponse.map((classSubject : ClassSubject) => {
+        return {
+          id: classSubject.id,
+          name: classSubject.name,
+          isPreferred: false
+        }
+      }
 
+      ))
       setRolePreferences(classRolesResponse.map((classRole : ClassRole) => {
         return {
           roleName: classRole.name,
@@ -99,7 +103,10 @@ const CourseRegistrationForm = () => {
     setSubjectsChecked(subjectsChecked.map (
       (_, index) =>
         index === Number(event.target.name)
-        ? !subjectsChecked[index]
+        ? {
+          ...subjectsChecked[index],
+          isPreferred: !(subjectsChecked[index].isPreferred)
+        }
         : subjectsChecked[index]
     ))
   }
@@ -160,13 +167,15 @@ const CourseRegistrationForm = () => {
           <FormGroup>
           What classes are you taking?
           {
-            classSubjects.map (
-              (subject, index) =>
-              <FormControlLabel key = {subject.id}
-                control={<Checkbox checked={subjectsChecked[index] || false} onChange={handleSubjectCheckedChange} name={String(index)} />}
-                label={subject.name ? subject.name : ""}
-              />
+            subjectsChecked.length > 0
+            ? classSubjects.map (
+                (subject, index) =>
+                <FormControlLabel key = {subject.id}
+                  control={<Checkbox checked={subjectsChecked[index].isPreferred || false} onChange={handleSubjectCheckedChange} name={String(index)} />}
+                  label={subject.name ? subject.name : ""}
+                />
             )
+            : null
           }
           </FormGroup>
 
@@ -177,14 +186,12 @@ const CourseRegistrationForm = () => {
             rolePreferences.length > 0
             ? rolePreferences.map (
                 (pref, index) =>
-                <>
-                    <RadioGroup row key = {pref.roleId} name = {pref.roleName} value = {pref.preferenceLevel} onChange = {event => handleRolePrefChange(event, pref)}>
-                      {pref.roleName}
-                        <FormControlLabel value = {PreferenceLevel.Hate} label = "Bruh...."  labelPlacement = "top" control = {<Radio />} />
-                        <FormControlLabel value = {PreferenceLevel.IDK}  label = "I'm OK with it" labelPlacement = "top"  control = {<Radio  />} />
-                        <FormControlLabel value = {PreferenceLevel.Love} label = "My dream job!" labelPlacement = "top" control = {<Radio />} />
-                    </RadioGroup>
-                </>
+                  <RadioGroup row key = {pref.roleId} name = {pref.roleName} value = {pref.preferenceLevel} onChange = {event => handleRolePrefChange(event, pref)}>
+                    {pref.roleName}
+                      <FormControlLabel value = {PreferenceLevel.Hate} label = "Bruh...."  labelPlacement = "top" control = {<Radio />} />
+                      <FormControlLabel value = {PreferenceLevel.IDK}  label = "I'm OK with it" labelPlacement = "top"  control = {<Radio  />} />
+                      <FormControlLabel value = {PreferenceLevel.Love} label = "My dream job!" labelPlacement = "top" control = {<Radio />} />
+                  </RadioGroup>
               )
             : null
           }
@@ -197,14 +204,12 @@ const CourseRegistrationForm = () => {
             techPreferences.length > 0
             ? techPreferences.map (
               (pref, index) =>
-              <>
-                <RadioGroup row name={pref.techName} value={pref.preferenceLevel} onChange={event => handleTechPrefChange(event, pref)} >
+                <RadioGroup row  key = {pref.techId} name={pref.techName} value={pref.preferenceLevel} onChange={event => handleTechPrefChange(event, pref)} >
                   {pref.techName}
                   <FormControlLabel value = {PreferenceLevel.Hate} label = "Don't want to use it" labelPlacement = "top" control = {<Radio />} />
                   <FormControlLabel value = {PreferenceLevel.IDK}  label =  "I'm OK with it" labelPlacement = "top" control = {<Radio />} />
                   <FormControlLabel value = {PreferenceLevel.Love} label = "I want to use it!" labelPlacement = "top" control = {<Radio />} />
                 </RadioGroup>
-              </>
               )
             : null
           }
