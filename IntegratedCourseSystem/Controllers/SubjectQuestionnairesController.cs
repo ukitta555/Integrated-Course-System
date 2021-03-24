@@ -92,18 +92,10 @@ namespace IntegratedCourseSystem
             [HttpPost]
         public async Task<ActionResult<object>> PostSubjectsQuestionnaire([FromBody]List<SubjectQuestionnaire> subjectQuestionnaire)
         {
-<<<<<<< HEAD
-           /* why do we need this?
-            * 
-            * 
-            * subjectQuestionnaire = subjectQuestionnaire.Except(await _context.SubjectQuestionnaires.ToListAsync())
-                                                       .ToList();
-           */
-=======
             subjectQuestionnaire = subjectQuestionnaire.Except(await _context.SubjectQuestionnaires.ToListAsync())
                                                        .ToList();
 
->>>>>>> 889191dd94fbeb1f13caed4661fd895267314e8d
+
             _context.SubjectQuestionnaires.AddRange(subjectQuestionnaire);
             await _context.SaveChangesAsync();
 

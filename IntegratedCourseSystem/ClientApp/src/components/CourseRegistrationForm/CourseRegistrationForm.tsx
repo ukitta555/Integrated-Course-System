@@ -21,7 +21,7 @@ const CourseRegistrationForm = () => {
   const NOT_SELECTED = -1
   const user = useSelector ((state: {user: UserState}) => state.user)
   const dispatch = useDispatch()
-  const history = useHistory()
+  //const history = useHistory()
 
   const [name, setName] = useState<string>(user.name ? user.name :  "")
   const [surname, setSurname] = useState<string> (user.surname ? user.surname : "")
@@ -87,7 +87,7 @@ const CourseRegistrationForm = () => {
     const enemyPreferenceResponse = await enemyPreferenceService.addEnemyPreferences(enemiesRequest)
     console.log(enemyPreferenceResponse)
     dispatch(updateCourseRegStatus(true))
-    history.push('/course_view')
+    //history.push('/course_view')
   }
 
   useEffect (() => {

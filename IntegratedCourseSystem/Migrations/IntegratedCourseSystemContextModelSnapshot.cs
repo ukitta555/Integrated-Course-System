@@ -17,7 +17,7 @@ namespace IntegratedCourseSystem.Migrations
             modelBuilder
                 .HasAnnotation("Relational:Collation", "en_US.UTF-8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("DataBase.Models.Admin", b =>
@@ -39,6 +39,9 @@ namespace IntegratedCourseSystem.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("AreGroupsDefined")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("InviteCode")
                         .IsRequired()
@@ -557,12 +560,12 @@ namespace IntegratedCourseSystem.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("enemyid1");
 
-                    b.Property<int>("EnemyId2")
+                    b.Property<int?>("EnemyId2")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("enemyid2");
 
-                    b.Property<int>("EnemyId3")
+                    b.Property<int?>("EnemyId3")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("enemyid3");
@@ -1013,16 +1016,12 @@ namespace IntegratedCourseSystem.Migrations
                     b.HasOne("DataBase.Models.Student", "Enemy2")
                         .WithMany("WhereEnemy2")
                         .HasForeignKey("EnemyId2")
-                        .HasConstraintName("teammateantipreferences_enemyid2_fkey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("teammateantipreferences_enemyid2_fkey");
 
                     b.HasOne("DataBase.Models.Student", "Enemy3")
                         .WithMany("WhereEnemy3")
                         .HasForeignKey("EnemyId3")
-                        .HasConstraintName("teammateantipreferences_enemyid3_fkey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("teammateantipreferences_enemyid3_fkey");
 
                     b.HasOne("DataBase.Models.Questionnaire", "Initiator")
                         .WithMany("TeammateAntipreferences")

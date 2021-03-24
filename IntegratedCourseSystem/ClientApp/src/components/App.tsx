@@ -17,6 +17,7 @@ import CourseRegistrationForm from './CourseRegistrationForm/CourseRegistrationF
 import { LinearProgress } from '@material-ui/core';
 import { loginUser } from '../reducers/userReducer/userThunks';
 import TaskPage from "./TaskPage/TaskPage";
+import NoPage from './NoPage/NoPage';
 
 
 
@@ -85,6 +86,7 @@ const App = () => {
                 <TestingPage/>
             </Route>
             <Route path = '/'>
+              <NoPage />
             </Route>
         </Switch>
       </>

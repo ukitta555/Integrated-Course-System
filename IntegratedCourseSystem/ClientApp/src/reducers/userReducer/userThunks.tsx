@@ -61,7 +61,7 @@ export const loginUser = (email: string, password: string, loginType: LoginType)
       const stringRole = roleMapper(loginResponse.role)
 
       if (stringRole === "teacher") {
-        const coursesForTeacher = await courseService.getCourses(loginResponse.id)
+        const coursesForTeacher = await courseService.getCoursesForTeacher(loginResponse.id)
         const teacherCreatedCourse = coursesForTeacher.length > 0
         if (teacherCreatedCourse) {
           const currentCourseId = coursesForTeacher[0].id
