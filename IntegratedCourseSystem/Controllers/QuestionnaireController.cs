@@ -133,6 +133,7 @@ namespace IntegratedCourseSystem.Controllers
 
         #endregion
 
+        /*
         #region HTTP PUT Methods
 
         // PUT api/Questionnaire/5
@@ -154,6 +155,7 @@ namespace IntegratedCourseSystem.Controllers
         }
 
         #endregion
+        */
 
         #region Argument types
 
