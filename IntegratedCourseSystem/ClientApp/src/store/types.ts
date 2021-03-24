@@ -4,6 +4,7 @@ export const REGISTER_USER: 'REGISTER_USER' = 'REGISTER_USER'
 export const LOGIN_USER: 'LOGIN_USER'  = 'LOGIN_USER'
 export const LOGOUT_USER: 'LOGOUT_USER' = "LOGOUT_USER"
 export const UPDATE_USER_WITH_QUE_INFO : 'UPDATE_USER_WITH_QUE_INFO' = 'UPDATE_USER_WITH_QUE_INFO'
+export const UPDATE_COURSE_REG_STATUS: 'UPDATE_COURSE_REG_STATUS' = 'UPDATE_COURSE_REG_STATUS'
 export const EMPTY_STRING: '' = ''
 export const NO_ID: -1 = -1
 
@@ -111,6 +112,11 @@ type UpdateUserWithQueInfoAction = {
   }
 }
 
+type UpdateCourseRegStatusAction = {
+  type: typeof UPDATE_COURSE_REG_STATUS,
+  isRegFilledIn: boolean
+}
+
 type LogoutUserAction = {
   type: typeof LOGOUT_USER
 }
@@ -118,4 +124,5 @@ type LogoutUserAction = {
 export type registrationActionTypes =
   LoginUserAction |
   UpdateUserWithQueInfoAction |
-  LogoutUserAction
+  LogoutUserAction |
+  UpdateCourseRegStatusAction
