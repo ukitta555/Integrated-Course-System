@@ -17,7 +17,7 @@ const addCourse = async (courseInfo: {name: string, inviteCode: string, teacherI
   }
 }
 
-const getCourses = async (id: number) => {
+const getCoursesForTeacher = async (id: number) => {
   try {
     const response = await axios.post (
       `${baseURL}/TeacherClasses`,
@@ -37,9 +37,26 @@ const getCourses = async (id: number) => {
   }
 }
 
+const getCourseForStudent = async (classId: number) => {
+  try {
+    const response = await axios.get (
+      `${baseURL}/${classId}`,
+      {
+        withCredentials: true,
+      }
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log(error.response.data)
+    return null
+  }
+}
+
 
 
 export default {
   addCourse,
-  getCourses
+  getCoursesForTeacher,
+  getCourseForStudent
 }
