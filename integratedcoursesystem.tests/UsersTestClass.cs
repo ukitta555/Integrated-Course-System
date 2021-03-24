@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using Moq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace IntegratedCourseSystem.Tests
 {
@@ -207,6 +208,26 @@ namespace IntegratedCourseSystem.Tests
             var result = await userController.Register(new User { Id = 1, Email = "a@knu.ua", Password = "wrong", Role = UserRole.Student });
             //Assert
             Assert.IsType<BadRequestObjectResult>(result.Result);
+            context.Database.EnsureDeleted();
+        }
+        #endregion
+
+        #region PATCH tests
+        // TODO
+        [Fact]
+        public async System.Threading.Tasks.Task TestPatchSuccefull()
+        {
+            // Use a clean instance of context for the test
+            var context = CreateDatabaseContext("TestUserPatchSuccesfull");
+            var userController = new UsersController(context);
+            var patchJD = new JsonPatchDocument<User>();
+            //Act
+            var result = await userController.DeleteUser(1);
+            //Assert
+            Assert.IsType<NoContentResult>(result);
+            Assert.Null(context.Users.Find(1));
+            Assert.NotNull(context.Users.Find(2));
+            Assert.NotNull(context.Users.Find(3));
             context.Database.EnsureDeleted();
         }
         #endregion
