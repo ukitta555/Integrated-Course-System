@@ -8,7 +8,7 @@ const getSubjects = async (queId: number) => {
   try {
     const response = await axios.post(
       `${baseURL}/getByQue`,
-      {questionnaireId: queId},
+      {id: queId},
       {withCredentials: true}
     )
     return response.data

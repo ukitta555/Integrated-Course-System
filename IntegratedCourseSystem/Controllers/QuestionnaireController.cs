@@ -40,10 +40,13 @@ namespace IntegratedCourseSystem.Controllers
 
         #region HTTP GET Methods
 
+        #endregion
+
+        #region HTTP POST Methods
 
 
-        // GET api/Questionnaire
-        [HttpGet]
+        [HttpPost]
+        [Route("getByEquality")]
         public async Task<ActionResult<Questionnaire>> GetQuestionnaire([FromBody] QuestionnaireIdentityArgs info)
         {
             //Check questionnaire for existance
@@ -54,19 +57,15 @@ namespace IntegratedCourseSystem.Controllers
                     .Questionnaires
                     .FirstAsync(item => item.StudentId == info.StudentId && item.ClassId == info.ClassId);
             }
-            catch (InvalidOperationException){ }
+            catch (InvalidOperationException) { }
 
-            if(questionnaire is null)
+            if (questionnaire is null)
             {
                 return NotFound();
             }
 
             return questionnaire;
         }
-
-        #endregion
-
-        #region HTTP POST Methods
 
 
         [HttpPost]
@@ -109,12 +108,12 @@ namespace IntegratedCourseSystem.Controllers
 
             try
             {
-                questionnaire = await _context
-                    .Questionnaires
-                    .FirstAsync(item =>
-                                    item.ClassId == questionnaire.ClassId &&
-                                    item.StudentId == questionnaire.StudentId
-                               );
+                entry = await _context
+                        .Questionnaires
+                        .FirstAsync(item =>
+                                        item.ClassId == questionnaire.ClassId &&
+                                        item.StudentId == questionnaire.StudentId
+                                   );
             }
             catch(InvalidOperationException) { }
             if (entry != null)

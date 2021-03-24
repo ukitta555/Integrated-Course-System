@@ -82,7 +82,7 @@ namespace IntegratedCourseSystem
                 .SubjectQuestionnaires
                 .Where(item => item.QuestionnaireId == que.Id)
                 .ToListAsync();
-            
+            Console.WriteLine(que.Id);
             return subjects;
         }
 
@@ -92,9 +92,12 @@ namespace IntegratedCourseSystem
             [HttpPost]
         public async Task<ActionResult<object>> PostSubjectsQuestionnaire([FromBody]List<SubjectQuestionnaire> subjectQuestionnaire)
         {
-            subjectQuestionnaire = subjectQuestionnaire.Except(await _context.SubjectQuestionnaires.ToListAsync())
+           /* why do we need this?
+            * 
+            * 
+            * subjectQuestionnaire = subjectQuestionnaire.Except(await _context.SubjectQuestionnaires.ToListAsync())
                                                        .ToList();
-
+           */
             _context.SubjectQuestionnaires.AddRange(subjectQuestionnaire);
             await _context.SaveChangesAsync();
 

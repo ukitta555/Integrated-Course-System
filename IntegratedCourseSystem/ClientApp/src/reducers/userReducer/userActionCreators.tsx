@@ -4,7 +4,8 @@ import {
   registrationActionTypes,
   UserState,
   Role,
-  LOGOUT_USER
+  LOGOUT_USER,
+  UPDATE_COURSE_REG_STATUS
 } from '../../store/types'
 
 export const loginUserAction = (userInfo: UserState) : registrationActionTypes => {
@@ -30,5 +31,12 @@ export const updateUserWithQueInfo = (userInfo: {
 export const logoutUser = () => {
   return {
     type: LOGOUT_USER
+  }
+}
+
+export const updateCourseRegStatus = (isRegFilledIn: boolean) => {
+  return {
+    type: UPDATE_COURSE_REG_STATUS,
+    isRegFilledIn
   }
 }

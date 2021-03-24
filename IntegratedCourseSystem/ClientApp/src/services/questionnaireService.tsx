@@ -16,7 +16,7 @@ const createQuestionnaire = async (queInfo: {studentId: number, classId: number}
   }
 }
 
-const getQuestionnaires = async (studentId: number) => {
+const getQuestionnairesByStudent = async (studentId: number) => {
   try {
     const response = await axios.post (
       `${baseURL}/getByStudent`,
@@ -30,7 +30,26 @@ const getQuestionnaires = async (studentId: number) => {
   }
 }
 
+const getQuestionnaire = async (data: {studentId: number | null, classId: number | null}) => {
+  try {
+    if (!data.studentId || !data.classId) {
+      return null
+    }
+    const response = await axios.post (
+      `${baseURL}/getByEquality`,
+      data,
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log(error.response.data)
+    return null
+  }
+}
+
 export default {
   createQuestionnaire,
-  getQuestionnaires
+  getQuestionnairesByStudent,
+  getQuestionnaire
 }
