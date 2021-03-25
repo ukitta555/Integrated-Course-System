@@ -82,7 +82,7 @@ const App = () => {
                 <TaskPage/>
             </Route>
             <Route path = '/testing_page'>
-                <TestingPage/>
+                <CourseRegistrationForm />
             </Route>
             <Route path = '/'>
             </Route>
