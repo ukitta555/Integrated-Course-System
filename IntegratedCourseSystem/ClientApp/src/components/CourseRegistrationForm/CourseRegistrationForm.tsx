@@ -1,39 +1,33 @@
 import React, {useState, useEffect, CSSProperties} from 'react'
-import {ClassRole, ClassSubject, ClassTech, RolePreference, TechPreference, UserState, PreferenceLevel, StudentSelect} from '../../store/types'
-import {useSelector} from 'react-redux'
-import {
-  Box,
-  Button,
-  Checkbox, Container,
-  Divider,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-  ThemeProvider, Typography
-} from '@material-ui/core'
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import {ClassRole, ClassSubject, ClassTech, RolePreference, TechPreference, UserState, PreferenceLevel, StudentSelect, SubjectPreference} from '../../store/types'
+import {useDispatch, useSelector} from 'react-redux'
+import { Box, Container, Divider, Button, Checkbox, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, ThemeProvider, Typography } from '@material-ui/core'
 import courseSubjectService from '../../services/courseSubjectService'
 import courseRoleService from '../../services/courseRoleService'
 import courseTechService from '../../services/courseTechService'
 import studentService from '../../services/studentService'
 import SelectInput from '@material-ui/core/Select/SelectInput'
+import subjectPreferencesService from '../../services/subjectPreferencesService'
+import questionnaireService from '../../services/questionnaireService'
+import rolePreferenceService from '../../services/rolePreferenceService'
+import techPreferenceService from '../../services/techPreferenceService'
+import teammatePreferenceService from '../../services/teammatePreferenceService'
+import enemyPreferenceService from '../../services/enemyPreferenceService'
+import { useHistory } from 'react-router'
+import { updateCourseRegStatus } from '../../reducers/userReducer/userActionCreators'
 import light from "../../themes/light";
 import WrappedInput from "../WrappedInput/WrappedInput";
 import CustomInput from "../CustomInput/CustomInput";
-
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 const CourseRegistrationForm = () => {
   const NOT_SELECTED = -1
   const user = useSelector ((state: {user: UserState}) => state.user)
+  const dispatch = useDispatch()
+  const history = useHistory()
 
   const [name, setName] = useState<string>(user.name ? user.name :  "")
   const [surname, setSurname] = useState<string> (user.surname ? user.surname : "")
-  const [classId, setClassId] = useState<number | undefined> (user.currentCourseId ? user.currentCourseId : undefined)
+  const [classId, setClassId] = useState<number | null> (user.currentCourseId ? user.currentCourseId : null)
 
   const [classSubjects, setClassSubjects] =  useState<ClassSubject[]> ([])
   const [classTeches, setClassTeches] = useState<ClassTech[]> ([])
@@ -42,14 +36,62 @@ const CourseRegistrationForm = () => {
   const [selectedFriends, setSelectedFriends] = useState<StudentSelect[]> ([])
   const [selectedEnemies, setSelectedEnemies] = useState<StudentSelect[]> ([])
 
-  const [subjectsChecked, setSubjectsChecked] = useState<boolean[]> ([])
+  const [subjectsChecked, setSubjectsChecked] = useState<SubjectPreference[]> ([])
   const [rolePreferences, setRolePreferences] = useState<RolePreference[]> ([])
   const [techPreferences, setTechPreferences] = useState<TechPreference[]> ([])
 
   const [classStudents, setClassStudents] = useState<StudentSelect[]>([])
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log ("submitted")
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const questionnaireForCourse = await questionnaireService.getQuestionnaire({classId: classId, studentId: user.id})
+    const prefSubjectsRequest = subjectsChecked.map (sub => {
+      return {
+        classSubjectId: sub.id,
+        questionnaireId: questionnaireForCourse.id
+      }
+    })
+    const responseSubjectPreferences = await subjectPreferencesService.addSubjectPreferences(prefSubjectsRequest)
+    console.log (responseSubjectPreferences)
+
+    const prefRolesRequest = {
+        rolePreferences: rolePreferences,
+        questionnaireId: questionnaireForCourse.id
+    }
+
+    const responseRolePreferences  = await rolePreferenceService.addRolePreferences(prefRolesRequest)
+    console.log (responseRolePreferences)
+
+
+    const prefTechesRequest = {
+      techPreferences: techPreferences,
+      questionnaireId: questionnaireForCourse.id
+    }
+    const responseTechPreferences = await  techPreferenceService.addTechPreferences(prefTechesRequest)
+    console.log (responseTechPreferences)
+
+    const friendIds = selectedFriends.map (friend => friend.id)
+    const friendsRequest = {
+      friendId1: friendIds[0],
+      friendId2: friendIds[1],
+      friendId3: friendIds[2],
+      questionnaireId: questionnaireForCourse.id
+    }
+    const teammatePreferenceResponse = await teammatePreferenceService.addTeammatePreferences(friendsRequest)
+    console.log(teammatePreferenceResponse)
+
+    const enemyIds = selectedEnemies.map (enemy => enemy.id)
+    const enemiesRequest = {
+      enemyId1: enemyIds[0],
+      enemyId2: enemyIds[1],
+      enemyId3: enemyIds[2],
+      questionnaireId: questionnaireForCourse.id
+    }
+    const enemyPreferenceResponse = await enemyPreferenceService.addEnemyPreferences(enemiesRequest)
+    console.log(enemyPreferenceResponse)
+    dispatch(updateCourseRegStatus(true))
+    history.push('/course_view')
   }
 
   useEffect (() => {
@@ -63,13 +105,21 @@ const CourseRegistrationForm = () => {
 
       const [classSubjectsResponse, classRolesResponse, classTechesResponse, classStudentsResponse] = [...response]
 
+      console.log (classSubjectsResponse)
+
       setClassSubjects(classSubjectsResponse)
-      setClassRoles(classRolesResponse)
-      setClassTeches(classTechesResponse)
+
       setClassStudents(classStudentsResponse)
 
-      setSubjectsChecked(new Array(classSubjectsResponse.length).fill(false))
+      setSubjectsChecked(classSubjectsResponse.map((classSubject : ClassSubject) => {
+        return {
+          id: classSubject.id,
+          name: classSubject.name,
+          isPreferred: false
+        }
+      }
 
+      ))
       setRolePreferences(classRolesResponse.map((classRole : ClassRole) => {
         return {
           roleName: classRole.name,
@@ -118,7 +168,10 @@ const CourseRegistrationForm = () => {
     setSubjectsChecked(subjectsChecked.map (
       (_, index) =>
         index === Number(event.target.name)
-        ? !subjectsChecked[index]
+        ? {
+          ...subjectsChecked[index],
+          isPreferred: !(subjectsChecked[index].isPreferred)
+        }
         : subjectsChecked[index]
     ))
   }
@@ -220,7 +273,7 @@ const CourseRegistrationForm = () => {
   }
 
 
-  console.log(classStudents, selectedFriends, selectedEnemies)
+  //console.log(classStudents, selectedFriends, selectedEnemies)
   return (
       <ThemeProvider theme={light}>
         <Container style={wrapperStyle} maxWidth="md">
@@ -236,7 +289,8 @@ const CourseRegistrationForm = () => {
                 <FormGroup>
                   What classes are you taking?
                   {
-                    classSubjects.map (
+                    subjectsChecked.length > 0
+                        ? classSubjects.map (
                         (subject, index) =>
                             <Box key={subject.id} bgcolor="theme_green.main" style={classWrapperStyle}>
                               <FormControlLabel
@@ -244,8 +298,7 @@ const CourseRegistrationForm = () => {
                                                 label={subject.name ? subject.name : ""}
                               />
                             </Box>
-
-                    )
+                    ) : null
                   }
                 </FormGroup>
               </Box>
@@ -300,7 +353,7 @@ const CourseRegistrationForm = () => {
                       techPreferences.length > 0
                           ? techPreferences.map (
                           (pref, index, list) =>
-                              <Grid container alignItems="center" justify="space-around" direction="row" key={index}>
+                              <Grid container alignItems="center" justify="space-around" direction="row" key={pref.techId}>
                                 <Grid item xs><Typography>{pref.techName}</Typography></Grid>
                                 <Grid item xs={10}>
                                   <Box bgcolor="theme_green.main" style={{ ...(index == 0 ? firstRadioRowStyle : {}), ...(index == (list.length - 1) ? lastRadioRowStyle : {})}}>
