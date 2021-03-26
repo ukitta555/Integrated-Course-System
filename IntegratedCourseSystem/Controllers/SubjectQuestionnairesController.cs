@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DataBase.Models;
 using IntegratedCourseSystem;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IntegratedCourseSystem
 {
@@ -92,14 +93,13 @@ namespace IntegratedCourseSystem
             [HttpPost]
         public async Task<ActionResult<object>> PostSubjectsQuestionnaire([FromBody]List<SubjectQuestionnaire> subjectQuestionnaire)
         {
-            subjectQuestionnaire = subjectQuestionnaire.Except(await _context.SubjectQuestionnaires.ToListAsync())
+            subjectQuestionnaire = subjectQuestionnaire.Except(await _context.SubjectQuestionnaires.ToListAsync(), new Comparer())
                                                        .ToList();
-
 
             _context.SubjectQuestionnaires.AddRange(subjectQuestionnaire);
             await _context.SaveChangesAsync();
 
-            return new { Id = subjectQuestionnaire.FirstOrDefault()?.Id ?? 0 };
+            return new { Id = subjectQuestionnaire.FirstOrDefault()?.QuestionnaireId ?? 0 };
         }
 
         // DELETE: api/SubjectQuestionnaires/5
@@ -121,6 +121,20 @@ namespace IntegratedCourseSystem
         private bool SubjectQuestionnaireExists(int id)
         {
             return _context.SubjectQuestionnaires.Any(e => e.Id == id);
+        }
+
+        private class Comparer : IEqualityComparer<SubjectQuestionnaire>
+        {
+            public bool Equals(SubjectQuestionnaire x, SubjectQuestionnaire y)
+            {
+                return x.ClassSubjectId == y.ClassSubjectId &&
+                       x.QuestionnaireId == y.QuestionnaireId;
+            }
+
+            public int GetHashCode([DisallowNull] SubjectQuestionnaire obj)
+            {
+                return Convert.ToInt32(obj.ClassSubjectId.ToString() + obj.QuestionnaireId.ToString());
+            }
         }
     }
 }
