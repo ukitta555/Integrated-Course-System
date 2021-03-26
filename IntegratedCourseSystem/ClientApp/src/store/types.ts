@@ -39,7 +39,20 @@ export interface TeacherInfo {
   facultyId: number
 }
 
-/// components interfaces / types
+/// component interfaces / types
+
+export interface Group {
+  id: number,
+  name: string,
+  classId: number
+}
+
+export interface Class {
+  id: number,
+  name: string,
+  teacherId: number,
+  areGroupsDefined: boolean
+}
 
 export interface ClassSubject {
   id: number,
@@ -85,6 +98,11 @@ export interface StudentSelect {
   name: string,
   surname: string
 }
+
+export interface MatchParamsId {
+  id: string;
+}
+
 
 // action types
 
