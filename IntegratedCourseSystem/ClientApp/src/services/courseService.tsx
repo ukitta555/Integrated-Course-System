@@ -17,7 +17,7 @@ const addCourse = async (courseInfo: {name: string, inviteCode: string, teacherI
   }
 }
 
-const getCourses = async (id: number) => {
+const getCoursesForTeacher = async (id: number) => {
   try {
     const response = await axios.post (
       `${baseURL}/TeacherClasses`,
@@ -37,9 +37,43 @@ const getCourses = async (id: number) => {
   }
 }
 
+const getCourseByID = async (classId: number | null) => {
+  try {
+    if (!classId) return null
+    const response = await axios.get (
+      `${baseURL}/${classId}`,
+      {
+        withCredentials: true,
+      }
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log(error.response.data)
+    return null
+  }
+}
+
+const patchCourseGroups = async (classId: number, value: boolean) => {
+  try {
+    const arrayWrapper = [{value: value, op: 'replace', path:'/areGroupsDefined'}]
+    const response = await axios.patch (
+      //`${baseURL}/${classId}`,
+      `${baseURL}/${classId}`,
+      arrayWrapper,
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log(error.response.data)
+  }
+}
 
 
 export default {
   addCourse,
-  getCourses
+  getCoursesForTeacher,
+  getCourseByID,
+  patchCourseGroups
 }

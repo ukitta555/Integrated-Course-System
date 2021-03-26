@@ -17,6 +17,8 @@ import CourseRegistrationForm from './CourseRegistrationForm/CourseRegistrationF
 import { LinearProgress } from '@material-ui/core';
 import { loginUser } from '../reducers/userReducer/userThunks';
 import TaskPage from "./TaskPage/TaskPage";
+import NoPage from './NoPage/NoPage';
+import CoursePage from './CoursePage/CoursePage';
 
 
 
@@ -61,19 +63,22 @@ const App = () => {
               {
                 user.role === "teacher"
                 ? user.currentCourseId
-                  ? <Redirect to = '/course_view' />
+                  ? <Redirect to = '/courses_view' />
                   : <CourseCreatingPage/>
                 : <Redirect to = '/' />
               }
             </Route>
-            <Route path = '/course_view'>
+            <Route path = '/course_view/:id'>
+                <CoursePage />
+            </Route>
+            <Route path = '/courses_view'>
                 <CoursesView/>
             </Route>
             <Route path = '/course_registration'>
               {
                 user.role === "student"
                 ? user.isRegFilledIn
-                  ? <Redirect to = '/course_view' />
+                  ? <Redirect to = '/courses_view' />
                   : <CourseRegistrationForm />
                 : <Redirect to = '/' />
               }
@@ -85,6 +90,7 @@ const App = () => {
                 <CourseRegistrationForm />
             </Route>
             <Route path = '/'>
+              <NoPage />
             </Route>
         </Switch>
       </>
