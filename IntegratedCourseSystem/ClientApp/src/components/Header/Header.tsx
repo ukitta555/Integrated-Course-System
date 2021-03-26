@@ -130,17 +130,26 @@ const Header = () => {
               <Toolbar>
                   <Grid container direction="row" justify="space-between" alignItems="center" style={headerWrapperStyle}>
                       <Grid container item alignItems="center" style={logoWrapperStyle}>
-                          <div style = {logoImgStyle}>
-                              <Link to = '/'>
-                                  <ImageFitToParent src = './img/logo.png' alt = 'logo'/>
-                              </Link>
-                          </div>
-                          <Typography variant="h6" style={logoTextStyle}>
-                              T-Collab
-                          </Typography>
+                        {
+                              user.isAuthLoading
+                              ? null
+                              : <>
+                                    <div style = {logoImgStyle}>
+                                        <Link to = '/'>
+                                        <ImageFitToParent src = './img/logo.png' alt = 'logo'/>
+                                        </Link>
+                                    </div>
+                                    <Typography variant="h6" style={logoTextStyle}>
+                                        T-Collab
+                                    </Typography>
+                                </>
+                        }
+
                       </Grid>
                       {
-                          user.id === NO_ID
+                          user.isAuthLoading
+                          ? null
+                          : user.id === NO_ID
                               ? registrationButtons
                               : loggedInButtons
                       }

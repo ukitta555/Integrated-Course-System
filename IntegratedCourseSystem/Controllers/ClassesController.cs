@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DataBase.Models;
 using IntegratedCourseSystem;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.JsonPatch;
 
 
 //TODO!
@@ -24,6 +25,37 @@ namespace IntegratedCourseSystem.Controllers
             _context = context;
         }
 
+
+        [HttpPatch]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Class>> ChangeRole([FromBody] JsonPatchDocument<Class> patchDoc, int Id)
+        {
+            if (patchDoc != null)
+            {
+
+                var _class = _context
+                    .Classes
+                    .FirstOrDefault(@class => @class.Id == Id);
+
+                patchDoc.ApplyTo(_class, ModelState);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+
+                _context.Entry(_class).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                return new ObjectResult(_class);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
 
 
         // GET: api/Classes
