@@ -92,8 +92,6 @@ const CoursePage = () => {
     fetchData()
   }, [])
 
-  console.log('refs', groupBoxesRefs.current)
-
   const groupWrapperStyle = {
     border: "4px double black"
   }

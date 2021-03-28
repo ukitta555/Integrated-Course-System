@@ -11,7 +11,7 @@ namespace DataBase.Models
         public ClassSubject()
         {
             SubjectQuestionnaires = new HashSet<SubjectQuestionnaire>();
-            Tasks = new HashSet<Task>();
+            SubjectTasks = new HashSet<SubjectTask>();
         }
 
         public int Id { get; set; }
@@ -21,7 +21,7 @@ namespace DataBase.Models
         public virtual Class Class { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual ICollection<SubjectQuestionnaire> SubjectQuestionnaires { get; set; } = null;
-        public virtual ICollection<Task> Tasks { get; set; } = null;
+        public virtual ICollection<SubjectTask> SubjectTasks { get; set; }
     }
 
 }
