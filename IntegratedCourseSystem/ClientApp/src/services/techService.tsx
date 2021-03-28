@@ -1,3 +1,4 @@
+import { RepeatOneSharp } from "@material-ui/icons"
 import axios from "axios"
 const baseURL = "/api/teches"
 //const baseURL = "http://localhost:3001/techs"
@@ -21,8 +22,22 @@ const addTechs = async (requestData: {teches: {name: string}[]}) => {
   }
 }
 
+const getTech = async (techId: number) => {
+  try {
+    const response = await axios.get (
+        `${baseURL}/${techId}`,
+        {withCredentials : true}
+      )
+    return response.data
+  }
+  catch (error) {
+    console.log (error.response.data)
+    return null
+  }
+}
 
 
 export default {
-  addTechs
+  addTechs,
+  getTech
 }

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {ClassRole, ClassSubject, ClassTech, RolePreference, TechPreference, UserState, PreferenceLevel, StudentSelect, SubjectPreference} from '../../store/types'
+import {ClassRole, ClassSubject, ClassTech, RolePreference, TechPreference, UserState, PreferenceLevel, Student, SubjectPreference} from '../../store/types'
 import {useDispatch, useSelector} from 'react-redux'
 import { Button, Checkbox, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
 import courseSubjectService from '../../services/courseSubjectService'
@@ -29,14 +29,14 @@ const CourseRegistrationForm = () => {
 
   const [classSubjects, setClassSubjects] =  useState<ClassSubject[]> ([])
 
-  const [selectedFriends, setSelectedFriends] = useState<StudentSelect[]> ([])
-  const [selectedEnemies, setSelectedEnemies] = useState<StudentSelect[]> ([])
+  const [selectedFriends, setSelectedFriends] = useState<Student[]> ([])
+  const [selectedEnemies, setSelectedEnemies] = useState<Student[]> ([])
 
   const [subjectsChecked, setSubjectsChecked] = useState<SubjectPreference[]> ([])
   const [rolePreferences, setRolePreferences] = useState<RolePreference[]> ([])
   const [techPreferences, setTechPreferences] = useState<TechPreference[]> ([])
 
-  const [classStudents, setClassStudents] = useState<StudentSelect[]>([])
+  const [classStudents, setClassStudents] = useState<Student[]>([])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -194,7 +194,7 @@ const CourseRegistrationForm = () => {
 
   const handleFriendChange = (event: any) => {
 
-    let newFriend : StudentSelect = classStudents.find(
+    let newFriend : Student = classStudents.find(
       student => student.id === event.target.value
     ) || classStudents[0] // костыль, чтобы линтер не ругался
 
@@ -207,7 +207,7 @@ const CourseRegistrationForm = () => {
   }
 
   const handleEnemyChange = (event: any) => {
-    let newEnemy : StudentSelect = classStudents.find (
+    let newEnemy : Student = classStudents.find (
       student => student.id === event.target.value
     ) || classStudents[0]
 
