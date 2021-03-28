@@ -5,10 +5,7 @@ import React, {FunctionComponent, useImperativeHandle, useState} from "react"
 const Togglable = React.forwardRef((props, ref) => {
   const [isVisible, setIsVisible] = useState(true)
 
-
-  console.log('ref inside togglable', ref)
   useImperativeHandle(ref, () => {
-    console.log('inside useimperative')
     return {
       toggleVisibility
     }
