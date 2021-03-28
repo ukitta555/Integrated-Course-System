@@ -1,15 +1,15 @@
 import axios from 'axios'
-//const baseURL = "/api/groups"
-const baseURL = "http://localhost:3001/groups"
+//const baseURL = "/api/groupTeches"
+const baseURL = "http://localhost:3001/groupTeches"
 
 
 
 // change to normal api after algorithm implementation
-const getGroupsByClassId = async (classId: number | null) => {
+const getGroupTechesByGroup = async (groupId: number | null) => {
   try {
-    if (!classId) return null
+    if (!groupId) return null
     const response = await axios.get (
-      `${baseURL}?classId=${classId}`,
+      `${baseURL}?groupId=${groupId}`,
       {withCredentials: true}
     )
     return response.data
@@ -21,5 +21,5 @@ const getGroupsByClassId = async (classId: number | null) => {
 }
 
 export default {
-  getGroupsByClassId
+  getGroupTechesByGroup
 }
