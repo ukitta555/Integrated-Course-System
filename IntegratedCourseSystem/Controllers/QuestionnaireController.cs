@@ -92,8 +92,28 @@ namespace IntegratedCourseSystem.Controllers
             return questionnaires;
         }
 
+        [HttpPost]
+        [Route("amountOfStudents")]
+        public ActionResult<int> AmountOfRegisteredStudents ([FromBody] Class @class) {
+            var ques = _context
+                .Questionnaires
+                .Where(que => que.ClassId == @class.Id)
+                .Select(que => que.Id)
+                .ToHashSet();
 
-        
+            var subj = _context
+                    .SubjectQuestionnaires
+                    .Select(subj => subj.QuestionnaireId)
+                    .ToHashSet();
+
+            ques.Intersect(subj);
+
+            foreach (var que in ques)
+            {
+                Console.WriteLine(que);
+            }
+            return Created("", ques.Count());
+        }
 
 
 

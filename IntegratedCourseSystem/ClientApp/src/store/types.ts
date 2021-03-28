@@ -69,7 +69,9 @@ export interface Class {
   id: number,
   name: string,
   teacherId: number,
-  areGroupsDefined: boolean
+  areGroupsDefined: boolean,
+  maxCapacity: number,
+  studentsRegistered: number
 }
 
 export interface ClassSubject {

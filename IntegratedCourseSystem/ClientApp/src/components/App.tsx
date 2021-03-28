@@ -83,11 +83,17 @@ const App = () => {
                 : <Redirect to = '/' />
               }
             </Route>
+            <Route path = '/group_view/:id'>
+              xd lmaoooooooo new page!!
+            </Route>
             <Route path = '/task_page'>
                 <TaskPage/>
             </Route>
             <Route path = '/testing_page'>
                 <TestingPage/>
+            </Route>
+            <Route path = '/index'>
+              landing should be here somewhere
             </Route>
             <Route path = '/'>
               <NoPage />

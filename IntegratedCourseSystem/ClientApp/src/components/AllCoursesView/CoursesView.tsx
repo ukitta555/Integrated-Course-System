@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux'
 import {Class, UserState} from '../../store/types'
 import questionnaireService from "../../services/questionnaireService"
 import { Link, useHistory } from "react-router-dom"
-import { Button, LinearProgress } from "@material-ui/core"
+import { Button, LinearProgress, Typography } from "@material-ui/core"
 
 const CoursesView = () => {
   const user = useSelector((state: { user: UserState }) => state.user)
@@ -16,7 +16,12 @@ const CoursesView = () => {
   useEffect ( () => {
     async function fetchClasses() {
       if (user.role === "teacher") {
-        const response = await courseService.getCoursesForTeacher(user.id)
+        let response = await courseService.getCoursesForTeacher(user.id)
+        response = await Promise.all(response.map (async (course: Class) => {
+          course.studentsRegistered = await questionnaireService.getAmountOfStudentsRegisteredForCourse(course.id)
+          return course
+        })
+        )
         console.log(response)
         setCourses(response)
       }
@@ -58,15 +63,14 @@ const CoursesView = () => {
         ? courses.map (
           c =>
             <div key = {c.id} style = {courseWrapperStyle}>
-                Course id: {c.id}
-                <br />
+                <Typography>Course id: {c.id} </Typography>
+                <Typography> Students registred: {c.studentsRegistered}/{c.maxCapacity} </Typography>
                 {
                   c.areGroupsDefined
-                  ? <Link to={`/course_view/${c.id}`}> Course name: {c.name} </Link>
+                  ? <Link to={`/course_view/${c.id}`}> <Typography>   Course name: {c.name}  </Typography> </Link>
                   : <> Course name: {c.name} </>
                 }
 
-                <br />
                 {
                   user.role === 'teacher'
                   ? <Button variant = "contained" color="primary" onClick={(event: any) => handleSplitButtonClick(event, c.id)}> Запустити розподіл </Button>
