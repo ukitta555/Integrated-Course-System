@@ -1,7 +1,7 @@
 import { Button, LinearProgress, Typography } from '@material-ui/core'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import React, { useEffect, useState, useRef, createRef } from 'react'
-import {useRouteMatch} from 'react-router-dom'
+import {Link, useRouteMatch} from 'react-router-dom'
 import courseService from '../../services/courseService'
 import groupService from '../../services/groupService'
 import groupTechService from '../../services/groupTechService'
@@ -9,7 +9,6 @@ import studentGroupsService from '../../services/studentGroupsService'
 import studentService from '../../services/studentService'
 import techService from '../../services/techService'
 import { Class, Group, GroupStudent, GroupTech, MatchParamsId } from '../../store/types'
-import CourseRegistrationForm from '../CourseRegistrationForm/CourseRegistrationForm'
 import Togglable from '../Togglable/Togglable'
 
 
@@ -117,7 +116,9 @@ const CoursePage = () => {
                 <Button onClick = {(_) => changeVisibility(index)}  disableRipple={true} style = {dropdownIconStyles[index] ? openIconStyle : closedIconStyle}>
                     <ArrowDropDownIcon />
                 </Button>
-                <Typography> Група {group.name} </Typography>
+                <Link to = {`/group_view/${group.id}`}>
+                  <Typography> Група {group.name} </Typography>
+                </Link>
                 {//@ts-expect-error
                 }<Togglable ref = {groupBoxesRefs.current[index]}  >
                   <div style = {groupWrapperStyle}>
