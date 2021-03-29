@@ -54,6 +54,7 @@ const getCourseByID = async (classId: number | null) => {
   }
 }
 
+
 const patchCourseGroups = async (classId: number, value: boolean) => {
   try {
     const arrayWrapper = [{value: value, op: 'replace', path:'/areGroupsDefined'}]

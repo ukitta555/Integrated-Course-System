@@ -48,8 +48,29 @@ const getQuestionnaire = async (data: {studentId: number | null, classId: number
   }
 }
 
+
+
+const getAmountOfStudentsRegisteredForCourse = async (classId: number | null) => {
+  try {
+    if (!classId) return null
+    const response = await axios.post (
+      `${baseURL}/amountOfStudents`,
+      {id: classId},
+      {
+        withCredentials: true,
+      }
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log(error.response.data)
+    return null
+  }
+}
+
 export default {
   createQuestionnaire,
   getQuestionnairesByStudent,
-  getQuestionnaire
+  getQuestionnaire,
+  getAmountOfStudentsRegisteredForCourse
 }
