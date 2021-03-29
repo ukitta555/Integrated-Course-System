@@ -20,6 +20,22 @@ const getGroupsByClassId = async (classId: number | null) => {
   }
 }
 
+const getGroup = async (groupId: number | null) => {
+  try {
+    if (!groupId) return null
+    const response = await axios.get (
+      `${baseURL}/${groupId}`,
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+     console.log (error.response.data)
+     return null
+  }
+}
+
 export default {
+  getGroup,
   getGroupsByClassId
 }
