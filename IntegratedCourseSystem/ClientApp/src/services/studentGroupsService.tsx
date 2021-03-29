@@ -4,8 +4,9 @@ const baseURL = "http://localhost:3001/studentGroups"
 
 
 // fix when fake division arrives
-const getStudentsByGroup = async (groupId: number) => {
+const getStudentsByGroup = async (groupId: number | null) => {
   try {
+    if (!groupId) return null
     const response = await axios.get (
         `${baseURL}?groupId=${groupId}`,
         {withCredentials : true}
