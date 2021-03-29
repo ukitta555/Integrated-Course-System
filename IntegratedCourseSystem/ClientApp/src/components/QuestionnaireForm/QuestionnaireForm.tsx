@@ -1,22 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import useField from '../../hooks/useField'
-import {PreferenceLevel, UserState} from '../../store/types'
+import {UserState} from '../../store/types'
 import { createTeacher, createStudent, updateUserRole } from '../../reducers/userReducer/userThunks'
 import questionnaireService from '../../services/questionnaireService'
-import {useHistory} from 'react-router-dom'
+// import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import {
 	Box,
 	Container,
 	FormControlLabel,
 	Grid,
-	InputLabel,
-	MenuItem,
 	Radio,
 	RadioGroup,
-	Select,
 	ThemeProvider, Typography
 } from "@material-ui/core";
 import facultyService from '../../services/facultyService'
@@ -37,18 +33,10 @@ const forwardButtonStyle = {
 	width: "100%",
 }
 const radioBoxStyle = {
-	// color: "inherit",
 	borderRadius: 27.5,
-	// padding: 0,
-	// margin: "9px",
-	// backgroundColor: light.palette.theme_white.main,
 }
 const radioLabelStyle = {
-	// color: "inherit",
-	// borderRadius: 27.5,
-	// padding: 0,
 	margin: "0 5px 0 0",
-	// backgroundColor: light.palette.theme_white.main,
 }
 const radioStyle = {
 	color: "inherit",
@@ -70,7 +58,7 @@ const QuestionnaireForm = () =>
 	const NOT_SELECTED = -1;
 	const dispatch = useDispatch()
 	const user = useSelector((state: { user: UserState }) => state.user)
-	const history = useHistory()
+	// const history = useHistory()
 
 
 	const [role, setRole] = useState<Role>("student");
@@ -82,21 +70,11 @@ const QuestionnaireForm = () =>
 	const courseId = useField('text');
 	const coursePassword = useField('password');
 
-	// when DB is ready change to data recieved from server
+	// when DB is ready change to data received from server
 	const [faculties, setFaculties] = useState<Faculty[]>([])
 	const [selectedFacultyId, setSelectedFacultyID] = useState<number>(NOT_SELECTED)
 
 	const [selectedTeacherId, setSelectedTeacherId] = useState<number>(NOT_SELECTED)
-
-	const courseIdInputProps = {
-		pattern: "\\d+",
-		...courseId
-	}
-
-	const coursePasswordProps = {
-		autoComplete: "password",
-		...coursePassword
-	}
 
 	const fetchFaculties = async () =>
 	{
@@ -140,7 +118,6 @@ const QuestionnaireForm = () =>
 			await dispatch(createTeacher(teacherInfo))
 			await dispatch(updateUserRole(1, user.id))
 		}
-		// console.log(name.value, surname.value, courseId.value, coursePassword.value)
 	}
 
 	const handleSelectedFacultyChange = (event: React.ChangeEvent<{ value: unknown }>) =>
@@ -191,11 +168,6 @@ const QuestionnaireForm = () =>
 								</RadioGroup>
 							</Box>
 						</Grid>
-
-						{/*<RadioGroup row name="role" value={role} onChange={handleRoleChange}>*/}
-						{/*	<FormControlLabel value="teacher" control={<Radio />} label="Я - вчитель" />*/}
-						{/*	<FormControlLabel value="student" control={<Radio />} label="Я - учень" />*/}
-						{/*</RadioGroup>*/}
 						<Grid container item xs direction="row" justify="space-around">
 							<Grid item xs={5}>
 								<BoxWithImageBG bgimage="name_surname.png" bgcolor="theme_grey.main"/>
@@ -221,8 +193,6 @@ const QuestionnaireForm = () =>
 								<Grid item xs>
 									<WrappedInput label="Пароль курсу" bgcolor="theme_green.main" inputbgcolor="theme_white.main" inputProps={{autoComplete: "password",}} {...coursePassword}/>
 								</Grid>
-								{/*<TextField label="ID курсу" inputProps={courseIdInputProps} />*/}
-								{/*<TextField label="Пароль курсу" inputProps={coursePasswordProps}/>*/}
 							</Grid>
 						</Grid>
 						}
@@ -236,11 +206,9 @@ const QuestionnaireForm = () =>
 							fetchFaculties = {fetchFaculties}
 						/>
 						<Grid container item justify="center">
-							{/*<Container maxWidth="md">*/}
 							<Box bgcolor="theme_green.dark" color="theme_black.main" style={forwardButtonWrapperStyle}>
 								<Button type="submit" color="inherit" style={forwardButtonStyle}>Далі</Button>
 							</Box>
-							{/*</Container>*/}
 						</Grid>
 					</Grid>
 				</Container>
