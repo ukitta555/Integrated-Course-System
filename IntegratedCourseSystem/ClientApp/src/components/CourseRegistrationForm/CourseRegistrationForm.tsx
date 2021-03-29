@@ -294,7 +294,7 @@ const CourseRegistrationForm = () => {
                         (subject, index) =>
                             <Box key={subject.id} bgcolor="theme_green.main" style={classWrapperStyle}>
                               <FormControlLabel
-                                                control={<Checkbox checked={subjectsChecked[index] || false} color="default" onChange={handleSubjectCheckedChange} name={String(index)} />}
+                                                control={<Checkbox checked={subjectsChecked[index].isPreferred || false} color="default" onChange={handleSubjectCheckedChange} name={String(index)} />}
                                                 label={subject.name ? subject.name : ""}
                               />
                             </Box>

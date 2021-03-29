@@ -5,7 +5,7 @@ import {Box, InputLabel} from "@material-ui/core";
 import CustomInput from "../CustomInput/CustomInput";
 
 type WrappedInputProps = {
-    value: string | number | undefined,
+    value: string | number | null,
     label?: string,
     name?: string,
     type?: string,
@@ -27,6 +27,7 @@ const textFieldStyle = {
     backgroundColor: "inherit",
     borderRadius: "inherit",
     // margin: "3% 0",
+    width: "100%",
     color: "inherit",
 }
 const textFieldBoxStyle = {
