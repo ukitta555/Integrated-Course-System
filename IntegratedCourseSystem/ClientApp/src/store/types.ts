@@ -44,14 +44,34 @@ export interface TeacherInfo {
 export interface Group {
   id: number,
   name: string,
-  classId: number
+  classId: number,
+  groupTeches: GroupTech[],
+  groupMembers: Student[]
+}
+
+export interface GroupTech {
+  id: number,
+  groupId: number,
+  techId: number,
+  name: string
+}
+
+
+export interface GroupStudent {
+  id: number,
+  groupId: number,
+  studentId: number,
+  name: string,
+  surname: string
 }
 
 export interface Class {
   id: number,
   name: string,
   teacherId: number,
-  areGroupsDefined: boolean
+  areGroupsDefined: boolean,
+  maxCapacity: number,
+  studentsRegistered: number
 }
 
 export interface ClassSubject {
@@ -63,6 +83,7 @@ export interface ClassTech {
   id: number,
   name: string
 }
+
 
 export interface ClassRole {
   id: number,
@@ -93,7 +114,7 @@ export enum PreferenceLevel {
   Love = 1
 }
 
-export interface StudentSelect {
+export interface Student {
   id: number,
   name: string,
   surname: string

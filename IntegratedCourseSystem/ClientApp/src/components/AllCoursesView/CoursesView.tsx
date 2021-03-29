@@ -16,7 +16,12 @@ const CoursesView = () => {
   useEffect ( () => {
     async function fetchClasses() {
       if (user.role === "teacher") {
-        const response = await courseService.getCoursesForTeacher(user.id)
+        let response = await courseService.getCoursesForTeacher(user.id)
+        response = await Promise.all(response.map (async (course: Class) => {
+          course.studentsRegistered = await questionnaireService.getAmountOfStudentsRegisteredForCourse(course.id)
+          return course
+        })
+        )
         console.log(response)
         setCourses(response)
       }
@@ -87,4 +92,3 @@ const CoursesView = () => {
 }
 
 export default CoursesView
-
