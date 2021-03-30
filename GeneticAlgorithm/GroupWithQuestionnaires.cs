@@ -65,18 +65,18 @@ namespace GeneticAlgorithm
             return res;
         }
 
-        public Group ToDbGroup()
+        public Group ToDbGroup(Class c)
         {
-            Group res = new Group();
+            Group res = new Group() { Class = c, Classid = c.Id };
             int i = 0;
             foreach (var st in students)
             {
-                res.Studentgroups.Add(new StudentGroup() { Group = res, Student = st, StudentId = st.Id, GroupId = res.Id });
+                res.Studentgroups.Add(new StudentGroup() { GroupId = res.Id, Group = res, Student = st, StudentId = st.Id });
                 i++;
             }
             foreach(var tech in techs)
             {
-                res.Groupteches.Add(new GroupTech() { Group = res, Tech = tech, Techid = tech.Id, Groupid = res.Id });
+                res.Groupteches.Add(new GroupTech() { Groupid = res.Id, Group = res, Tech = tech, Techid = tech.Id });
             }
             return res;
         }
