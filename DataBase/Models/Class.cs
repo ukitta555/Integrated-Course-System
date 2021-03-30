@@ -18,6 +18,7 @@ namespace DataBase.Models
         public string InviteCode { get; set; }
         public int TeacherId { get; set; }
         public int MaxCapacity { get; set; }
+        public bool AreGroupsDefined { get; set; }
 
         public virtual Teacher Teacher { get; set; }
         public virtual ICollection<ClassSubject> ClassSubjects { get; set; }

@@ -4,6 +4,7 @@ export const REGISTER_USER: 'REGISTER_USER' = 'REGISTER_USER'
 export const LOGIN_USER: 'LOGIN_USER'  = 'LOGIN_USER'
 export const LOGOUT_USER: 'LOGOUT_USER' = "LOGOUT_USER"
 export const UPDATE_USER_WITH_QUE_INFO : 'UPDATE_USER_WITH_QUE_INFO' = 'UPDATE_USER_WITH_QUE_INFO'
+export const UPDATE_COURSE_REG_STATUS: 'UPDATE_COURSE_REG_STATUS' = 'UPDATE_COURSE_REG_STATUS'
 export const EMPTY_STRING: '' = ''
 export const NO_ID: -1 = -1
 
@@ -38,7 +39,50 @@ export interface TeacherInfo {
   facultyId: number
 }
 
-/// components interfaces / types
+/// component interfaces / types
+
+export interface TaskType {
+  id: number,
+  groupId: number,
+  name: string,
+  taskDescription: string,
+  deadLine: Date | null,
+  posted: Date,
+  done: Date | null
+}
+
+export interface Group {
+  id: number,
+  name: string,
+  classId: number,
+  groupTeches: GroupTech[],
+  groupMembers: Student[]
+}
+
+export interface GroupTech {
+  id: number,
+  groupId: number,
+  techId: number,
+  name: string
+}
+
+
+export interface GroupStudent {
+  id: number,
+  groupId: number,
+  studentId: number,
+  name: string,
+  surname: string
+}
+
+export interface Class {
+  id: number,
+  name: string,
+  teacherId: number,
+  areGroupsDefined: boolean,
+  maxCapacity: number,
+  studentsRegistered: number
+}
 
 export interface ClassSubject {
   id: number,
@@ -50,9 +94,16 @@ export interface ClassTech {
   name: string
 }
 
+
 export interface ClassRole {
   id: number,
   name: string
+}
+
+export interface SubjectPreference {
+  id: number,
+  name: string,
+  isPreferred: boolean
 }
 
 export interface RolePreference {
@@ -73,11 +124,16 @@ export enum PreferenceLevel {
   Love = 1
 }
 
-export interface StudentSelect {
+export interface Student {
   id: number,
   name: string,
   surname: string
 }
+
+export interface MatchParamsId {
+  id: string;
+}
+
 
 // action types
 
@@ -105,6 +161,11 @@ type UpdateUserWithQueInfoAction = {
   }
 }
 
+type UpdateCourseRegStatusAction = {
+  type: typeof UPDATE_COURSE_REG_STATUS,
+  isRegFilledIn: boolean
+}
+
 type LogoutUserAction = {
   type: typeof LOGOUT_USER
 }
@@ -112,4 +173,5 @@ type LogoutUserAction = {
 export type registrationActionTypes =
   LoginUserAction |
   UpdateUserWithQueInfoAction |
-  LogoutUserAction
+  LogoutUserAction |
+  UpdateCourseRegStatusAction

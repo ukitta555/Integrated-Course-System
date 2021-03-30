@@ -33,8 +33,23 @@ const getStudentsByClass = async (classId: number | null) => {
   }
 }
 
+const getStudentById = async (studentId: number) => {
+  try {
+    const response = await axios.get(
+      `${baseURL}/${studentId}`,
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log (error.response.data)
+    return null
+  }
+}
+
 export default
 {
   getStudentsByClass,
+  getStudentById,
   createStudent
 }
