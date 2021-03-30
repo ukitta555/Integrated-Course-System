@@ -24,7 +24,7 @@ const backButtonStyle = {
 }
 const testTaskProps: TaskProps = {
     name: "Почати щось робити",
-    text: "Починаємо роботу! Чим швидше, тим краще! ....",
+    taskDescription: "Починаємо роботу! Чим швидше, тим краще! ....",
     isHandedOver: true,
     author: "Омельчук Л.",
     marks: new Map([["ООП", [2, 2]], ["МСП", [2, 2]]]),
