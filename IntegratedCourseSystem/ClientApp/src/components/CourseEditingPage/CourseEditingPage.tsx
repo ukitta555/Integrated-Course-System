@@ -80,7 +80,7 @@ const CourseEditingPage = () => {
 
     const courseSubjectResponse = await courseSubjectService.addCourseSubjects({subjects: subjectIds, courseId})
     console.log("response from addCourseSubjects:", courseSubjectResponse)
-    history.push("/course_view")
+    history.push("/courses_view")
   }
 
   const GridWrapperStyle = {

@@ -10,21 +10,20 @@ namespace DataBase.Models
         public Task()
         {
             Comments = new HashSet<Comment>();
+            SubjectTasks = new HashSet<SubjectTask>();
         }
 
         public int Id { get; set; }
-        public int ClassSubjectId { get; set; }
         public int GroupId { get; set; }
         public string Name { get; set; }
-        public int MaxGrade { get; set; }
-        public int ActualGrade { get; set; }
         public string TaskDescription { get; set; }
         public DateTime? DeadLine { get; set; }
         public DateTime Posted { get; set; }
         public DateTime? Done { get; set; }
 
-        public virtual ClassSubject ClassSubject { get; set; }
+        
         public virtual Group Group { get; set; }
+        public virtual ICollection<SubjectTask> SubjectTasks { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using IntegratedCourseSystem.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -40,10 +39,13 @@ namespace IntegratedCourseSystem.Controllers
 
         #region HTTP GET Methods
 
+        #endregion
+
+        #region HTTP POST Methods
 
 
-        // GET api/Questionnaire
-        [HttpGet]
+        [HttpPost]
+        [Route("getByEquality")]
         public async Task<ActionResult<Questionnaire>> GetQuestionnaire([FromBody] QuestionnaireIdentityArgs info)
         {
             //Check questionnaire for existance
@@ -54,19 +56,15 @@ namespace IntegratedCourseSystem.Controllers
                     .Questionnaires
                     .FirstAsync(item => item.StudentId == info.StudentId && item.ClassId == info.ClassId);
             }
-            catch (InvalidOperationException){ }
+            catch (InvalidOperationException) { }
 
-            if(questionnaire is null)
+            if (questionnaire is null)
             {
                 return NotFound();
             }
 
             return questionnaire;
         }
-
-        #endregion
-
-        #region HTTP POST Methods
 
 
         [HttpPost]
@@ -93,8 +91,28 @@ namespace IntegratedCourseSystem.Controllers
             return questionnaires;
         }
 
+        [HttpPost]
+        [Route("amountOfStudents")]
+        public ActionResult<int> AmountOfRegisteredStudents ([FromBody] Class @class) {
+            var ques = _context
+                .Questionnaires
+                .Where(que => que.ClassId == @class.Id)
+                .Select(que => que.Id)
+                .ToHashSet();
 
-        
+            var subj = _context
+                    .SubjectQuestionnaires
+                    .Select(subj => subj.QuestionnaireId)
+                    .ToHashSet();
+
+            ques.Intersect(subj);
+
+            foreach (var que in ques)
+            {
+                Console.WriteLine(que);
+            }
+            return Created("", ques.Count());
+        }
 
 
 
@@ -110,11 +128,11 @@ namespace IntegratedCourseSystem.Controllers
             try
             {
                 entry = await _context
-                    .Questionnaires
-                    .FirstAsync(item =>
-                                    item.ClassId == questionnaire.ClassId &&
-                                    item.StudentId == questionnaire.StudentId
-                               );
+                        .Questionnaires
+                        .FirstAsync(item =>
+                                        item.ClassId == questionnaire.ClassId &&
+                                        item.StudentId == questionnaire.StudentId
+                                   );
             }
             catch(InvalidOperationException) { }
             if (entry != null)
@@ -134,6 +152,7 @@ namespace IntegratedCourseSystem.Controllers
 
         #endregion
 
+        /*
         #region HTTP PUT Methods
 
         // PUT api/Questionnaire/5
@@ -155,6 +174,7 @@ namespace IntegratedCourseSystem.Controllers
         }
 
         #endregion
+        */
 
         #region Argument types
 

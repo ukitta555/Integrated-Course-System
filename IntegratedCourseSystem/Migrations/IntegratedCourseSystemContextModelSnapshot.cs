@@ -17,7 +17,7 @@ namespace IntegratedCourseSystem.Migrations
             modelBuilder
                 .HasAnnotation("Relational:Collation", "en_US.UTF-8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("DataBase.Models.Admin", b =>
@@ -39,6 +39,9 @@ namespace IntegratedCourseSystem.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("AreGroupsDefined")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("InviteCode")
                         .IsRequired()
@@ -452,6 +455,34 @@ namespace IntegratedCourseSystem.Migrations
                     b.ToTable("subjectquestionnaires");
                 });
 
+            modelBuilder.Entity("DataBase.Models.SubjectTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("ActualGrade")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ClassSubjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MaxGrade")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassSubjectId");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("SubjectTask");
+                });
+
             modelBuilder.Entity("DataBase.Models.Task", b =>
                 {
                     b.Property<int>("Id")
@@ -459,15 +490,6 @@ namespace IntegratedCourseSystem.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("ActualGrade")
-                        .HasColumnType("integer")
-                        .HasColumnName("actualgrade");
-
-                    b.Property<int>("ClassSubjectId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("classsubjectid");
 
                     b.Property<DateTime?>("DeadLine")
                         .HasColumnType("timestamp without time zone")
@@ -481,10 +503,6 @@ namespace IntegratedCourseSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("groupid");
-
-                    b.Property<int>("MaxGrade")
-                        .HasColumnType("integer")
-                        .HasColumnName("maxgrade");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -501,8 +519,6 @@ namespace IntegratedCourseSystem.Migrations
                         .HasColumnName("taskdescription");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClassSubjectId");
 
                     b.HasIndex("GroupId");
 
@@ -557,12 +573,12 @@ namespace IntegratedCourseSystem.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("enemyid1");
 
-                    b.Property<int>("EnemyId2")
+                    b.Property<int?>("EnemyId2")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("enemyid2");
 
-                    b.Property<int>("EnemyId3")
+                    b.Property<int?>("EnemyId3")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("enemyid3");
@@ -959,23 +975,33 @@ namespace IntegratedCourseSystem.Migrations
                     b.Navigation("Questionnaire");
                 });
 
-            modelBuilder.Entity("DataBase.Models.Task", b =>
+            modelBuilder.Entity("DataBase.Models.SubjectTask", b =>
                 {
                     b.HasOne("DataBase.Models.ClassSubject", "ClassSubject")
-                        .WithMany("Tasks")
+                        .WithMany("SubjectTasks")
                         .HasForeignKey("ClassSubjectId")
-                        .HasConstraintName("tasks_classsubjectid_fkey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DataBase.Models.Task", "Task")
+                        .WithMany("SubjectTasks")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ClassSubject");
+
+                    b.Navigation("Task");
+                });
+
+            modelBuilder.Entity("DataBase.Models.Task", b =>
+                {
                     b.HasOne("DataBase.Models.Group", "Group")
                         .WithMany("Tasks")
                         .HasForeignKey("GroupId")
                         .HasConstraintName("tasks_groupid_fkey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ClassSubject");
 
                     b.Navigation("Group");
                 });
@@ -1013,16 +1039,12 @@ namespace IntegratedCourseSystem.Migrations
                     b.HasOne("DataBase.Models.Student", "Enemy2")
                         .WithMany("WhereEnemy2")
                         .HasForeignKey("EnemyId2")
-                        .HasConstraintName("teammateantipreferences_enemyid2_fkey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("teammateantipreferences_enemyid2_fkey");
 
                     b.HasOne("DataBase.Models.Student", "Enemy3")
                         .WithMany("WhereEnemy3")
                         .HasForeignKey("EnemyId3")
-                        .HasConstraintName("teammateantipreferences_enemyid3_fkey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("teammateantipreferences_enemyid3_fkey");
 
                     b.HasOne("DataBase.Models.Questionnaire", "Initiator")
                         .WithMany("TeammateAntipreferences")
@@ -1113,7 +1135,7 @@ namespace IntegratedCourseSystem.Migrations
                 {
                     b.Navigation("SubjectQuestionnaires");
 
-                    b.Navigation("Tasks");
+                    b.Navigation("SubjectTasks");
                 });
 
             modelBuilder.Entity("DataBase.Models.Faculty", b =>
@@ -1179,6 +1201,8 @@ namespace IntegratedCourseSystem.Migrations
             modelBuilder.Entity("DataBase.Models.Task", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("SubjectTasks");
                 });
 
             modelBuilder.Entity("DataBase.Models.Teacher", b =>

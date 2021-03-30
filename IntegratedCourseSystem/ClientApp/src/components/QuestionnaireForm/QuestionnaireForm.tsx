@@ -70,11 +70,11 @@ const QuestionnaireForm = () =>
 				isRegFilledIn: false
 			}
 			await dispatch(createStudent(studentInfo))
-			await dispatch(updateUserRole(2, user.id))
 			const queResponse = await questionnaireService.createQuestionnaire({
 				studentId: user.id,
 				classId: Number(courseId.value)
 			})
+			await dispatch(updateUserRole(2, user.id))
 			console.log(queResponse)
 		}
 		else if (role === "teacher") {

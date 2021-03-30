@@ -401,11 +401,12 @@ namespace IntegratedCourseSystem
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.ActualGrade).HasColumnName("actualgrade");
+                //entity.Property(e => e.ActualGrade).HasColumnName("actualgrade");
 
-                entity.Property(e => e.ClassSubjectId)
+                /*entity.Property(e => e.ClassSubjectId)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("classsubjectid");
+                */
 
                 entity.Property(e => e.DeadLine).HasColumnName("deadline");
 
@@ -415,7 +416,7 @@ namespace IntegratedCourseSystem
                     .ValueGeneratedOnAdd()
                     .HasColumnName("groupid");
 
-                entity.Property(e => e.MaxGrade).HasColumnName("maxgrade");
+                //entity.Property(e => e.MaxGrade).HasColumnName("maxgrade");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -426,10 +427,12 @@ namespace IntegratedCourseSystem
 
                 entity.Property(e => e.TaskDescription).HasColumnName("taskdescription");
 
+                /*
                 entity.HasOne(d => d.ClassSubject)
                     .WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.ClassSubjectId)
                     .HasConstraintName("tasks_classsubjectid_fkey");
+                */
 
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.Tasks)

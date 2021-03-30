@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using IntegratedCourseSystem.Models;
 using IntegratedCourseSystem.Extensions;
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;

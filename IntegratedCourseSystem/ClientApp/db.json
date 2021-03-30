@@ -66,6 +66,14 @@
       "teacherId": -1,
       "maxCapacity": 125,
       "id": 1
+    },
+    {
+      "courseName": "qwe@knu.ua",
+      "coursePassword": "123",
+      "teacherId": -1,
+      "maxCapacity": 125,
+      "areGroupsDefined": true,
+      "id": 64
     }
   ],
   "techs": [
@@ -132,6 +140,67 @@
       "questionnaireId": 1,
       "classSubjectId": 321,
       "id": 1
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "name": "group_1_64",
+      "classId": 64
+    },
+    {
+      "id": 2,
+      "name": "group_2_64",
+      "classId": 64
+    },
+    {
+      "id": 3,
+      "name": "group_3_64",
+      "classId": 64
+    }
+  ],
+  "studentGroups": [
+    {
+      "id": 1,
+      "groupId": 1,
+      "studentId": 70
+    },
+    {
+      "id": 2,
+      "groupId": 1,
+      "studentId": 71
+    },
+    {
+      "id": 3,
+      "groupId": 1,
+      "studentId": 76
+    },
+    {
+      "id": 4,
+      "groupId": 2,
+      "studentId": 70
+    },
+    {
+      "id": 5,
+      "groupId": 2,
+      "studentId": 71
+    }
+  ],
+  "groupTeches": [
+    {
+      "id": 1,
+      "groupId": 1,
+      "techId": 75
+    },
+    {
+      "id": 2,
+      "groupId": 1,
+      "techId": 3
+    },
+    {
+      "id": 3,
+      "groupId": 2,
+      "techId": 5
     }
   ]
 }

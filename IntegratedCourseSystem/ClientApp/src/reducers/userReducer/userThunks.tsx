@@ -61,7 +61,7 @@ export const loginUser = (email: string, password: string, loginType: LoginType)
       const stringRole = roleMapper(loginResponse.role)
 
       if (stringRole === "teacher") {
-        const coursesForTeacher = await courseService.getCourses(loginResponse.id)
+        const coursesForTeacher = await courseService.getCoursesForTeacher(loginResponse.id)
         const teacherCreatedCourse = coursesForTeacher.length > 0
         if (teacherCreatedCourse) {
           const currentCourseId = coursesForTeacher[0].id
@@ -71,10 +71,11 @@ export const loginUser = (email: string, password: string, loginType: LoginType)
         }
       }
       else if (stringRole === "student") {
-        const queObjects = await questionnaireService.getQuestionnaires(loginResponse.id) // get que id by student id (at least one)
+        const queObjects = await questionnaireService.getQuestionnairesByStudent(loginResponse.id) // get que id by student id (at least one)
         console.log (`questionnaires for student ${loginResponse.id}`, queObjects)
         // queObjects[0] should always exist as it is created when the student entity is created
         const queSubjects = await subjectQuestionnaire.getSubjects(queObjects[0].id)
+        console.log(queSubjects)
         const studentFilledReg = queSubjects.length > 0
         const currentCourseId = queObjects[0].classId
         // if student didn't fill in the course reg. form,
@@ -148,3 +149,4 @@ export const updateUserRole = (
       console.log (error.response.data)
     }
   }
+
