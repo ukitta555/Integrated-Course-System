@@ -30,7 +30,7 @@ type Color =
 
 export type TaskProps = {
     name: string;
-    text: string;
+    taskDescription: string;
     isHandedOver: boolean;
     author: string;
     marks: Map<string, [number, number]>;
@@ -90,7 +90,7 @@ const Task = (props: TaskProps) => (
                 <Divider style={dividerStyle}/>
                 <Grid container item alignItems="center" style={{}}>
                     <Typography style={{}}>
-                        {props.text}
+                        {props.taskDescription}
                     </Typography>
                 </Grid>
                 <Grid container item direction="row" justify="space-between" alignItems="center" style={{}}>

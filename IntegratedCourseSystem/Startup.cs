@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using IntegratedCourseSystem.Models;
 using IntegratedCourseSystem.Extensions;
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -34,7 +33,6 @@ namespace IntegratedCourseSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews()
                 .AddNewtonsoftJson();
 

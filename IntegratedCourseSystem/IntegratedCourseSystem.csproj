@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataBase\DataBase.csproj" />
+    <ProjectReference Include="..\GeneticAlgorithm\GeneticAlgorithm.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
