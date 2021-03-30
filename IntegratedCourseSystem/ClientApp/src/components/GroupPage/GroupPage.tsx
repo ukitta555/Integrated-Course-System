@@ -7,8 +7,10 @@ import groupService from "../../services/groupService"
 import groupTechService from "../../services/groupTechService"
 import studentGroupsService from "../../services/studentGroupsService"
 import studentService from "../../services/studentService"
+import taskService from "../../services/taskService";
 import techService from "../../services/techService"
-import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student } from "../../store/types"
+import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskType } from "../../store/types"
+import Task from "../Task/Task";
 import Togglable from "../Togglable/Togglable"
 
 // group should be extracted into its own logical component,
@@ -26,6 +28,7 @@ const GroupPage = () =>
   const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([])
   const [group, setGroup] = useState<Group | null>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true)
+  const [tasks, setTasks] = useState<TaskType[]>([])
   // once again, pls fix types
   const ref = useRef()
 
@@ -41,14 +44,14 @@ const GroupPage = () =>
   {
     async function fetchData()
     {
+      //get info about groups
       const groupResponse: Group = await groupService.getGroup(groupId)
-      console.log(groupResponse)
+      // set subjects
       const classSubjectsResponse = await courseSubjectService.getCourseSubjects(groupResponse.classId)
       setClassSubjects(classSubjectsResponse)
-      const studentsInGroup = await studentGroupsService.getStudentsByGroup(groupId)
+
+      // populate groups
       const techesInGroup = await groupTechService.getGroupTechesByGroup(groupId)
-
-
       const populatedGroupTechs: GroupTech[] = await Promise.all(
         techesInGroup.map(async (groupTech: GroupTech) =>
         {
@@ -60,6 +63,7 @@ const GroupPage = () =>
         })
       )
 
+      const studentsInGroup = await studentGroupsService.getStudentsByGroup(groupId)
       const populatedGroupStudents: Student[] = await Promise.all(
         studentsInGroup.map(async (groupStudent: GroupStudent) =>
         {
@@ -71,11 +75,20 @@ const GroupPage = () =>
           }
         })
       )
-
-
+      // set groups
       groupResponse.groupMembers = populatedGroupStudents
       groupResponse.groupTeches = populatedGroupTechs
       setGroup(groupResponse)
+      // fetch tasks
+      let tasksResponse = await taskService.getTasksByGroup(groupId)
+      console.log('tasks', tasksResponse)
+      tasksResponse = tasksResponse.map ((task : TaskType) => {
+        task.deadLine = task.deadLine ? new Date(task.deadLine) : null
+        task.done = task.done ? new Date(task.done) : null
+        task.posted = new Date(task.posted)
+        return task
+      })
+      setTasks(tasksResponse)
     }
     fetchData()
   }, [])
@@ -124,6 +137,23 @@ const GroupPage = () =>
                 </ul>
               </div>
             </Togglable>
+            {
+              //remove hardcoding!
+              tasks.map ( (task: TaskType) => {
+                return (
+                  <Task
+                    key = {task.id}
+                    name = {task.name}
+                    deadline = {task.deadLine ? task.deadLine : new Date() }
+                    taskDescription = {task.taskDescription}
+                    isHandedOver = {task.done ? true : false}
+                    author = "Omelchuk L.L."
+                    marks = {new Map([["ООП", [2, 2]]])}
+                    commentCount = {2}
+                  />
+                )
+              })
+            }
           </>
           : <LinearProgress />
       }

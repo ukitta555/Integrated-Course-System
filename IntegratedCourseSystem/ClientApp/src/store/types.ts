@@ -41,6 +41,16 @@ export interface TeacherInfo {
 
 /// component interfaces / types
 
+export interface TaskType {
+  id: number,
+  groupId: number,
+  name: string,
+  taskDescription: string,
+  deadLine: Date | null,
+  posted: Date,
+  done: Date | null
+}
+
 export interface Group {
   id: number,
   name: string,

@@ -140,7 +140,6 @@ const CoursePage = () => {
               </div>
               )
             }
-
           </>
         : <LinearProgress />
       }
