@@ -101,8 +101,6 @@ namespace GeneticAlgorithm
                     var firstParentGroup = parentFirst.Groups[gi];
                     var secondParentGroup = parentSecond.Groups[gi];
                     var newTechs = new List<Tech>();
-                    var lastStudentIndexF = 0;
-                    var lastStudentIndexS = 0;
                     var lastTechIndexF = 0;
                     var lastTechIndexS = 0;
                     for (int ti = 0; ti < Math.Max(firstParentGroup.techs.Count, secondParentGroup.techs.Count); ti++)
@@ -206,7 +204,7 @@ namespace GeneticAlgorithm
             }
         }
 
-        public List<Group> Run()
+        public List<Group> Run(Class @class)
         {
             Population = RandomInitialize(questionnaires);
             foreach(var c in Population)
@@ -234,7 +232,7 @@ namespace GeneticAlgorithm
             List<Group> res = new List<Group>();
             foreach(var group in Population.Max().Groups)
             {
-                res.Add(group.ToDbGroup());
+                res.Add(group.ToDbGroup(@class));
             }
             return res;
         }

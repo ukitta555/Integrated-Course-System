@@ -50,7 +50,7 @@ namespace GeneticAlgorithm
             qs[3].TeammatePreferences.Add(new TeammatePreference { Initiator = qs[3], Friend1 = a, Friend2 = b, Friend3 = c });
             qs[7].TeammateAntipreferences.Add(new TeammateAntipreference { Initiator = qs[7], Enemy1=e, Enemy2= f, Enemy3= g });
             var alg = new Algorithm(qs);
-            alg.Run();
+            alg.Run(new Class { Id = 0});
         }
     }
 }
