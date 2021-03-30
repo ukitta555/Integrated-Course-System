@@ -14,6 +14,7 @@ import Togglable from '../Togglable/Togglable'
 
 const CoursePage = () => {
   const match = useRouteMatch<MatchParamsId>('/course_view/:id')
+
   const classId = match
     ? match.params.id
       ? Number(match.params.id)
@@ -107,9 +108,8 @@ const CoursePage = () => {
       {
         groups.length > 0
         ? <>
-            Курс {courseInfo?.name}
-            <br />
-            ID курсу: {classId}
+            <Typography> Курс {courseInfo?.name} </Typography>
+            <Typography> ID курсу: {classId} </Typography>
             {
               groups.map ( (group : Group, index: number) =>
               <div key = {group.id}>
@@ -140,7 +140,6 @@ const CoursePage = () => {
               </div>
               )
             }
-
           </>
         : <LinearProgress />
       }

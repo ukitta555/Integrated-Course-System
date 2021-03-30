@@ -19,6 +19,7 @@ import { loginUser } from '../reducers/userReducer/userThunks';
 import TaskPage from "./TaskPage/TaskPage";
 import NoPage from './NoPage/NoPage';
 import CoursePage from './CoursePage/CoursePage';
+import GroupPage from './GroupPage/GroupPage';
 
 
 
@@ -84,7 +85,7 @@ const App = () => {
               }
             </Route>
             <Route path = '/group_view/:id'>
-              xd lmaoooooooo new page!!
+              <GroupPage />
             </Route>
             <Route path = '/task_page'>
                 <TaskPage/>
