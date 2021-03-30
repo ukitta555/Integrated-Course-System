@@ -32,7 +32,8 @@ const App = () => {
     }, [])
 
     const routes = (
-      <>
+      // style so that footer doesn't hide the content
+      <div style = {{paddingBottom: "6vh"}}>
         <Switch>
             <Route path = '/register'>
                 <RegistrationForm />
@@ -100,7 +101,7 @@ const App = () => {
               <NoPage />
             </Route>
         </Switch>
-      </>
+      </div>
     )
 
     return (
