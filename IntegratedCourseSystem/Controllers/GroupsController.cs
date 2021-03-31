@@ -23,9 +23,9 @@ namespace IntegratedCourseSystem.Controllers
 
         // GET: api/Groups
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
+        public async Task<ActionResult<IEnumerable<Group>>> GetByClassId([FromBody]GetArgs args)
         {
-            return await _context.Groups.ToListAsync();
+            return await _context.Groups.Where(x => x.Classid == args.ClassId).ToListAsync();
         }
 
         // GET: api/Groups/5
@@ -103,6 +103,11 @@ namespace IntegratedCourseSystem.Controllers
         private bool GroupExists(int id)
         {
             return _context.Groups.Any(e => e.Id == id);
+        }
+
+        public class GetArgs
+        {
+            public int ClassId { get; set; }
         }
     }
 }
