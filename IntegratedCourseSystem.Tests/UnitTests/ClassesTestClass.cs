@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 
-namespace IntegratedCourseSystem.Tests
+namespace IntegratedCourseSystem.UnitTests
 {
     public class ClassesTestClass
     {
@@ -21,7 +21,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetAllClassesSuccesfull()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetClasses");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetClasses");
             var data = new List<Class>
             {
                 new Class() { Id=1},
@@ -42,7 +42,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetClassSuccesfull()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetClass");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetClass");
             var data = new List<Class>
             {
                 new Class() { Id=1},
@@ -62,7 +62,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetClassNotFound()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetClassFailed");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetClassFailed");
             var data = new List<Class>
             {
                 new Class() { Id=1},
@@ -82,7 +82,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetTeacherClasses()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetTeacherClasses");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetTeacherClasses");
             var data = new List<Class>
             {
                 new Class() { Id=1, TeacherId = 1},
@@ -109,7 +109,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestPostClass_Succesfull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("PostClassSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("PostClassSuccefull");
             var testEntity = new Class() { Id = 42 };
             var controller = new ClassesController(context);
             //Act
@@ -128,7 +128,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestDeleteClass_Succesfull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("DeleteClassSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("DeleteClassSuccefull");
             var testEntity = new Class() { Id = 42 };
             context.Classes.Add(testEntity);
             context.SaveChanges();
@@ -146,7 +146,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestDeleteClass_NotFound_OnEmptySet()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("DeleteClassSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("DeleteClassSuccefull");
             var controller = new ClassesController(context);
             //Act
             var result = await controller.DeleteClass(44);
@@ -159,7 +159,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestDeleteClass_NotFound_OnWrongId()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("DeleteClassSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("DeleteClassSuccefull");
             var testEntity = new Class() { Id = 42 };
             context.Classes.Add(testEntity);
             context.SaveChanges();
