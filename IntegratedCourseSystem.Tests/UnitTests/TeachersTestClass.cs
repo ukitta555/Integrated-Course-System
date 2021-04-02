@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IntegratedCourseSystem.Tests
+namespace IntegratedCourseSystem.UnitTests
 {
     public class TeachersTestClass
     {
@@ -19,7 +19,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetTeacherByIdSuccesfull()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetTeacherById");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetTeacherById");
             var data = new List<Teacher>
             {
                 new Teacher() { Id=1},
@@ -47,7 +47,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestPostTeacher_Succesfull_ReturnsCreatedTeacher()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("PostTeacherSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("PostTeacherSuccefull");
             var testEntity = new Teacher() { Id = 42 };
             var controller = new TeachersController(context);
             //Act

@@ -12,6 +12,7 @@ using System.Security.Claims;
 using DataBase.Models;
 using DataBase.Models.UserModel;
 using Microsoft.AspNetCore.JsonPatch;
+using System.Text.RegularExpressions;
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -84,6 +85,12 @@ namespace IntegratedCourseSystem.Controllers
         [Route("[action]")]
         public async Task<ActionResult<UserDTO>> Register(User user)
         {
+            var regex = new Regex("^[^\n\r\\s]+@knu\\.ua$");
+            if(!regex.IsMatch(user.Email))
+            {
+                ModelState.AddModelError("Email", "Not a valid email");
+                return BadRequest(ModelState);
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -136,7 +143,6 @@ namespace IntegratedCourseSystem.Controllers
             }
             else
             {
-
                 if ((int)pwh.VerifyHashedPassword(userByEmail, userByEmail.Password, user.Password) > 0)
                 {
                     await Authenticate(user.Email);
