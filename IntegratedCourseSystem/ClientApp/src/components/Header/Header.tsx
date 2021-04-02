@@ -63,21 +63,21 @@ const Header = () => {
           <Grid container item justify="space-between" spacing={4} style={registrationButtonsWrapperStyle}>
               <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonsStyle}>
                   <Grid item>
-                      <Button color="inherit" style={registrationButtonStyle}>
-                          <Link to = '/register' style={{color: "inherit"}}>
+                      <Link to = '/register' style={{color: "inherit"}}>
+                          <Button color="inherit" style={registrationButtonStyle}>
                               register
-                          </Link>
-                      </Button>
+                          </Button>
+                      </Link>
                   </Grid>
               </Box>
 
               <Box bgcolor="theme_green.dark" color="theme_black.main"  style={registrationButtonsStyle}>
                   <Grid item>
-                      <Button color = "inherit" style={registrationButtonStyle}>
-                          <Link to = '/login' style={{color: "inherit"}}>
+                      <Link to = '/login' style={{color: "inherit"}}>
+                          <Button color = "inherit" style={registrationButtonStyle}>
                               login
-                          </Link>
-                      </Button>
+                          </Button>
+                      </Link>
                   </Grid>
               </Box>
           </Grid>
@@ -90,11 +90,11 @@ const Header = () => {
 
               <Box bgcolor="theme_grey.main" color="theme_white.main"  style={registrationButtonsStyle}>
                   <Grid item>
-                    <Button color = "inherit">
-                        <Link to = '/course_registration' style={{color: "inherit"}}>
-                            CourseReg
-                        </Link>
-                    </Button>
+                      <Link to = '/course_registration' style={{color: "inherit"}}>
+                          <Button color = "inherit">
+                              CourseReg
+                          </Button>
+                      </Link>
                   </Grid>
               </Box>
 
@@ -102,11 +102,11 @@ const Header = () => {
 
               <Box bgcolor="theme_green.dark" color="theme_black.main"  style={registrationButtonsStyle}>
                   <Grid item>
-                    <Button color = "inherit">
-                        <Link to = '/course_creating_page' style={{color: "inherit"}}>
-                            Create course
-                        </Link>
-                    </Button>
+                      <Link to = '/course_creating_page' style={{color: "inherit"}}>
+                          <Button color = "inherit">
+                              Create course
+                          </Button>
+                      </Link>
                   </Grid>
               </Box>
 
