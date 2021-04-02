@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IntegratedCourseSystem.Tests
+namespace IntegratedCourseSystem.UnitTests
 {
     public class SubjectsTestSubject
     {
@@ -19,7 +19,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetAllSubjectsSuccesfull()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetSubjects");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetSubjects");
             var data = new List<Subject>
             {
                 new Subject() { Id=1},
@@ -40,7 +40,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetSubjectSuccesfull()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetSubject");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetSubject");
             var data = new List<Subject>
             {
                 new Subject() { Id=1},
@@ -60,7 +60,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetSubject_NotFound()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetSubjectFailed");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetSubjectFailed");
             var data = new List<Subject>
             {
                 new Subject() { Id=1},
@@ -84,7 +84,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestPostSubject_Succesfull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("PostSubjectSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("PostSubjectSuccefull");
             var testEntity = new Subject() { Id = 42 };
             var controller = new SubjectsController(context);
             //Act
@@ -103,7 +103,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestDeleteSubject_Succesfull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("DeleteSubjectSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("DeleteSubjectSuccefull");
             var testEntity = new Subject() { Id = 42 };
             context.Subjects.Add(testEntity);
             context.SaveChanges();
@@ -121,7 +121,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestDeleteSubject_NotFound_OnEmptySet()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("DeleteSubjectSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("DeleteSubjectSuccefull");
             var controller = new SubjectsController(context);
             //Act
             var result = await controller.DeleteSubject(44);
@@ -134,7 +134,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestDeleteSubject_NotFound_OnWrongId()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("DeleteSubjectSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("DeleteSubjectSuccefull");
             var testEntity = new Subject() { Id = 42 };
             context.Subjects.Add(testEntity);
             context.SaveChanges();

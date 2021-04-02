@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IntegratedCourseSystem.Tests
+namespace IntegratedCourseSystem.UnitTests
 {
-    internal class TestDbAsyncQueryProvider<TEntity> : IDbAsyncQueryProvider
+    /*internal class TestDbAsyncQueryProvider<TEntity> : IDbAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -101,5 +101,5 @@ namespace IntegratedCourseSystem.Tests
         {
             get { return Current; }
         }
-    }
+    }*/
 }
