@@ -99,38 +99,6 @@ const LandingPage = () => (
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            {/*<Grid container item xs>*/}
-                            {/*    <Grid item xs={9}>*/}
-                            {/*        <Box color="theme_white.main">*/}
-                            {/*            <Typography variant="h5" component="p" style={{marginTop: "7%",}}>*/}
-                            {/*                “Мені дуже сподобалося працювати з системою T-Collab! Система розподілу поставила мене у команду  з людьми,які розідляють мої інтереси, і*/}
-                            {/*            </Typography>*/}
-                            {/*            <Typography variant="h5" component="p" style={{marginBottom: "7%",}}>*/}
-                            {/*                я знайшов купу нових друзів! Також хочу відмітити, що працювати з системою було дуже просто: я не пропустив жодного дедлайну!”*/}
-                            {/*            </Typography>*/}
-                            {/*        </Box>*/}
-                            {/*    </Grid>*/}
-                            {/*    <Grid container direction="column" item xs>*/}
-                            {/*        <Grid item xs>*/}
-                            {/*            <BoxWithImageBG bgimage="maestro.png" style={imageBoxStyle}/>*/}
-                            {/*        </Grid>*/}
-                            {/*        <Grid item xs>*/}
-                            {/*            <Box color="theme_white.main">*/}
-                            {/*                <Typography variant="h5" component="p" align="center">*/}
-                            {/*                    Едуард А.,*/}
-                            {/*                    студент 4 курсу*/}
-                            {/*                </Typography>*/}
-                            {/*            </Box>*/}
-                            {/*        </Grid>*/}
-                            {/*    </Grid>*/}
-                            {/*</Grid>*/}
-                            {/*<Grid item xs>*/}
-                            {/*    <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonBoxStyle}>*/}
-                            {/*        <Button color="inherit" style={registrationButtonStyle}>*/}
-                            {/*            <Typography>Реєстрація</Typography>*/}
-                            {/*        </Button>*/}
-                            {/*    </Box>*/}
-                            {/*</Grid>*/}
                         </Grid>
                     </Box>
                 </Grid>
@@ -179,35 +147,6 @@ const LandingPage = () => (
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            {/*<Grid container item xs>*/}
-                            {/*    <Grid item xs>*/}
-                            {/*        <Box color="theme_black.main" fontStyle="italic">*/}
-                            {/*            <Typography>*/}
-                            {/*                “Алгоритм групування - неймовірний. Якщо щось йде не так або студент хоче бути у іншій групі - я можу це вручну виправити. Додавання нових завдань та їх оцінювання зроблені на ура - інтерфейс дуже зрозумілий. Я вже порекомендував цю систему своїм колегам.*/}
-                            {/*            </Typography>*/}
-                            {/*        </Box>*/}
-                            {/*    </Grid>*/}
-                            {/*    <Grid container direction="column" item xs>*/}
-                            {/*        <Grid item xs>*/}
-                            {/*            <BoxWithImageBG bgimage="yaroslav.png" style={imageBoxStyle}/>*/}
-                            {/*        </Grid>*/}
-                            {/*        <Grid item xs>*/}
-                            {/*            <Box color="theme_black.main" fontStyle="italic">*/}
-                            {/*                <Typography>*/}
-                            {/*                    Ярослав П., доц. кафедри*/}
-                            {/*                    ТТП факультету кібернетики*/}
-                            {/*                </Typography>*/}
-                            {/*            </Box>*/}
-                            {/*        </Grid>*/}
-                            {/*    </Grid>*/}
-                            {/*</Grid>*/}
-                            {/*<Grid item xs>*/}
-                            {/*    <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonBoxStyle}>*/}
-                            {/*        <Button color="inherit" style={registrationButtonStyle}>*/}
-                            {/*            <Typography>Реєстрація</Typography>*/}
-                            {/*        </Button>*/}
-                            {/*    </Box>*/}
-                            {/*</Grid>*/}
                         </Grid>
                     </Box>
                 </Grid>
