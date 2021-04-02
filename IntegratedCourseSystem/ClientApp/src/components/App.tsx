@@ -20,6 +20,7 @@ import TaskPage from "./TaskPage/TaskPage";
 import NoPage from './NoPage/NoPage';
 import CoursePage from './CoursePage/CoursePage';
 import GroupPage from './GroupPage/GroupPage';
+import LandingPage from "./LandingPage/LandingPage";
 
 
 
@@ -94,7 +95,7 @@ const App = () => {
                 <CourseRegistrationForm />
             </Route>
             <Route path = '/index'>
-              landing should be here somewhere
+                <LandingPage/>
             </Route>
             <Route path = '/'>
               <NoPage />
