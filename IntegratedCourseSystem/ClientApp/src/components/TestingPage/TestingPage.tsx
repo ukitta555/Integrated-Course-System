@@ -2,6 +2,7 @@ import React from "react";
 import Task, {TaskProps} from "../Task/Task";
 import Comments from "../Comments/Comments";
 import {Container} from "@material-ui/core";
+import CoursesView from "../AllCoursesView/CoursesView";
 
 const testingPageWrapperStyle = {
     marginTop: "20px",
@@ -27,8 +28,7 @@ const testCommentsProps = {
 
 const TestingPage = () =>
     <Container style={testingPageWrapperStyle}>
-        <Task {...testTaskProps}/>
-        <Comments {...testCommentsProps}/>
+        <CoursesView/>
     </Container>
 
 export default TestingPage
