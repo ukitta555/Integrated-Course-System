@@ -86,7 +86,7 @@ const CoursesView = () => {
             {
             groupInPairs(courses).map (
                       ([c1, c2]) => (
-                          <Grid container item xs key={c1.id}>
+                          <Grid container justify="space-around" item xs key={c1.id}>
                               <Grid item xs={5}>
                                 <Course {...c1} role={user.role} onSplitButtonClick={handleSplitButtonClick} />
                               </Grid>
