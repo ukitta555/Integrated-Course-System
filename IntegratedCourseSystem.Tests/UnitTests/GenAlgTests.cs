@@ -1,6 +1,7 @@
 ﻿using DataBase.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -49,8 +50,9 @@ namespace GeneticAlgorithm
             };
             qs[3].TeammatePreferences.Add(new TeammatePreference { Initiator = qs[3], Friend1 = a, Friend2 = b, Friend3 = c });
             qs[7].TeammateAntipreferences.Add(new TeammateAntipreference { Initiator = qs[7], Enemy1=e, Enemy2= f, Enemy3= g });
-            var alg = new Algorithm(qs);
-            alg.Run(new Class { Id = 0});
+            var alg = new Algorithm(qs, 4, 5);
+            var res = alg.Run(new Class { Id = 0});
+            Assert.Equal(10,res.SelectMany(gr => gr.Studentgroups.Select(sg => sg.Student).ToList()).Count());
         }
     }
 }
