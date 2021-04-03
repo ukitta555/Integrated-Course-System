@@ -33,7 +33,8 @@ const App = () => {
     }, [])
 
     const routes = (
-      <>
+      // style so that footer doesn't hide the content
+      <div style = {{paddingBottom: "8vh"}}>
         <Switch>
             <Route path = '/register'>
                 <RegistrationForm />
@@ -48,7 +49,9 @@ const App = () => {
                 : user.role === "student"
                   ? <Redirect to = "/course_registration" />
                   : user.role === "teacher"
-                    ? <Redirect to = "/course_creating_page" />
+                    ? user.currentCourseId
+                      ? <Redirect to = "/courses_view" />
+                      : <Redirect to = "/course_creating_page" />
                     : <Redirect to = "/" /> // admin or no role
               }
             </Route>
@@ -64,9 +67,7 @@ const App = () => {
             <Route path = '/course_creating_page'>
               {
                 user.role === "teacher"
-                ? user.currentCourseId
-                  ? <Redirect to = '/courses_view' />
-                  : <CourseCreatingPage/>
+                ? <CourseCreatingPage/>
                 : <Redirect to = '/' />
               }
             </Route>
@@ -101,7 +102,7 @@ const App = () => {
               <NoPage />
             </Route>
         </Switch>
-      </>
+      </div>
     )
 
     return (

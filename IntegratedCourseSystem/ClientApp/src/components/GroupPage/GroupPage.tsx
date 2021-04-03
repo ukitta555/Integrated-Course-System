@@ -1,4 +1,4 @@
-import { Button, LinearProgress, Typography } from "@material-ui/core"
+import { Button, LinearProgress, TextField, Typography } from "@material-ui/core"
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import React, { useState, useEffect, useRef } from "react"
 import { useRouteMatch } from "react-router-dom"
@@ -7,15 +7,20 @@ import groupService from "../../services/groupService"
 import groupTechService from "../../services/groupTechService"
 import studentGroupsService from "../../services/studentGroupsService"
 import studentService from "../../services/studentService"
+import subjectTaskService from "../../services/subjectTaskService";
 import taskService from "../../services/taskService";
 import techService from "../../services/techService"
-import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskType } from "../../store/types"
+import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType } from "../../store/types"
 import Task from "../Task/Task";
 import Togglable from "../Togglable/Togglable"
 
 // group should be extracted into its own logical component,
 // but I feel like I'm gonna debug it a lot longer than re-write code from scratch
 
+
+
+
+// TODO: sort tasks by date & load task info from server & remove hardcoding in Task props
 const GroupPage = () =>
 {
   const match = useRouteMatch<MatchParamsId>()
@@ -25,10 +30,15 @@ const GroupPage = () =>
       : null
     : null
 
+
   const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([])
+  const [maxGrades, setMaxGrades] = useState<number[]> ([]) // max grades for classes (set by teacher)
+  const [deadlineDate, setDeadlineDate] = useState<string>("") // deadline date. stored as a string, converted to Date in form handler
   const [group, setGroup] = useState<Group | null>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true)
   const [tasks, setTasks] = useState<TaskType[]>([])
+  const [taskName, setTaskName] = useState<string> ("")
+  const [newTaskDescription, setNewTaskDescription] = useState<string>("")
   // once again, pls fix types
   const ref = useRef()
 
@@ -40,6 +50,67 @@ const GroupPage = () =>
     setIsDropdownOpen(!isDropdownOpen)
   }
 
+  const handleNewTaskDescriptionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setNewTaskDescription(event.target.value as string)
+  }
+
+  const handleTaskFormSubmit =  async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!group) return;
+    const taskToAdd = {
+      taskDescription: newTaskDescription,
+      groupId: group.id,
+      name: taskName,
+      deadLine: new Date(deadlineDate),
+      posted: new Date(), // should be generated on a server (?)
+      done: null
+    }
+    const addedTask = await taskService.addTask(taskToAdd)
+
+    addedTask.posted = new Date (addedTask.posted)
+    addedTask.deadLine = new Date (addedTask.deadLine)
+
+    const subjectTaskEntities = classSubjects.map ( (classSubj : ClassSubject, index: number) => {
+      return {
+        classSubjectId: classSubj.id,
+        actualGrade: 0,
+        taskId: addedTask.id,
+        maxGrade: maxGrades[index]
+      }
+    })
+
+
+    console.log(addedTask)
+
+    //setTasks (tasks.concat(addedTask))
+    const responseArray = await Promise.all (
+      subjectTaskEntities.map (async (subjTask: {
+        classSubjectId: number,
+        actualGrade: number,
+        taskId: number,
+        maxGrade: number
+        }) => {
+        const response = await subjectTaskService.addGrades(subjTask)
+        return response
+      })
+    )
+
+    console.log (responseArray)
+    addedTask.grades = await Promise.all (responseArray.map (async (grade: any) => {
+      const subjName = await courseSubjectService.getSubjectNameById(grade.classSubjectId)
+      console.log (subjName)
+      return {
+        grades: grade,
+        name: subjName
+      }
+    })
+    )
+    console.log (addedTask)
+    console.log (responseArray)
+    setTasks(tasks.concat(addedTask))
+
+
+  }
   useEffect(() =>
   {
     async function fetchData()
@@ -49,6 +120,8 @@ const GroupPage = () =>
       // set subjects
       const classSubjectsResponse = await courseSubjectService.getCourseSubjects(groupResponse.classId)
       setClassSubjects(classSubjectsResponse)
+      // set max grades
+      setMaxGrades(new Array(classSubjectsResponse.length).fill(5))
 
       // populate groups
       const techesInGroup = await groupTechService.getGroupTechesByGroup(groupId)
@@ -81,17 +154,46 @@ const GroupPage = () =>
       setGroup(groupResponse)
       // fetch tasks
       let tasksResponse = await taskService.getTasksByGroup(groupId)
-      console.log('tasks', tasksResponse)
-      tasksResponse = tasksResponse.map ((task : TaskType) => {
-        task.deadLine = task.deadLine ? new Date(task.deadLine) : null
-        task.done = task.done ? new Date(task.done) : null
-        task.posted = new Date(task.posted)
-        return task
+
+      //const taskGrades = await subjectTaskService.getGradesByTask()
+
+      tasksResponse = tasksResponse.map ((task : TaskDTO) => {
+        const newTask : TaskType = {...task.task, grades: task.grades}
+        newTask.deadLine = newTask.deadLine ? new Date(newTask.deadLine) : null
+        newTask.done = newTask.done ? new Date(newTask.done) : null
+        newTask.posted = new Date(newTask.posted)
+        return newTask
       })
       setTasks(tasksResponse)
+
     }
     fetchData()
   }, [])
+
+  console.log('tasks', tasks)
+
+  const handleMaxGradeChange = (event: React.ChangeEvent<{ value: unknown }>, changedGradeIndex: number) => {
+    setMaxGrades (
+      maxGrades.map ((grade: number, currentGradeIndex: number) => {
+        const convertedInputValue = Number(event.target.value as string)
+        return (currentGradeIndex === changedGradeIndex
+          ? convertedInputValue
+            ? convertedInputValue
+            : 0
+          : maxGrades[currentGradeIndex]
+        )
+      })
+    )
+  }
+
+  const handleDeadlineChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setDeadlineDate(event.target.value as string)
+    console.log(new Date(deadlineDate))
+  }
+
+  const handleTaskNameChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setTaskName (event.target.value as string)
+  }
 
   const groupWrapperStyle = {
     border: "4px double black"
@@ -104,6 +206,7 @@ const GroupPage = () =>
   const closedIconStyle = {
     transform: 'rotate(0deg)'
   }
+
 
   return (
     <div>
@@ -137,8 +240,34 @@ const GroupPage = () =>
                 </ul>
               </div>
             </Togglable>
+
+            <div>
+              new tasks are created here
+              <form onSubmit = {handleTaskFormSubmit} style = {groupWrapperStyle}>
+                <TextField type = 'text' value = {taskName} onChange = {handleTaskNameChange} placeholder = "Назва завдання..."/>
+                <TextField type = 'text' value = {newTaskDescription} onChange = {handleNewTaskDescriptionChange} placeholder = "Текст завдання..."/>
+                {
+                  classSubjects.map ( (classSubj : ClassSubject, index: number) => {
+                    return (
+                      <div key = {classSubj.id}>
+                        <Typography> Максимальний бал за дисципліну {classSubj.name}: </Typography>
+                        <TextField
+                          type = 'text'
+                          value = {maxGrades[index]}
+                          onChange = {(event: React.ChangeEvent<{ value: unknown }>) => handleMaxGradeChange(event, index)}
+                        />
+                      </div>
+                    )
+                  })
+                }
+                <Typography> Встановіть дедлайн завдання: </Typography>
+                <TextField type= 'text' value = {deadlineDate} onChange = {handleDeadlineChange}/>
+                <Button type="submit" variant="contained" color="primary" > Додати завдання </Button>
+              </form>
+            </div>
             {
               //remove hardcoding!
+
               tasks.map ( (task: TaskType) => {
                 return (
                   <Task
@@ -148,11 +277,19 @@ const GroupPage = () =>
                     taskDescription = {task.taskDescription}
                     isHandedOver = {task.done ? true : false}
                     author = "Omelchuk L.L."
-                    marks = {new Map([["ООП", [2, 2]]])}
+                    marks =
+                    {/*new Map([["ООП", [2, 2]]])*/
+                      new Map (task.grades.map ( grade => {
+                        return [grade.name, [grade.grades.actualGrade, grade.grades.maxGrade]]
+                      }
+                      ))
+                    }
                     commentCount = {2}
+                    style = {{marginTop: "4vh"}}
                   />
                 )
               })
+
             }
           </>
           : <LinearProgress />

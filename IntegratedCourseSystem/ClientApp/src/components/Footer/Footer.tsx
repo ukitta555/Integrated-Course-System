@@ -8,6 +8,7 @@ const Footer = () => {
     background: "#97ACC4",
     position: "fixed" as "fixed",
     bottom: 0,
+    height: "4vh"
     //margin: "3vh"
     // width: '100%'
   }
@@ -16,7 +17,7 @@ const Footer = () => {
     color: "#F6F6F6",
     fontStyle: "normal",
     fontWeight: "normal" as "normal",
-    textAlign: 'center' as 'center',
+    textAlign: 'center' as 'center'
     // fontFamily: Roboto;
     // fontSize: "28px",
     // lineHeight: "33px",

@@ -41,6 +41,30 @@ export interface TeacherInfo {
 
 /// component interfaces / types
 
+export interface Grades {
+  grades: {
+    maxGrade: number,
+    actualGrade: number,
+    classSubjectId: number,
+    taskId: number,
+  },
+  name: string
+}
+
+export interface TaskDTO {
+  task:
+  {
+    id: number,
+    groupId: number,
+    name: string,
+    taskDescription: string,
+    deadLine: Date | null,
+    posted: Date,
+    done: Date | null
+  },
+  grades: Grades[]
+}
+
 export interface TaskType {
   id: number,
   groupId: number,
@@ -48,8 +72,10 @@ export interface TaskType {
   taskDescription: string,
   deadLine: Date | null,
   posted: Date,
-  done: Date | null
+  done: Date | null,
+  grades: Grades[]
 }
+
 
 export interface Group {
   id: number,

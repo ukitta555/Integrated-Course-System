@@ -63,8 +63,11 @@ const CoursesView = () => {
   console.log(courses)
   return (
       <ThemeProvider theme={light}>
+      {
+        courses.length > 0
+        ?
         <Container style={{margin: "36px 0"}}>
-          <Grid container spacing={10} direction="column">
+          <Grid container spacing={10} direction="column" >
             <Grid container item>
               <Grid item xs={5}>
                 <BoxWithImageBG bgimage="dogs_learning.png"/>
@@ -80,22 +83,21 @@ const CoursesView = () => {
                 </Box>
               </Grid>
             </Grid>
-            { courses.length > 0
-                  ? groupInPairs(courses).map (
+            {
+            groupInPairs(courses).map (
                       ([c1, c2]) => (
-                          <Grid container item xs>
+                          <Grid container item xs key={c1.id}>
                               <Grid item xs={5}>
                                 <Course {...c1} role={user.role} onSplitButtonClick={handleSplitButtonClick} />
                               </Grid>
                               { c2 ?
                                   <Grid item xs={5}>
-                                    <Course {...c1} role={user.role} onSplitButtonClick={handleSplitButtonClick}/>
+                                    <Course {...c2} role={user.role} onSplitButtonClick={handleSplitButtonClick}/>
                                   </Grid> : null
                               }
                         </Grid>
                       )
                   )
-                  : <LinearProgress />
             }
             <Grid item xs>
               <Box color="theme_black.main" textAlign="center" /* style={registrationButtonBoxStyle} */>
@@ -108,6 +110,8 @@ const CoursesView = () => {
             </Grid>
           </Grid>
         </Container>
+      : <LinearProgress />
+      }
       </ThemeProvider>
   )
 }
