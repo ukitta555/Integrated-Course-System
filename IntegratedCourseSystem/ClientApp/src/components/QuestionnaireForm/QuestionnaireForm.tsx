@@ -1,24 +1,64 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import useField from '../../hooks/useField'
-import { UserState } from '../../store/types'
+import {UserState} from '../../store/types'
 import { createTeacher, createStudent, updateUserRole } from '../../reducers/userReducer/userThunks'
 import questionnaireService from '../../services/questionnaireService'
-import {useHistory} from 'react-router-dom'
+// import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import { FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@material-ui/core";
+import {
+	Box,
+	Container,
+	FormControlLabel,
+	Grid,
+	Radio,
+	RadioGroup,
+	ThemeProvider, Typography
+} from "@material-ui/core";
 import facultyService from '../../services/facultyService'
-import FacultyInputs from '../FacultyInputs/FacultyInputs'
-import {Faculty, Role} from '../FacultyInputs/FacultyInputs'
+import FacultyInputs, {Faculty, Role} from '../FacultyInputs/FacultyInputs'
+import BoxWithImageBG from "../BoxWithImageBG/BoxWithImageBG";
+import light from "../../themes/light";
+import WrappedInput from "../WrappedInput/WrappedInput";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 
+const forwardButtonWrapperStyle = {
+	borderRadius: 15,
+	width: "20%",
+}
+const forwardButtonStyle = {
+	borderRadius: "inherit",
+	textAlign: "center" as "center",
+	width: "100%",
+}
+const radioBoxStyle = {
+	borderRadius: 27.5,
+}
+const radioLabelStyle = {
+	margin: "0 5px 0 0",
+}
+const radioStyle = {
+	color: "inherit",
+	borderRadius: 50,
+	padding: 0,
+	margin: "9px",
+	backgroundColor: light.palette.theme_white.main,
+}
+const radioCheckedIconStyle = {
+	width: "0.8em",
+	height: "0.8em",
+}
+const radioIconStyle = {
+	color: light.palette.theme_white.main,
+	...radioCheckedIconStyle,
+}
 const QuestionnaireForm = () =>
 {
 	const NOT_SELECTED = -1;
 	const dispatch = useDispatch()
 	const user = useSelector((state: { user: UserState }) => state.user)
-	const history = useHistory()
+	// const history = useHistory()
 
 
 	const [role, setRole] = useState<Role>("student");
@@ -30,21 +70,11 @@ const QuestionnaireForm = () =>
 	const courseId = useField('text');
 	const coursePassword = useField('password');
 
-	// when DB is ready change to data recieved from server
+	// when DB is ready change to data received from server
 	const [faculties, setFaculties] = useState<Faculty[]>([])
 	const [selectedFacultyId, setSelectedFacultyID] = useState<number>(NOT_SELECTED)
 
 	const [selectedTeacherId, setSelectedTeacherId] = useState<number>(NOT_SELECTED)
-
-	const courseIdInputProps = {
-		pattern: "\\d+",
-		...courseId
-	}
-
-	const coursePasswordProps = {
-		autoComplete: "password",
-		...coursePassword
-	}
 
 	const fetchFaculties = async () =>
 	{
@@ -88,7 +118,6 @@ const QuestionnaireForm = () =>
 			await dispatch(createTeacher(teacherInfo))
 			await dispatch(updateUserRole(1, user.id))
 		}
-		// console.log(name.value, surname.value, courseId.value, coursePassword.value)
 	}
 
 	const handleSelectedFacultyChange = (event: React.ChangeEvent<{ value: unknown }>) =>
@@ -107,40 +136,85 @@ const QuestionnaireForm = () =>
 
 	console.log(selectedFacultyId)
 	return (
-		<>
-			<div>
-				<p>User email:{user.email} </p>
-				<p>User ID: {user.id}</p>
-			</div>
-			<form onSubmit={onSubmit}>
-				<RadioGroup row name="role" value={role} onChange={handleRoleChange}>
-					<FormControlLabel value="teacher" control={<Radio />} label="Я - вчитель" />
-					<FormControlLabel value="student" control={<Radio />} label="Я - учень" />
-				</RadioGroup>
-				<TextField label="Ім'я" {...name} />
-				<TextField label="Прізвище" {...surname} />
-				{
-     		 role === "student" &&
-     	 		<>
-        	<TextField label="ID курсу" inputProps={courseIdInputProps} />
-      	  <TextField label="Пароль курсу"  inputProps={coursePasswordProps}/>
-     		 </>
-    		}
-				<FacultyInputs
-					faculties = {faculties}
-					selectedFacultyId = {selectedFacultyId}
-					selectedTeacherId = {selectedTeacherId}
-					handleSelectedFacultyChange = {handleSelectedFacultyChange}
-					handleSelectedTeacherChange = {handleSelectedTeacherChange}
-					role = {role}
-					fetchFaculties = {fetchFaculties}
-				/>
-				<Button type="submit" variant="contained" color="primary">Далі</Button>
-
+		<ThemeProvider theme={light}>
+			<form onSubmit={onSubmit} style={{margin: "3% 0"}}>
+				<Container>
+					<Grid container direction="column" spacing={2}>
+						<Grid container item xs direction="row" justify="space-around">
+							<Grid item xs={3}>
+								<BoxWithImageBG bgimage="document_icon.png"/>
+							</Grid>
+							<Grid item xs={7}>
+								<Box color="theme_black.main">
+									<Typography variant="h4" style={{margin: "5% 0"}}>Для продовження роботи, будь ласка, заповніть анкету.</Typography>
+								</Box>
+							</Grid>
+						</Grid>
+						<Grid item xs>
+							<Box color="theme_black.main">
+								<RadioGroup row name="role" value={role} onChange={handleRoleChange}>
+									<Grid container direction="row" justify="space-around">
+										<Grid container justify="center" item xs={5}>
+											<Box bgcolor="theme_green.main" style={radioBoxStyle}>
+												<FormControlLabel value="teacher" style={radioLabelStyle} control={<Radio icon={<FiberManualRecordIcon style={radioIconStyle}/>} checkedIcon={<FiberManualRecordIcon style={radioCheckedIconStyle}/>} style={radioStyle} />} label="Я - вчитель" />
+											</Box>
+										</Grid>
+										<Grid container justify="center" item xs={4}>
+											<Box bgcolor="theme_green.main" style={radioBoxStyle}>
+												<FormControlLabel value="student" style={radioLabelStyle} control={<Radio icon={<FiberManualRecordIcon style={radioIconStyle}/>} checkedIcon={<FiberManualRecordIcon style={radioCheckedIconStyle}/>} style={radioStyle} />} label="Я - учень" />
+											</Box>
+										</Grid>
+									</Grid>
+								</RadioGroup>
+							</Box>
+						</Grid>
+						<Grid container item xs direction="row" justify="space-around">
+							<Grid item xs={5}>
+								<BoxWithImageBG bgimage="name_surname.png" bgcolor="theme_grey.main"/>
+							</Grid>
+							<Grid container item xs={4} direction="column" spacing={2}>
+								<Grid item xs>
+									<WrappedInput label="Ім'я" bgcolor="theme_green.main" inputbgcolor="theme_white.main" {...name}/>
+								</Grid>
+								<Grid item xs>
+									<WrappedInput label="Прізвище" bgcolor="theme_green.main" inputbgcolor="theme_white.main" {...surname}/>
+								</Grid>
+							</Grid>
+						</Grid>
+						{ role === "student" &&
+						<Grid container item xs direction="row" justify="space-around">
+							<Grid item xs={5}>
+								<BoxWithImageBG bgimage="lock.png" bgcolor="theme_grey.main"/>
+							</Grid>
+							<Grid container item xs={4} direction="column" spacing={2}>
+								<Grid item xs>
+									<WrappedInput label="ID курсу" bgcolor="theme_green.main" inputbgcolor="theme_white.main"  inputProps={{pattern: "\\d+",}} {...courseId}/>
+								</Grid>
+								<Grid item xs>
+									<WrappedInput label="Пароль курсу" bgcolor="theme_green.main" inputbgcolor="theme_white.main" inputProps={{autoComplete: "password",}} {...coursePassword}/>
+								</Grid>
+							</Grid>
+						</Grid>
+						}
+						<FacultyInputs
+							faculties = {faculties}
+							selectedFacultyId = {selectedFacultyId}
+							selectedTeacherId = {selectedTeacherId}
+							handleSelectedFacultyChange = {handleSelectedFacultyChange}
+							handleSelectedTeacherChange = {handleSelectedTeacherChange}
+							role = {role}
+							fetchFaculties = {fetchFaculties}
+						/>
+						<Grid container item justify="center">
+							<Box bgcolor="theme_green.dark" color="theme_black.main" style={forwardButtonWrapperStyle}>
+								<Button type="submit" color="inherit" style={forwardButtonStyle}>Далі</Button>
+							</Box>
+						</Grid>
+					</Grid>
+				</Container>
 			</form>
-		</>
+		</ThemeProvider>
 	)
-
 }
 
 export default QuestionnaireForm
