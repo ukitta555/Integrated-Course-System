@@ -92,7 +92,7 @@ const App = () => {
                 <TaskPage/>
             </Route>
             <Route path = '/testing_page'>
-                <CourseRegistrationForm />
+                <TestingPage />
             </Route>
             <Route path = '/index'>
                 <LandingPage/>
