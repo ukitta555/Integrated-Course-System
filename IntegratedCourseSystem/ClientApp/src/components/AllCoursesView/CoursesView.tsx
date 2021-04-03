@@ -17,7 +17,7 @@ const CoursesView = () => {
   const [courses, setCourses] = useState <Class[]>([])
 
   const groupInPairs: <T>(list: T[]) => T[][]
-      = list => list.map((el, i) => i >= list.length -1 ? [el] : [el, list[i + 1]]).filter((_, i) => i % 2 == 0)
+      = list => list.map((el, i) => i >= list.length - 1 ? [el] : [el, list[i + 1]]).filter((_, i) => i % 2 == 0)
 
 
 
@@ -39,7 +39,7 @@ const CoursesView = () => {
         console.log(response)
         const classIds : Class[]
           = await Promise.all(
-              response.map (async (que: {classId: number, id: number}) => {
+              response.map(async (que: {classId: number, id: number}) => {
                 const classResponse = courseService.getCourseByID(que.classId)
                 return classResponse
               })
@@ -58,10 +58,6 @@ const CoursesView = () => {
     console.log (response)
     history.push(`/course_view/${courseId}`)
 
-  }
-
-  const courseWrapperStyle = {
-    border: "4px double black"
   }
 
   console.log(courses)
@@ -98,27 +94,6 @@ const CoursesView = () => {
                               }
                         </Grid>
                       )
-                      // <Container key = {c.id} style={courseWrapperStyle}>
-                      //   <Box bgcolor="theme_green.dark" color="theme_white.main">
-                      //     { c.areGroupsDefined
-                      //         ? (
-                      //             <Link to={`/course_view/${c.id}`}>
-                      //               <Typography> Course name: {c.name} </Typography>
-                      //             </Link>
-                      //         ) : <Typography> Course name: {c.name} </Typography>
-                      //     }
-                      //     <Typography>Course id: {c.id}</Typography>
-                      //   </Box>
-                      //   <Box bgcolor="theme_green.main" color="theme_black.main">
-                      //
-                      //   </Box>
-                      //
-                      //   {
-                      //     user.role === 'teacher'
-                      //         ? <Button variant = "contained" color="primary" onClick={(event: any) => handleSplitButtonClick(event, c.id)}> Запустити розподіл </Button>
-                      //         : null
-                      //   }
-                      // </Container>
                   )
                   : <LinearProgress />
             }
