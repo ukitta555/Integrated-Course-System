@@ -17,8 +17,15 @@ const imageBoxStyle = {
     borderRadius: 132,
     boxSizing: "border-box" as "border-box",
 }
+const bottomButtonBoxStyle = {
+    borderRadius: 21,
+    padding: "5px 0",
+}
 const registrationButtonBoxStyle = {
     borderRadius: 21,
+    marginLeft: "30%",
+    padding: "5px 0",
+    width: "40%"
 }
 const registrationButtonStyle = {
     width: "100%",
@@ -72,7 +79,7 @@ const LandingPage = () => (
                                         </Box>
                                     </Grid>
                                     <Grid item xs>
-                                        <Container maxWidth="xs">
+                                        <Container>
                                             <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonBoxStyle}>
                                                 <Link to = '/register' style={{color: "inherit"}}>
                                                     <Button color="inherit" style={registrationButtonStyle}>
@@ -120,7 +127,7 @@ const LandingPage = () => (
                                         </Box>
                                     </Grid>
                                     <Grid item xs>
-                                        <Container maxWidth="xs">
+                                        <Container>
                                             <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonBoxStyle}>
                                                 <Link to = '/register' style={{color: "inherit"}}>
                                                     <Button color="inherit" style={registrationButtonStyle}>
@@ -157,7 +164,7 @@ const LandingPage = () => (
                         </Box>
                     </Grid>
                     <Grid item xs={2}>
-                        <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonBoxStyle}>
+                        <Box bgcolor="theme_grey.main" color="theme_white.main" style={bottomButtonBoxStyle}>
                             <Link to = '/register' style={{color: "inherit"}}>
                                 <Button color="inherit" style={registrationButtonStyle}>
                                     <Typography>Спробувати</Typography>
@@ -166,7 +173,7 @@ const LandingPage = () => (
                         </Box>
                     </Grid>
                     <Grid item xs={3}>
-                        <Box bgcolor="theme_green.main" color="theme_black.main" style={registrationButtonBoxStyle}>
+                        <Box bgcolor="theme_green.main" color="theme_black.main" style={bottomButtonBoxStyle}>
                             <Link to = '/register' style={{color: "inherit"}}>
                                 <Button color="inherit" style={registrationButtonStyle}>
                                     <Typography>Дізнатися більше</Typography>
