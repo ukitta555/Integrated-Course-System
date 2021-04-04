@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace IntegratedCourseSystem.Tests
+namespace IntegratedCourseSystem.UnitTests
 {
     public class StudentsTestClass
     {
@@ -16,7 +16,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task StudentsGetSuccesfull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetStudents");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetStudents");
             var data = new List<Student>
             {
                 new Student() { Id=1},
@@ -39,7 +39,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task StudentsGetByClassSuccesfull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetStudentsByClass");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetStudentsByClass");
             var qs = new List<Questionnaire>
             {
                 new Questionnaire() {StudentId = 1, ClassId = 1 },
@@ -68,7 +68,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetStudentByIdSuccesfull()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetStudentById");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetStudentById");
             var data = new List<Student>
             {
                 new Student() { Id=1},
@@ -95,7 +95,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestPutStudent_NotFound()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabasePutStudentNotFound");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabasePutStudentNotFound");
             var contr = new StudentsController(context);
             //Act
             var result = await contr.PutStudent(1, new Student { Id = 1 });
@@ -108,7 +108,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestPutStudent_BadRequest()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabasePutStudentBadRequest");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabasePutStudentBadRequest");
             var contr = new StudentsController(context);
             //Act
             var result = await contr.PutStudent(2, new Student { Id = 1 });
@@ -124,7 +124,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestPostStudent_Succesfull_ReturnsCreatedStudent()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("PostStudentSuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("PostStudentSuccefull");
             var testEntity = new Student() { Id = 42 };
             var controller = new StudentsController(context);
             //Act
