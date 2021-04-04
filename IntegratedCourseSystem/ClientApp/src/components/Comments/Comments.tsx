@@ -1,23 +1,19 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
-// import {Link}
-//     from 'react-router-dom'
-// import {useSelector} from 'react-redux'
+import {useSelector} from "react-redux"
+
 
 import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import {Box, Button, Container, Divider, Grid, InputBase, ThemeProvider} from "@material-ui/core";
 import light from "../../themes/light";
-import useField from "../../hooks/useField";
+import { UserState, Comment } from "../../store/types";
+import commentService from "../../services/commentService";
 
-type Comment = {
-    author: string,
-    text: string,
-}
 
 export type CommentsProps = {
-    comments: Comment[],
+    taskId: number | null,
     style?: React.CSSProperties,
 }
 
@@ -71,24 +67,43 @@ const customUseField: (type: string) => [{ onChange: (event: React.ChangeEvent<H
 }
 
 const Comments = (props: CommentsProps) => {
-    const [comments, setComments] = useState([
-        {author: "Скоробагатько Карина", text: "А можна не робити?"},
-        {author: "Омельчук Людмила", text: "Треба!"},
-    ])
+    const user = useSelector((state: {user: UserState}) => state.user)
+
+    const [comments, setComments] = useState<Comment[]>([])
     const [comment, setComment] = customUseField('text');
-    const commentProps = {
-        // pattern: EMAIL_VALIDATOR,
-        required: true,
-        // autoComplete: "username",
-        ...comment
-    }
-    const onAddComment = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault()
-        setComments([...comments, {author: "Андращук Едуард", text: comment.value}])
+
+    useEffect(() => {
+        async function fetchData() {
+            const commentsResponse = await commentService.getCommentsByTask(props.taskId)
+            setComments(commentsResponse.map ((comment : {name: string, surname: string, text: string, id: number}) : Comment => (
+                {
+                    author: `${comment.surname} ${comment.name}`,
+                    text: comment.text,
+                    commentId: comment.id
+                }))
+            )
+        }
+        fetchData()
+    })
+
+    const onAddComment = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        const commentToAdd = {
+            taskId: props.taskId,
+            text: comment.value,
+            userId: user.id
+        }
+        const commentResponse = await commentService.addComment(commentToAdd)
+        console.log('response after post to comments: ', commentResponse)
+        setComments([...comments, {author: `${user.surname} ${user.name}`, text: comment.value, commentId: commentResponse.id}])
         setComment("")
-        // dispatch (registerUser(email.value, password.value))
 
     }
+
+    const commentProps = {
+        required: true,
+        ...comment
+    }
+
     return (
         <ThemeProvider theme={light}>
             <Box bgcolor="theme_yellow.main" color="theme_black.main" style={{...taskWrapperStyle, ...props.style}}>

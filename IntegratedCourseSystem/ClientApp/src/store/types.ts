@@ -41,6 +41,12 @@ export interface TeacherInfo {
 
 /// component interfaces / types
 
+export interface Comment {
+  author: string,
+  text: string,
+  commentId: number
+}
+
 export interface Grades {
   grades: {
     maxGrade: number,

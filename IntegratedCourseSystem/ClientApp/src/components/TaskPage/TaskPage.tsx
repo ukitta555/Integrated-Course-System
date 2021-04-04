@@ -26,12 +26,6 @@ const backButtonStyle = {
 }
 
 
-const testCommentsProps = {
-    comments: [
-        { author: "Скоробагатько Карина", text: "А можна не робити?" },
-        { author: "Омельчук Людмила", text: "Треба!" },
-    ]
-}
 const TaskPage = () =>
 {
     const match = useRouteMatch<MatchParamsId>()
@@ -72,6 +66,10 @@ const TaskPage = () =>
         commentCount: 2
     }
 
+    let commentsProps = {
+        taskId: taskId
+    }
+
     if (task) {
         taskProps = {
             name: task.name ? task.name : "task name couldn't be loaded...",
@@ -98,7 +96,7 @@ const TaskPage = () =>
                     <ThemeProvider theme={light}>
                         < Container style={testingPageWrapperStyle} >
                             <Task {...taskProps} style={taskStyle} />
-                            <Comments {...testCommentsProps} style={commentsStyle} />
+                            <Comments {...commentsProps} style={commentsStyle} />
                             <Grid container justify="center" style={backButtonWrapperStyle}>
                                 <Box color="theme_black.main">
                                     <Link to='/register' style={{ color: "inherit" }}>
