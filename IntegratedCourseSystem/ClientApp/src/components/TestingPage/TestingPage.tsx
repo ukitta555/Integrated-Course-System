@@ -1,8 +1,10 @@
 import React from "react";
 import Task, {TaskProps} from "../Task/Task";
 import Comments from "../Comments/Comments";
-import {Container} from "@material-ui/core";
+import {Container, ThemeProvider} from "@material-ui/core";
 import CoursesView from "../AllCoursesView/CoursesView";
+import DroppableGroupBlock from "../DroppableGroupBlock/DroppableGroupBlock";
+import light from "../../themes/light";
 
 const testingPageWrapperStyle = {
     marginTop: "20px",
@@ -25,10 +27,24 @@ const testCommentsProps = {
     ]
 }
 
+const testGroupProps = {
+    id: 1,
+    students: [
+        "Андращук Е.",
+        "Некряч В.",
+        "Приходько Я.",
+        "Клячкін А.",
+        "Скоробагатько К.",
+    ]
+}
+
 
 const TestingPage = () =>
-    <Container style={testingPageWrapperStyle}>
-        <CoursesView/>
-    </Container>
+    <ThemeProvider theme={light}>
+        <Container style={testingPageWrapperStyle}>
+            <DroppableGroupBlock {...testGroupProps}/>
+        </Container>
+    </ThemeProvider>
+    
 
 export default TestingPage
