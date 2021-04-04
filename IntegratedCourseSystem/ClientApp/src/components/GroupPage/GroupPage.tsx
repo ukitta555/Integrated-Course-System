@@ -151,7 +151,6 @@ const GroupPage = () =>
       // set groups
       groupResponse.groupMembers = populatedGroupStudents
       groupResponse.groupTeches = populatedGroupTechs
-      setGroup(groupResponse)
       // fetch tasks
       let tasksResponse = await taskService.getTasksByGroup(groupId)
 
@@ -165,7 +164,7 @@ const GroupPage = () =>
         return newTask
       })
       setTasks(tasksResponse)
-
+      setGroup(groupResponse)
     }
     fetchData()
   }, [])
@@ -272,13 +271,14 @@ const GroupPage = () =>
                 return (
                   <Task
                     key = {task.id}
+                    id = {task.id}
                     name = {task.name}
                     deadline = {task.deadLine ? task.deadLine : new Date() }
                     taskDescription = {task.taskDescription}
                     isHandedOver = {task.done ? true : false}
                     author = "Omelchuk L.L."
                     marks =
-                    {/*new Map([["ООП", [2, 2]]])*/
+                    {
                       new Map (task.grades.map ( grade => {
                         return [grade.name, [grade.grades.actualGrade, grade.grades.maxGrade]]
                       }

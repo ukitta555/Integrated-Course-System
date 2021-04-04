@@ -10,6 +10,7 @@ const testingPageWrapperStyle = {
 
 const testTaskProps: TaskProps = {
     name: "Почати щось робити",
+    id: 1,
     taskDescription: "Починаємо роботу! Чим швидше, тим краще! ....",
     isHandedOver: true,
     author: "Омельчук Л.",
