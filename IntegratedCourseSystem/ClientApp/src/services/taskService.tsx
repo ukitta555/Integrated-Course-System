@@ -17,6 +17,29 @@ const getTasksByGroup = async (groupId: number | null) => {
   }
 }
 
+const addTask = async (task: {
+  taskDescription: string,
+  groupId: number,
+  name: string,
+  deadLine: Date,
+  posted: Date, // should be generated on a server (?)
+  done: null
+  }) => {
+  try {
+    const response = await axios.post(
+      baseURL,
+      task,
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log (error.request.data)
+    return null
+  }
+}
+
 export default {
-  getTasksByGroup
+  getTasksByGroup,
+  addTask
 }
