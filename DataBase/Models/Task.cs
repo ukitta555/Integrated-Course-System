@@ -19,6 +19,7 @@ namespace DataBase.Models
         public int GroupId { get; set; }
         public string Name { get; set; }
         public string TaskDescription { get; set; }
+        public string AuthorName { get; set; } = "NoName";
         public DateTime? DeadLine { get; set; }
         public DateTime Posted { get; set; }
         public DateTime? Done { get; set; }

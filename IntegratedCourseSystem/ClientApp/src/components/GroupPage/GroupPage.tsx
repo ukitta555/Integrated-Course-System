@@ -1,6 +1,7 @@
 import { Button, LinearProgress, TextField, Typography } from "@material-ui/core"
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import React, { useState, useEffect, useRef } from "react"
+import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom"
 import courseSubjectService from "../../services/courseSubjectService"
 import groupService from "../../services/groupService"
@@ -10,7 +11,7 @@ import studentService from "../../services/studentService"
 import subjectTaskService from "../../services/subjectTaskService";
 import taskService from "../../services/taskService";
 import techService from "../../services/techService"
-import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType } from "../../store/types"
+import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType, UserState } from "../../store/types"
 import Task from "../Task/Task";
 import Togglable from "../Togglable/Togglable"
 
@@ -30,7 +31,7 @@ const GroupPage = () =>
       : null
     : null
 
-
+  const user : UserState = useSelector((state : {user : UserState}) => state.user)
   const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([])
   const [maxGrades, setMaxGrades] = useState<number[]> ([]) // max grades for classes (set by teacher)
   const [deadlineDate, setDeadlineDate] = useState<string>("") // deadline date. stored as a string, converted to Date in form handler
@@ -63,7 +64,8 @@ const GroupPage = () =>
       name: taskName,
       deadLine: new Date(deadlineDate),
       posted: new Date(), // should be generated on a server (?)
-      done: null
+      done: null,
+      authorName: `${user.surname} ${user.name}`
     }
     const addedTask = await taskService.addTask(taskToAdd)
 
@@ -157,7 +159,7 @@ const GroupPage = () =>
       //const taskGrades = await subjectTaskService.getGradesByTask()
 
       tasksResponse = tasksResponse.map ((task : TaskDTO) => {
-        const newTask : TaskType = {...task.task, grades: task.grades}
+        const newTask : TaskType = {...task.task, grades: task.grades, amountOfComments: task.amountOfComments}
         newTask.deadLine = newTask.deadLine ? new Date(newTask.deadLine) : null
         newTask.done = newTask.done ? new Date(newTask.done) : null
         newTask.posted = new Date(newTask.posted)
@@ -276,7 +278,7 @@ const GroupPage = () =>
                     deadline = {task.deadLine ? task.deadLine : new Date() }
                     taskDescription = {task.taskDescription}
                     isHandedOver = {task.done ? true : false}
-                    author = "Omelchuk L.L."
+                    author = {task.authorName || "Omelchuk L.L."}
                     marks =
                     {
                       new Map (task.grades.map ( grade => {
@@ -284,7 +286,7 @@ const GroupPage = () =>
                       }
                       ))
                     }
-                    commentCount = {2}
+                    commentCount = {task.amountOfComments}
                     style = {{marginTop: "4vh"}}
                   />
                 )

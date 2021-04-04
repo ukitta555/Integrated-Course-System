@@ -41,7 +41,12 @@ namespace IntegratedCourseSystem.Controllers
                         .SubjectTask
                         .Where(entry => entry.TaskId == task.Id)
                         .Select(entry => new { Grades = entry, name = entry.ClassSubject.Subject.Name })
-                        .ToList()
+                        .ToList(),
+                AmountOfComments = _context
+                        .Comments
+                        .Where(comment => comment.TaskId == task.Id)
+                        .Count()
+
             };
 
             if (task == null)
@@ -110,7 +115,11 @@ namespace IntegratedCourseSystem.Controllers
                         .SubjectTask
                         .Where(entry => entry.TaskId == task.Id)
                         .Select(entry => new { Grades = entry, name = entry.ClassSubject.Subject.Name })
-                        .ToList()
+                        .ToList(),
+                    amountOfComments = _context
+                        .Comments
+                        .Where(comment => comment.TaskId == task.Id)
+                        .Count()
                 });
 
             return Created("", result);
