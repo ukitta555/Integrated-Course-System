@@ -46,8 +46,24 @@ const addCourseSubjects = async (requestData: {subjects: {id:number}[], courseId
 }
 
 
+const getSubjectNameById = async (id: number) => {
+  try {
+    const response = await axios.post(
+        `${baseURL}/getName`,
+        {id},
+        {withCredentials: true}
+      )
+    return response.data
+  }
+  catch (error) {
+    console.log (error.response.data)
+    return []
+  }
+}
+
 
 export default {
   getCourseSubjects,
-  addCourseSubjects
+  addCourseSubjects,
+  getSubjectNameById
 }

@@ -33,7 +33,7 @@ const App = () => {
 
     const routes = (
       // style so that footer doesn't hide the content
-      <div style = {{paddingBottom: "6vh"}}>
+      <div style = {{paddingBottom: "8vh"}}>
         <Switch>
             <Route path = '/register'>
                 <RegistrationForm />

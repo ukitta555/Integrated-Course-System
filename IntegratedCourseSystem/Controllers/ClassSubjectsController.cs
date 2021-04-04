@@ -55,6 +55,19 @@ namespace IntegratedCourseSystem.Controllers
             return subjects;
         }
 
+        [HttpPost]
+        [Route("getName")]
+        public async Task<ActionResult<IEnumerable<object>>> GetSubjectNameById(ClassSubject classSubject)
+        {
+            var q = await _context
+                .ClassSubjects
+                .Where(entry => entry.Id == classSubject.Id)
+                .Select(entry => entry.Subject.Name)
+                .ToListAsync();
+
+            return q;
+        }
+
         // PUT: api/ClassSubjects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

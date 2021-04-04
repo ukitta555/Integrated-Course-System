@@ -627,5 +627,9 @@ namespace IntegratedCourseSystem
         
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        
+
+        public DbSet<DataBase.Models.SubjectTask> SubjectTask { get; set; }
     }
 }

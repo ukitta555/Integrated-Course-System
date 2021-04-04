@@ -68,7 +68,7 @@ const CoursesView = () => {
                 {
                   c.areGroupsDefined
                   ? <Link to={`/course_view/${c.id}`}> <Typography>   Course name: {c.name}  </Typography> </Link>
-                  : <> Course name: {c.name} </>
+                  : <Typography> Course name: {c.name} </Typography>
                 }
 
                 {

@@ -86,14 +86,24 @@ namespace IntegratedCourseSystem.Controllers
 
         [HttpPost]
         [Route("getByGroup")]
-        public async Task<ActionResult<IEnumerable<DataBase.Models.Task>>> GetByGroup(Group group)
+        public async Task<ActionResult<IEnumerable<object>>> GetByGroup(Group group)
         {
             var tasks = await _context
                 .Tasks
                 .Where(task => task.GroupId == group.Id)
                 .ToListAsync();
 
-            return Created("", tasks);
+            var result = tasks
+                .Select(task => new { 
+                    Task = task, 
+                    Grades =  _context
+                        .SubjectTask
+                        .Where(entry => entry.TaskId == task.Id)
+                        .Select(entry => new { Grades = entry, name = entry.ClassSubject.Subject.Name })
+                        .ToList()
+                });
+
+            return Created("", result);
         }
 
         // DELETE: api/Tasks/5
