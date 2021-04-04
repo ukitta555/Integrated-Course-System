@@ -66,20 +66,24 @@ export interface TaskDTO {
     taskDescription: string,
     deadLine: Date | null,
     posted: Date,
+    authorName: string | null,
     done: Date | null
   },
-  grades: Grades[]
+  grades: Grades[],
+  amountOfComments: number
 }
 
 export interface TaskType {
   id: number,
   groupId: number,
   name: string,
+  authorName: string | null,
   taskDescription: string,
   deadLine: Date | null,
   posted: Date,
   done: Date | null,
-  grades: Grades[]
+  grades: Grades[],
+  amountOfComments: number
 }
 
 

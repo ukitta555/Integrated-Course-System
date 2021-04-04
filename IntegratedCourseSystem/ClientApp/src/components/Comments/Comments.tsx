@@ -14,7 +14,9 @@ import commentService from "../../services/commentService";
 
 export type CommentsProps = {
     taskId: number | null,
-    style?: React.CSSProperties,
+    commentCount: number,
+    setCommentCount: React.Dispatch<React.SetStateAction<number>>,
+    style?: React.CSSProperties
 }
 
 const taskWrapperStyle = {
@@ -95,8 +97,8 @@ const Comments = (props: CommentsProps) => {
         const commentResponse = await commentService.addComment(commentToAdd)
         console.log('response after post to comments: ', commentResponse)
         setComments([...comments, {author: `${user.surname} ${user.name}`, text: comment.value, commentId: commentResponse.id}])
+        props.setCommentCount(props.commentCount + 1)
         setComment("")
-
     }
 
     const commentProps = {
