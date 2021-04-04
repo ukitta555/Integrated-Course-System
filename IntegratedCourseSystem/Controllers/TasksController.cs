@@ -30,16 +30,26 @@ namespace IntegratedCourseSystem.Controllers
 
         // GET: api/Tasks/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DataBase.Models.Task>> GetTask(int id)
+        public async Task<ActionResult<object>> GetTask(int id)
         {
             var task = await _context.Tasks.FindAsync(id);
+
+            var populatedTask = new
+            {
+                Task = task,
+                Grades = _context
+                        .SubjectTask
+                        .Where(entry => entry.TaskId == task.Id)
+                        .Select(entry => new { Grades = entry, name = entry.ClassSubject.Subject.Name })
+                        .ToList()
+            };
 
             if (task == null)
             {
                 return NotFound();
             }
 
-            return task;
+            return populatedTask;
         }
 
         // PUT: api/Tasks/5
