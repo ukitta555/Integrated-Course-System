@@ -1,5 +1,6 @@
 import React from "react"
 import {Box, Grid, Typography} from "@material-ui/core";
+import DraggableBlock from "../DraggableBlock/DraggableBlock";
 
 type DroppableGroupBlockProps = {
     id: number,
@@ -28,16 +29,16 @@ const DroppableGroupBlock = (props: DroppableGroupBlockProps) => (
     <Box color="theme_black.main" textAlign="center">
         <Grid container direction="column">
             <Grid item xs>
-                <Box bgcolor="theme_grey.main" display="flex" alignItems="center" justifyContent="center" height="100%" border={1} {...firstGridProps}>
-                    <Typography variant="h4">Група {props.id}</Typography>
-                </Box>
+                <DraggableBlock bgcolor="theme_grey.main" border={1} {...firstGridProps}>
+                    Група {props.id}
+                </DraggableBlock>
             </Grid>
             {
                 props.students.map((student, i) => (
                     <Grid item xs key={i}>
-                        <Box bgcolor="theme_white.main" display="flex" alignItems="center" justifyContent="center" height="100%" border={1} borderTop={0} borderColor="theme_black.main" { ...(i == props.students.length - 1 ? lastGridProps : gridProps) }>
-                            <Typography variant="h4">{student}</Typography>
-                        </Box>
+                        <DraggableBlock border={1} borderTop={0} { ...(i == props.students.length - 1 ? lastGridProps : gridProps) }>
+                            {student}
+                        </DraggableBlock>
                     </Grid>
                 ))
             }
