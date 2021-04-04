@@ -20,6 +20,7 @@ import TaskPage from "./TaskPage/TaskPage";
 import NoPage from './NoPage/NoPage';
 import CoursePage from './CoursePage/CoursePage';
 import GroupPage from './GroupPage/GroupPage';
+import LandingPage from "./LandingPage/LandingPage";
 
 
 
@@ -48,7 +49,9 @@ const App = () => {
                 : user.role === "student"
                   ? <Redirect to = "/course_registration" />
                   : user.role === "teacher"
-                    ? <Redirect to = "/course_creating_page" />
+                    ? user.currentCourseId
+                      ? <Redirect to = "/courses_view" />
+                      : <Redirect to = "/course_creating_page" />
                     : <Redirect to = "/" /> // admin or no role
               }
             </Route>
@@ -64,9 +67,7 @@ const App = () => {
             <Route path = '/course_creating_page'>
               {
                 user.role === "teacher"
-                ? user.currentCourseId
-                  ? <Redirect to = '/courses_view' />
-                  : <CourseCreatingPage/>
+                ? <CourseCreatingPage/>
                 : <Redirect to = '/' />
               }
             </Route>
@@ -92,10 +93,10 @@ const App = () => {
                 <TaskPage/>
             </Route>
             <Route path = '/testing_page'>
-                <TestingPage/>
+                <TestingPage />
             </Route>
             <Route path = '/index'>
-              landing should be here somewhere
+                <LandingPage/>
             </Route>
             <Route path = '/'>
               <NoPage />

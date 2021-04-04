@@ -12,7 +12,7 @@ using Xunit;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Infrastructure;
 
-namespace IntegratedCourseSystem.Tests
+namespace IntegratedCourseSystem.UnitTests
 {
     public class QuestionnaireTestClass
     {
@@ -21,7 +21,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task QuestionnaireGetSuccesfull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetQ");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetQ");
             var data = new List<Questionnaire>
             {
                 new Questionnaire() { Id=0, StudentId=0, ClassId=0},
@@ -42,7 +42,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task QuestionnairesByStudentGetSuccesfull()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetQByStudents");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetQByStudents");
             var q1 = new Questionnaire() { Id = 3, StudentId = 0, ClassId = 0 };
             var q2 = new Questionnaire() { Id = 1, StudentId = 1, ClassId = 0 };
             var q3 = new Questionnaire() { Id = 2, StudentId = 1, ClassId = 1 };
@@ -82,7 +82,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task QuestionnairesByStudentGetNotFound()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetNotFoundQByStudents");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetNotFoundQByStudents");
             var q1 = new Questionnaire() { Id = 3, StudentId = 0, ClassId = 0 };
             var q2 = new Questionnaire() { Id = 1, StudentId = 2, ClassId = 0 };
             var q3 = new Questionnaire() { Id = 2, StudentId = 2, ClassId = 1 };
@@ -128,7 +128,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task QuestionnairePostAlreadyPresent()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("PostContext1");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("PostContext1");
             var testEntity = new Questionnaire() { Id = 0, StudentId = 0, ClassId = 0 };
             context.Questionnaires.Add(testEntity);
             context.SaveChanges();

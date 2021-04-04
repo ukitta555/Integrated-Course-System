@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace IntegratedCourseSystem.Tests
+namespace IntegratedCourseSystem.UnitTests
 {
     public class FacultiesTestClass
     {
@@ -37,7 +37,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TeachersSuccefull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetTeachersFaculties");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetTeachersFaculties");
             var faculties = new List<Faculty>
             {
                 new Faculty() { Id=1},
@@ -70,7 +70,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetFacultiesSuccessfull()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetFaculties");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetFaculties");
             var faculties = new List<Faculty>
             {
                 new Faculty() { Id=1},
@@ -122,7 +122,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetFacultySuccesfull()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetFaculty");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetFaculty");
             var data = new List<Faculty>
             {
                 new Faculty() { Id=1},
@@ -142,7 +142,7 @@ namespace IntegratedCourseSystem.Tests
         [Fact]
         public async System.Threading.Tasks.Task GetFaculty_NotFound()
         {
-            var context = DbContextTestHelper.CreateDatabaseContext("TestDatabaseGetFacultyFailed");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("TestDatabaseGetFacultyFailed");
             var data = new List<Faculty>
             {
                 new Faculty() { Id=1},
@@ -166,7 +166,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestPostFaculty_Succesfull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("PostFacultySuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("PostFacultySuccefull");
             var testEntity = new Faculty() { Id = 42 };
             var controller = new FacultiesController(context);
             //Act
@@ -185,7 +185,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestDeleteFaculty_Succesfull()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("DeleteFacultySuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("DeleteFacultySuccefull");
             var testEntity = new Faculty() { Id = 42 };
             context.Faculties.Add(testEntity);
             context.SaveChanges();
@@ -203,7 +203,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestDeleteFaculty_NotFound_OnEmptySet()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("DeleteFacultySuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("DeleteFacultySuccefull");
             var controller = new FacultiesController(context);
             //Act
             var result = await controller.DeleteFaculty(44);
@@ -216,7 +216,7 @@ namespace IntegratedCourseSystem.Tests
         public async System.Threading.Tasks.Task TestDeleteFaculty_NotFound_OnWrongId()
         {
             //Arrange
-            var context = DbContextTestHelper.CreateDatabaseContext("DeleteFacultySuccefull");
+            var context = TestingUtilities.CreateInMemoryDatabaseContext("DeleteFacultySuccefull");
             var testEntity = new Faculty() { Id = 42 };
             context.Faculties.Add(testEntity);
             context.SaveChanges();

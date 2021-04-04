@@ -202,5 +202,23 @@
       "groupId": 2,
       "techId": 5
     }
+  ],
+  "TeacherClasses": [
+    {
+      "id": 1337,
+      "name": "ООП (2-4 курс)",
+      "teacherId": 0,
+      "areGroupsDefined": false,
+      "maxCapacity": 125,
+      "studentsRegistered": 123
+    },
+    {
+      "id": 1338,
+      "name": "Математична логіка (2-4 курс)",
+      "teacherId": 1,
+      "areGroupsDefined": true,
+      "maxCapacity": 12,
+      "studentsRegistered": 15
+    }
   ]
 }

@@ -16,11 +16,17 @@ namespace GeneticAlgorithm
         private List<Questionnaire> questionnaires;
         private List<Student> students;
 
-        public Algorithm(IEnumerable<Questionnaire> questionnaires)
+        public Algorithm(IEnumerable<Questionnaire> _questionnaires, int minGroupSize, int maxGroupSize)
         {
-            this.questionnaires = questionnaires.ToList();
-            this.techs = questionnaires.SelectMany(q => q.TechPreferences.Select(tp => tp.Tech)).ToHashSet().ToList();
-            this.students = questionnaires.Select(q => q.Student).ToList();
+            Contract.Requires(_questionnaires != null);
+            Contract.Requires(_questionnaires.Count() > 0);
+            Contract.Requires(minGroupSize > 0 && maxGroupSize > 0);
+            Contract.Requires(minGroupSize < maxGroupSize);
+            minStudentsInGroup = minGroupSize;
+            maxStudentsInGroup = maxGroupSize;
+            this.questionnaires = _questionnaires.ToList();
+            techs = questionnaires.SelectMany(q => q.TechPreferences.Select(tp => tp.Tech)).ToHashSet().ToList();
+            students = questionnaires.Select(q => q.Student).ToList();
         }
 
         private readonly Random rng = new Random();
@@ -29,6 +35,8 @@ namespace GeneticAlgorithm
         private int maxStudentsInGroup = 3;
         public List<Chromosome> RandomInitialize(List<Questionnaire> questionnaires)
         {
+            Contract.Requires(questionnaires != null);
+            Contract.Requires(questionnaires.Count > 0);
             questionnaires.Shuffle(rng);
             var randomPopulation = new List<Chromosome>();
             for (int chromoNumber = 0; chromoNumber < populationSize; chromoNumber++)
@@ -45,6 +53,10 @@ namespace GeneticAlgorithm
         }
         private List<Chromosome> SelectForReproduction()
         {
+            Contract.Requires(Population.Count > 0);
+            var parents = new List<Chromosome>();
+            Contract.Requires(parents.Count == (Population.Count - toNextGen)*2);
+
             double minFitness = Population.Min().Fitness;
             double toAdd = minFitness < 0 ? minFitness : 0;
             double sumFitness = Population.Select(x => x.Fitness + toAdd).Sum();
@@ -53,7 +65,6 @@ namespace GeneticAlgorithm
             {
                 wheel.Add(new Tuple<double, Chromosome>((s.Fitness + toAdd) / sumFitness, s));
             }
-            var parents = new List<Chromosome>();
             for (int i = 0; i < (Population.Count - toNextGen) * 2; i++)
             {
                 var d = rng.NextDouble();
@@ -73,7 +84,9 @@ namespace GeneticAlgorithm
 
         public List<Chromosome> Crossover(List<Chromosome> parents)
         {
+            Contract.Requires(parents.Count >= 2);
             var children = new List<Chromosome>();
+            Contract.Ensures(children.Count == (Population.Count - toNextGen));
             for (int pairIndex = 0; pairIndex < parents.Count - 1; pairIndex += 2)
             {
                 var child = new Chromosome();

@@ -70,34 +70,33 @@ const Task = (props: TaskProps) => (
     <ThemeProvider theme={light}>
         <Box bgcolor={pickBGColor(props)} color="theme_black.main" style={{...taskWrapperStyle, ...props.style}}>
             <Grid container direction="column" /* justify="space-between" */ alignItems="center" style={{}}>
-                <Grid container item alignItems="center" style={{}}>
-                    <Typography variant="h6" style={{}}>
+                <Grid container item alignItems="center">
+                    <Typography variant="h6">
                         Завдання: {props.name}
                     </Typography>
                 </Grid>
-                <Grid container item alignItems="center" style={{}}>
-                    <Typography style={{}}>
+                <Grid container item alignItems="center">
+                    <Typography>
                         Автор: {props.author}
                     </Typography>
                 </Grid>
                 <Divider style={dividerStyle}/>
-                <Grid container item alignItems="center" style={{}}>
-                    <Typography variant="h6" style={{}}>
+                <Grid container item alignItems="center">
+                    <Typography variant="h6">
                         Оцінки:
                     </Typography>
                 </Grid>
                 {parseMarks(props.marks)}
                 <Divider style={dividerStyle}/>
-                <Grid container item alignItems="center" style={{}}>
-                    <Typography style={{}}>
-                        {props.taskDescription}
-                    </Typography>
+                <Grid container item alignItems="center">
+                    <Typography variant="h5">Умова:</Typography>
+                    <Typography>{props.taskDescription}</Typography>
                 </Grid>
                 <Grid container item direction="row" justify="space-between" alignItems="center" style={{}}>
-                    <Typography style={{}}>
+                    <Typography>
                         Дедлайн: {props.deadline.toDateString()}
                     </Typography>
-                    <Typography style={{}}>
+                    <Typography>
                         Коментарів: {props.commentCount}
                     </Typography>
                 </Grid>
