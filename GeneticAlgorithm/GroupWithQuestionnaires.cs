@@ -1,4 +1,5 @@
 ﻿using DataBase.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -65,18 +66,19 @@ namespace GeneticAlgorithm
             return res;
         }
 
-        public Group ToDbGroup(Class c)
+        public Group ToDbGroup(Class c, int groupNumber)
         {
-            Group res = new Group() { Class = c, Classid = c.Id };
-            int i = 0;
+
+            Group res = new Group(){ Classid = c.Id, Name = $"Group {groupNumber}" };
+            Console.WriteLine("____________");
             foreach (var st in students)
             {
-                res.Studentgroups.Add(new StudentGroup() { GroupId = res.Id, Group = res, Student = st, StudentId = st.Id });
-                i++;
+                Console.WriteLine(st.Name);
+                res.Studentgroups.Add(new StudentGroup() { StudentId = st.Id});
             }
             foreach(var tech in techs)
             {
-                res.Groupteches.Add(new GroupTech() { Groupid = res.Id, Group = res, Tech = tech, Techid = tech.Id });
+                res.Groupteches.Add(new GroupTech() { Techid = tech.Id});
             }
             return res;
         }
