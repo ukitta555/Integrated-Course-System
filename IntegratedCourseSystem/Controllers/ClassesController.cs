@@ -9,6 +9,7 @@ using DataBase.Models;
 using IntegratedCourseSystem;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.JsonPatch;
+using GeneticAlgorithm;
 
 
 //TODO!
@@ -96,9 +97,52 @@ namespace IntegratedCourseSystem.Controllers
             return teacherClasses;
         }
 
-        // PUT: api/Classes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+
+
+        [HttpPost]
+        [Route("runAlgo")]
+        public async Task<ActionResult<object>> RunAlgo(Class @class)
+        {
+            var ques = await _context
+                .Questionnaires
+                .Where(que => que.ClassId == @class.Id)
+                .Include(que => que.TeammateAntipreferences)
+                .Include(que => que.TeammatePreferences)
+                .Include(que => que.Student)
+                .Include(que => que.TechPreferences)
+                .ThenInclude(que => que.Tech)
+                .ToListAsync();
+
+
+            foreach (var que in ques)
+            {
+                Console.WriteLine(que.Student.Name);
+            }
+            Algorithm algo = new Algorithm(ques, 2, 4);
+            List<Group> groups = algo.Run(@class);
+
+            int i = 1;
+            foreach (var group in groups)
+            {
+                Console.WriteLine("___________________-");
+                
+
+                Console.WriteLine("Group name:");
+                Console.WriteLine(group.Name);
+                _context
+                    .Groups
+                    .Add(group);
+                await _context.SaveChangesAsync();
+                Console.WriteLine(group.Id);
+            }
+            
+            return Created("", new { x = "d" });
+        }
+
+
+    // PUT: api/Classes/5
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPut("{id}")]
         public async Task<IActionResult> PutClass(int id, Class @class)
         {
             if (id != @class.Id)

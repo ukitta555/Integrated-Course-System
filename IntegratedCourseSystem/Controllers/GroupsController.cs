@@ -73,6 +73,20 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+
+        [HttpPost]
+        [Route("getByClass")]
+        public async Task<ActionResult<IEnumerable<Group>>> GetByClass (Class @class)
+        {
+            var groups = await _context
+                .Groups
+                .Where(@group => @group.Classid == @class.Id)
+                .ToListAsync();
+
+            return Created("", groups);
+        }
+
+
         // POST: api/Groups
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

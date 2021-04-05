@@ -1,6 +1,7 @@
 import { Button, LinearProgress, TextField, Typography } from "@material-ui/core"
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import React, { useState, useEffect, useRef } from "react"
+import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom"
 import courseSubjectService from "../../services/courseSubjectService"
 import groupService from "../../services/groupService"
@@ -10,7 +11,7 @@ import studentService from "../../services/studentService"
 import subjectTaskService from "../../services/subjectTaskService";
 import taskService from "../../services/taskService";
 import techService from "../../services/techService"
-import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType } from "../../store/types"
+import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType, UserState } from "../../store/types"
 import Task from "../Task/Task";
 import Togglable from "../Togglable/Togglable"
 
@@ -30,7 +31,7 @@ const GroupPage = () =>
       : null
     : null
 
-
+  const user : UserState = useSelector((state : {user : UserState}) => state.user)
   const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([])
   const [maxGrades, setMaxGrades] = useState<number[]> ([]) // max grades for classes (set by teacher)
   const [deadlineDate, setDeadlineDate] = useState<string>("") // deadline date. stored as a string, converted to Date in form handler
@@ -63,12 +64,14 @@ const GroupPage = () =>
       name: taskName,
       deadLine: new Date(deadlineDate),
       posted: new Date(), // should be generated on a server (?)
-      done: null
+      done: null,
+      authorName: `${user.surname} ${user.name}`
     }
     const addedTask = await taskService.addTask(taskToAdd)
 
     addedTask.posted = new Date (addedTask.posted)
     addedTask.deadLine = new Date (addedTask.deadLine)
+    addedTask.amountOfComments = 0
 
     const subjectTaskEntities = classSubjects.map ( (classSubj : ClassSubject, index: number) => {
       return {
@@ -118,7 +121,8 @@ const GroupPage = () =>
       //get info about groups
       const groupResponse: Group = await groupService.getGroup(groupId)
       // set subjects
-      const classSubjectsResponse = await courseSubjectService.getCourseSubjects(groupResponse.classId)
+      const classSubjectsResponse = await courseSubjectService.getCourseSubjects(groupResponse.classid)
+      console.log()
       setClassSubjects(classSubjectsResponse)
       // set max grades
       setMaxGrades(new Array(classSubjectsResponse.length).fill(5))
@@ -128,7 +132,7 @@ const GroupPage = () =>
       const populatedGroupTechs: GroupTech[] = await Promise.all(
         techesInGroup.map(async (groupTech: GroupTech) =>
         {
-          const techName = (await techService.getTech(groupTech.techId)).name
+          const techName = (await techService.getTech(groupTech.techid)).name
           return {
             ...groupTech,
             name: techName
@@ -151,21 +155,20 @@ const GroupPage = () =>
       // set groups
       groupResponse.groupMembers = populatedGroupStudents
       groupResponse.groupTeches = populatedGroupTechs
-      setGroup(groupResponse)
       // fetch tasks
       let tasksResponse = await taskService.getTasksByGroup(groupId)
 
       //const taskGrades = await subjectTaskService.getGradesByTask()
 
       tasksResponse = tasksResponse.map ((task : TaskDTO) => {
-        const newTask : TaskType = {...task.task, grades: task.grades}
+        const newTask : TaskType = {...task.task, grades: task.grades, amountOfComments: task.amountOfComments}
         newTask.deadLine = newTask.deadLine ? new Date(newTask.deadLine) : null
         newTask.done = newTask.done ? new Date(newTask.done) : null
         newTask.posted = new Date(newTask.posted)
         return newTask
       })
       setTasks(tasksResponse)
-
+      setGroup(groupResponse)
     }
     fetchData()
   }, [])
@@ -272,19 +275,20 @@ const GroupPage = () =>
                 return (
                   <Task
                     key = {task.id}
+                    id = {task.id}
                     name = {task.name}
                     deadline = {task.deadLine ? task.deadLine : new Date() }
                     taskDescription = {task.taskDescription}
                     isHandedOver = {task.done ? true : false}
-                    author = "Omelchuk L.L."
+                    author = {task.authorName || "Omelchuk L.L."}
                     marks =
-                    {/*new Map([["ООП", [2, 2]]])*/
+                    {
                       new Map (task.grades.map ( grade => {
                         return [grade.name, [grade.grades.actualGrade, grade.grades.maxGrade]]
                       }
                       ))
                     }
-                    commentCount = {2}
+                    commentCount = {task.amountOfComments}
                     style = {{marginTop: "4vh"}}
                   />
                 )
