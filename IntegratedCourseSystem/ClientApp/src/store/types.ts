@@ -90,15 +90,15 @@ export interface TaskType {
 export interface Group {
   id: number,
   name: string,
-  classId: number,
+  classid: number,
   groupTeches: GroupTech[],
   groupMembers: Student[]
 }
 
 export interface GroupTech {
   id: number,
-  groupId: number,
-  techId: number,
+  groupid: number,
+  techid: number,
   name: string
 }
 

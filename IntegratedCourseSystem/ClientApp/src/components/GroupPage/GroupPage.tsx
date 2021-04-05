@@ -71,6 +71,7 @@ const GroupPage = () =>
 
     addedTask.posted = new Date (addedTask.posted)
     addedTask.deadLine = new Date (addedTask.deadLine)
+    addedTask.amountOfComments = 0
 
     const subjectTaskEntities = classSubjects.map ( (classSubj : ClassSubject, index: number) => {
       return {
@@ -120,7 +121,8 @@ const GroupPage = () =>
       //get info about groups
       const groupResponse: Group = await groupService.getGroup(groupId)
       // set subjects
-      const classSubjectsResponse = await courseSubjectService.getCourseSubjects(groupResponse.classId)
+      const classSubjectsResponse = await courseSubjectService.getCourseSubjects(groupResponse.classid)
+      console.log()
       setClassSubjects(classSubjectsResponse)
       // set max grades
       setMaxGrades(new Array(classSubjectsResponse.length).fill(5))
@@ -130,7 +132,7 @@ const GroupPage = () =>
       const populatedGroupTechs: GroupTech[] = await Promise.all(
         techesInGroup.map(async (groupTech: GroupTech) =>
         {
-          const techName = (await techService.getTech(groupTech.techId)).name
+          const techName = (await techService.getTech(groupTech.techid)).name
           return {
             ...groupTech,
             name: techName

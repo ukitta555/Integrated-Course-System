@@ -15,7 +15,7 @@ const CoursesView = () => {
   const history = useHistory()
   console.log(user)
   const [courses, setCourses] = useState <Class[]>([])
-
+  const [isAlgoRunning, setIsAlgoRunning] = useState<boolean>(false)
   const groupInPairs: <T>(list: T[]) => T[][]
       = list => list.map((el, i) => i >= list.length - 1 ? [el] : [el, list[i + 1]]).filter((_, i) => i % 2 == 0)
 
@@ -37,12 +37,17 @@ const CoursesView = () => {
         //console.log ('you are a student you don\'t get any courses')
         const response = await questionnaireService.getQuestionnairesByStudent(user.id)
         console.log(response)
-        const classIds : Class[]
+        let classIds : Class[]
           = await Promise.all(
               response.map(async (que: {classId: number, id: number}) => {
                 const classResponse = courseService.getCourseByID(que.classId)
                 return classResponse
               })
+            )
+        classIds = await Promise.all(response.map (async (course: Class) => {
+              course.studentsRegistered = await questionnaireService.getAmountOfStudentsRegisteredForCourse(course.id)
+              return course
+            })
             )
         console.log(classIds)
         setCourses(classIds)
@@ -55,7 +60,10 @@ const CoursesView = () => {
   const handleSplitButtonClick = async (event: any, courseId: number) => {
     console.log("course id:", courseId)
     const response = await courseService.patchCourseGroups(courseId, true)
+    setIsAlgoRunning(true)
+    const algoResp = await courseService.runAlgo(courseId)
     console.log (response)
+    await setIsAlgoRunning(false)
     history.push(`/course_view/${courseId}`)
 
   }
@@ -99,6 +107,7 @@ const CoursesView = () => {
                       )
                   )
             }
+
             <Grid item xs>
               <Box color="theme_black.main" textAlign="center" /* style={registrationButtonBoxStyle} */>
                 {/*<Link to = '/register' style={{color: "inherit"}}>*/}

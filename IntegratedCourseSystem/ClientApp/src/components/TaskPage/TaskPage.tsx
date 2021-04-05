@@ -49,7 +49,7 @@ const TaskPage = () =>
             newTask.done = newTask.done ? new Date(newTask.done) : null
             newTask.posted = new Date(newTask.posted)
             setTask(newTask)
-            console.log(newTask)
+            console.log("new task", newTask)
             setCommentCount(newTask.amountOfComments)
         }
         fetchData()
@@ -85,7 +85,7 @@ const TaskPage = () =>
             })
             ),
             deadline: task.deadLine || new Date(),
-            commentCount: commentCount || -1
+            commentCount: (commentCount >= 0) ? commentCount : -1
         }
     }
 

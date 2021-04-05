@@ -243,9 +243,12 @@ namespace GeneticAlgorithm
                 }
             }
             List<Group> res = new List<Group>();
-            foreach(var group in Population.Max().Groups)
+            int groupNumber = 1;
+            foreach (var group in Population.Max().Groups)
             {
-                res.Add(group.ToDbGroup(@class));
+                res.Add(group.ToDbGroup(@class, groupNumber));
+                
+                groupNumber++;
             }
             return res;
         }

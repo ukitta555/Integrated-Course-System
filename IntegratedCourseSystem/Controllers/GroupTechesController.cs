@@ -84,6 +84,18 @@ namespace IntegratedCourseSystem.Controllers
             return CreatedAtAction("GetGroupTech", new { id = groupTech.Id }, groupTech);
         }
 
+        [HttpPost]
+        [Route("getByGroup")]
+        public async Task<ActionResult<IEnumerable<GroupTech>>> GetByGroup(Group @group)
+        {
+            var groupTeches = await _context
+                .GroupTechs
+                .Where(gt => gt.Groupid == @group.Id)
+                .ToListAsync();
+
+            return Created("", groupTeches);
+        }
+
         // DELETE: api/GroupTeches/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroupTech(int id)

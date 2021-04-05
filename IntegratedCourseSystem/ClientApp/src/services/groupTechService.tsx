@@ -1,6 +1,6 @@
 import axios from 'axios'
-//const baseURL = "/api/groupTeches"
-const baseURL = "http://localhost:3001/groupTeches"
+const baseURL = "/api/groupTeches"
+//const baseURL = "http://localhost:3001/groupTeches"
 
 
 
@@ -8,8 +8,9 @@ const baseURL = "http://localhost:3001/groupTeches"
 const getGroupTechesByGroup = async (groupId: number | null) => {
   try {
     if (!groupId) return null
-    const response = await axios.get (
-      `${baseURL}?groupId=${groupId}`,
+    const response = await axios.post (
+      `${baseURL}/getByGroup`,
+      {id: groupId},
       {withCredentials: true}
     )
     return response.data
