@@ -24,6 +24,7 @@ const addTechs = async (requestData: {teches: {name: string}[]}) => {
 
 const getTech = async (techId: number) => {
   try {
+    console.log("TechID:",techId)
     const response = await axios.get (
         `${baseURL}/${techId}`,
         {withCredentials : true}

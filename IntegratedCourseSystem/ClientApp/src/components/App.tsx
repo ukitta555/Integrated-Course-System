@@ -98,6 +98,9 @@ const App = () => {
             <Route path = '/index'>
                 <LandingPage/>
             </Route>
+            <Route path = '/task/:id'>
+                <TaskPage/>
+            </Route>
             <Route path = '/'>
               <NoPage />
             </Route>

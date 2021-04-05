@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 import {Box, Divider, Grid, ThemeProvider} from "@material-ui/core";
 import light from "../../themes/light";
+import { Link } from 'react-router-dom';
 
 // type Color =
 //     | { name: "green"; palette_name: "theme_green.main" }
@@ -30,6 +31,7 @@ type Color =
 
 export type TaskProps = {
     name: string;
+    id: number;
     taskDescription: string;
     isHandedOver: boolean;
     author: string;
@@ -71,9 +73,11 @@ const Task = (props: TaskProps) => (
         <Box bgcolor={pickBGColor(props)} color="theme_black.main" style={{...taskWrapperStyle, ...props.style}}>
             <Grid container direction="column" /* justify="space-between" */ alignItems="center" style={{}}>
                 <Grid container item alignItems="center">
-                    <Typography variant="h6">
-                        Завдання: {props.name}
-                    </Typography>
+                    <Link to = {`/task/${props.id}`}>
+                        <Typography variant="h6">
+                            Завдання: {props.name}
+                        </Typography>
+                    </Link>
                 </Grid>
                 <Grid container item alignItems="center">
                     <Typography>

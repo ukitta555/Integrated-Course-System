@@ -45,6 +45,7 @@ const CoursePage = () => {
       setCourseInfo(courseInfoResponse)
 
       let groupsResponse = await groupService.getGroupsByClassId(classId)
+      console.log("Groups response", groupsResponse)
       groupsResponse = await Promise.all(
         groupsResponse.map (async (group: Group) => {
           // get groupTech entites for current group
@@ -53,7 +54,7 @@ const CoursePage = () => {
           // using their id's, fetch their names and add them to group objects
           const updatedGroupTechs = await Promise.all(
             groupTeches.map(async (groupTech : GroupTech) => {
-              const techName = (await techService.getTech(groupTech.techId)).name
+              const techName = (await techService.getTech(groupTech.techid)).name
               return {
                 ...groupTech,
                 name: techName

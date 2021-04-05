@@ -72,9 +72,25 @@ const patchCourseGroups = async (classId: number, value: boolean) => {
 }
 
 
+const runAlgo = async (classId: number) => {
+  try {
+    const response = await axios.post(
+      //`${baseURL}/${classId}`,
+      `${baseURL}/runAlgo`,
+      {id: classId},
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log(error.response.data)
+  }
+}
+
 export default {
   addCourse,
   getCoursesForTeacher,
   getCourseByID,
-  patchCourseGroups
+  patchCourseGroups,
+  runAlgo
 }

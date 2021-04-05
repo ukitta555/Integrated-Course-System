@@ -42,6 +42,20 @@ namespace IntegratedCourseSystem.Controllers
             return studentGroup;
         }
 
+
+
+        [HttpPost]
+        [Route("getByGroup")]
+        public async Task<ActionResult<IEnumerable<GroupTech>>> GetByGroup(Group @group)
+        {
+            var studentGroups = await _context
+                .StudentGroups
+                .Where(sg => sg.GroupId == @group.Id)
+                .ToListAsync();
+
+            return Created("", studentGroups);
+        }
+
         // PUT: api/StudentGroups/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -96,6 +110,48 @@ namespace IntegratedCourseSystem.Controllers
 
             _context.StudentGroups.Remove(studentGroup);
             await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
+        [HttpDelete("{id}")]
+        [Route("remove_djinni")]
+        public async Task<IActionResult> del(int id)
+        {
+            var toRemove = await _context
+                .Groups
+                .Where(gt => gt.Id >= 1)
+                .ToListAsync();
+
+            foreach (var q in toRemove)
+            {
+                _context.Groups.Remove(q);
+                await _context.SaveChangesAsync();
+            }
+
+            var toRemove1 = await _context
+                .GroupTechs
+                .Where(gt => gt.Id >= 1)
+                .ToListAsync();
+
+            foreach (var q in toRemove1)
+            {
+                _context.GroupTechs.Remove(q);
+                await _context.SaveChangesAsync();
+            }
+
+            var toRemove2 = await _context
+                .StudentGroups
+                .Where(gt => gt.Id >= 1)
+                .ToListAsync();
+
+            foreach (var q in toRemove2)
+            {
+                _context.StudentGroups.Remove(q);
+                await _context.SaveChangesAsync();
+            }
+
 
             return NoContent();
         }
