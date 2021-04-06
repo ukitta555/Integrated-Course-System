@@ -27,6 +27,8 @@ import Togglable from "../Togglable/Togglable"
 import light from "../../themes/light";
 import BoxWithImageBG from "../BoxWithImageBG/BoxWithImageBG";
 import GroupBlock from "../GroupBlock/GroupBlock";
+import CustomInput from "../CustomInput/CustomInput";
+import {InputBaseComponentProps} from "@material-ui/core/InputBase";
 
 // group should be extracted into its own logical component,
 // but I feel like I'm gonna debug it a lot longer than re-write code from scratch
@@ -225,7 +227,18 @@ const GroupPage = () =>
   const closedIconStyle = {
     transform: 'rotate(0deg)'
   }
-
+  const creatingTaskInputStyle = {
+    padding: "0.5em",
+    borderRadius: "54px",
+    fontSize: "36px",
+  }
+  const addButtonBoxStyle = {
+    borderRadius: 21,
+  }
+  const addButtonStyle = {
+    borderRadius: 21,
+    width: "100%",
+  }
 
   return (
     <ThemeProvider theme={light}>
@@ -253,32 +266,47 @@ const GroupPage = () =>
                 <Grid item xs>
                   <GroupBlock {...{group, classSubjects}}/>
                 </Grid>
+                <Grid item xs>
+                  <Box bgcolor="theme_grey.light" color="theme_black.main" borderRadius={43}>
+                    <Box paddingX="6%">
+                      <Typography variant="h2">Додати нове завдання</Typography>
+                    </Box>
+                    <Divider/>
+                    <form onSubmit = {handleTaskFormSubmit} style = {groupWrapperStyle}>
+                      <Box marginX="2%" paddingY="16px">
+                        <Grid container direction="column" alignItems="stretch" spacing={3}>
+                          <Grid item>
+                            <CustomInput fullWidth type = 'text' value = {taskName} onChange = {handleTaskNameChange} placeholder = "Назва завдання..." inputProps={{style: creatingTaskInputStyle}}/>
+                          </Grid>
+                          <Grid item>
+                            <CustomInput fullWidth type = 'text' value = {newTaskDescription} onChange = {handleNewTaskDescriptionChange} placeholder = "Текст завдання..." inputProps={{style: creatingTaskInputStyle}}/>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                      <Divider/>
+                      <Box textAlign="center" paddingBottom="1em">
+                        {
+                          classSubjects.map ( (classSubj : ClassSubject, index) => {
+                            return (
+                                <Box key = {classSubj.id} marginTop="2em" display="flex" alignItems="center" justifyContent="center">
+                                  <Typography display="inline" variant="h5">Максимальний бал за дисципліну {classSubj.name}: </Typography>
+                                  <CustomInput type = 'text' value = {maxGrades[index]} onChange = {(event: React.ChangeEvent<{ value: unknown }>) => handleMaxGradeChange(event, index)} style={{width: "4em"}} inputProps={{style: {padding: "0.5em"}}}/>
+                                </Box>
+                            )
+                          })
+                        }
+                        <Box marginTop="2em" display="flex" alignItems="center" justifyContent="center">
+                          <Typography display="inline" variant="h5">Встановіть дедлайн завдання: </Typography>
+                          <CustomInput type = 'text' value = {deadlineDate} onChange = {handleDeadlineChange} style={{width: "8em"}} inputProps={{style: {padding: "0.5em"}}}/>
+                        </Box>
+                        <Box bgcolor="theme_grey.main" color="theme_white.main" margin="1em 40% 0" textAlign="center" borderRadius={21}>
+                          <Button type="submit" color="inherit" style={addButtonStyle}><Typography display="inline" variant="h5">Додати</Typography></Button>
+                        </Box>
+                      </Box>
+                    </form>
+                  </Box>
+                </Grid>
               </Grid>
-
-            <div>
-              new tasks are created here
-              <form onSubmit = {handleTaskFormSubmit} style = {groupWrapperStyle}>
-                <TextField type = 'text' value = {taskName} onChange = {handleTaskNameChange} placeholder = "Назва завдання..."/>
-                <TextField type = 'text' value = {newTaskDescription} onChange = {handleNewTaskDescriptionChange} placeholder = "Текст завдання..."/>
-                {
-                  classSubjects.map ( (classSubj : ClassSubject, index: number) => {
-                    return (
-                      <div key = {classSubj.id}>
-                        <Typography> Максимальний бал за дисципліну {classSubj.name}: </Typography>
-                        <TextField
-                          type = 'text'
-                          value = {maxGrades[index]}
-                          onChange = {(event: React.ChangeEvent<{ value: unknown }>) => handleMaxGradeChange(event, index)}
-                        />
-                      </div>
-                    )
-                  })
-                }
-                <Typography> Встановіть дедлайн завдання: </Typography>
-                <TextField type= 'text' value = {deadlineDate} onChange = {handleDeadlineChange}/>
-                <Button type="submit" variant="contained" color="primary" > Додати завдання </Button>
-              </form>
-            </div>
             {
               //remove hardcoding!
 
