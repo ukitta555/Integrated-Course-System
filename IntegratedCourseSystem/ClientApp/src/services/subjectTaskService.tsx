@@ -21,7 +21,25 @@ const addGrades = async (subjTask: {
   }
 }
 
+const patchGrade = async (newActualGrade: number, subjTaskId: number) => {
+  try {
+    const arrayWrapper = [{value: newActualGrade, op: 'replace', path:'/actualGrade'}]
+    const response = await axios.patch (
+      //`${baseURL}/${classId}`,
+      `${baseURL}/${subjTaskId}`,
+      arrayWrapper,
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log(error.response.data)
+    return null
+  }
+}
+
 
 export default {
-  addGrades
+  addGrades,
+  patchGrade
 }
