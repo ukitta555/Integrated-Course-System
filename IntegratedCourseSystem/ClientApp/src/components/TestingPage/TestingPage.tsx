@@ -1,8 +1,11 @@
 import React from "react";
 import Task, {TaskProps} from "../Task/Task";
 import Comments from "../Comments/Comments";
-import {Container} from "@material-ui/core";
+import {Container, ThemeProvider} from "@material-ui/core";
 import CoursesView from "../AllCoursesView/CoursesView";
+import DroppableGroupBlock from "../DroppableGroupBlock/DroppableGroupBlock";
+import light from "../../themes/light";
+import DistributionEditingPage from "../DistributionEditingPage/DistributionEditingPage";
 
 const testingPageWrapperStyle = {
     marginTop: "20px",
@@ -26,10 +29,67 @@ const testCommentsProps = {
     ]
 }
 
+const testGroupProps = {
+    id: 1,
+    students: [
+        "Андращук Е.",
+        "Некряч В.",
+        "Приходько Я.",
+        "Клячкін А.",
+        "Скоробагатько К.",
+    ]
+}
+
+const testDistributionEditingPageProps = {
+    course_id: 1337,
+    groups: [{
+        id: 1,
+        students: [
+            "Андращук Е.",
+            "Некряч В.",
+            "Приходько Я.",
+            "Клячкін А.",
+            "Скоробагатько К.",
+        ],
+    },{
+        id: 2,
+        students: [
+            "Андращук Е.",
+            "Некряч В.",
+        ],
+    },{
+        id: 3,
+        students: [
+            "Андращук Е.",
+            "Некряч В.",
+            "Приходько Я.",
+            "Скоробагатько К.",
+        ],
+    },{
+        id: 4,
+        students: [
+
+        ],
+    },{
+        id: 5,
+        students: [
+            "Андращук Е.",
+            "Некряч В.",
+            "Приходько Я.",
+            "Клячкін А.",
+            "Скоробагатько К.",
+        ],
+    }
+    ]
+}
+
 
 const TestingPage = () =>
-    <Container style={testingPageWrapperStyle}>
-        <CoursesView/>
-    </Container>
+    <ThemeProvider theme={light}>
+        <Container style={testingPageWrapperStyle}>
+            <DistributionEditingPage {...testDistributionEditingPageProps}/>
+        </Container>
+    </ThemeProvider>
+    
 
 export default TestingPage
