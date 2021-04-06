@@ -12,6 +12,7 @@ import { Class, Group, GroupStudent, GroupTech, MatchParamsId } from '../../stor
 import Togglable from '../Togglable/Togglable'
 import light from "../../themes/light";
 import BoxWithImageBG from "../BoxWithImageBG/BoxWithImageBG";
+import GroupBlock from "../GroupBlock/GroupBlock";
 
 
 const CoursePage = () => {
@@ -125,32 +126,33 @@ const CoursePage = () => {
 
             {
               groups.map ( (group : Group, index: number) =>
-              <div key = {group.id}>
-                <Button onClick = {(_) => changeVisibility(index)}  disableRipple={true} style = {dropdownIconStyles[index] ? openIconStyle : closedIconStyle}>
-                    <ArrowDropDownIcon />
-                </Button>
-                <Link to = {`/group_view/${group.id}`}>
-                  <Typography> Група {group.name} </Typography>
-                </Link>
-                {//@ts-expect-error
-                }<Togglable ref = {groupBoxesRefs.current[index]}  >
-                  <div style = {groupWrapperStyle}>
-                    <Typography> Group ID : {group.id} </Typography>
-                    <Typography> Techs preferred by the group: </Typography>
-                    <ul>
-                    {
-                      group.groupTeches.map (groupTech => <li key = {groupTech.id}> {groupTech.name} </li>)
-                    }
-                    </ul>
-                    <Typography> Students in group: </Typography>
-                    <ul>
-                    {
-                      group.groupMembers.map (groupMember => <li key = {groupMember.id}> {groupMember.name} {groupMember.surname} </li>)
-                    }
-                    </ul>
-                  </div>
-                </Togglable>
-              </div>
+                  <GroupBlock group={group}/>
+              // <div key = {group.id}>
+              //   <Button onClick = {(_) => changeVisibility(index)}  disableRipple={true} style = {dropdownIconStyles[index] ? openIconStyle : closedIconStyle}>
+              //       <ArrowDropDownIcon />
+              //   </Button>
+              //   <Link to = {`/group_view/${group.id}`}>
+              //     <Typography> Група {group.name} </Typography>
+              //   </Link>
+              //   {//@ts-expect-error
+              //   }<Togglable ref = {groupBoxesRefs.current[index]}  >
+              //     <div style = {groupWrapperStyle}>
+              //       <Typography> Group ID : {group.id} </Typography>
+              //       <Typography> Techs preferred by the group: </Typography>
+              //       <ul>
+              //       {
+              //         group.groupTeches.map (groupTech => <li key = {groupTech.id}> {groupTech.name} </li>)
+              //       }
+              //       </ul>
+              //       <Typography> Students in group: </Typography>
+              //       <ul>
+              //       {
+              //         group.groupMembers.map (groupMember => <li key = {groupMember.id}> {groupMember.name} {groupMember.surname} </li>)
+              //       }
+              //       </ul>
+              //     </div>
+              //   </Togglable>
+              // </div>
               )
             }
           </Container>
