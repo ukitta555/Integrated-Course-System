@@ -1,4 +1,14 @@
-import { Button, LinearProgress, TextField, Typography } from "@material-ui/core"
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  LinearProgress,
+  TextField,
+  ThemeProvider,
+  Typography
+} from "@material-ui/core"
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import React, { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux";
@@ -14,6 +24,9 @@ import techService from "../../services/techService"
 import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType, UserState } from "../../store/types"
 import Task from "../Task/Task";
 import Togglable from "../Togglable/Togglable"
+import light from "../../themes/light";
+import BoxWithImageBG from "../BoxWithImageBG/BoxWithImageBG";
+import GroupBlock from "../GroupBlock/GroupBlock";
 
 // group should be extracted into its own logical component,
 // but I feel like I'm gonna debug it a lot longer than re-write code from scratch
@@ -197,9 +210,12 @@ const GroupPage = () =>
   const handleTaskNameChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setTaskName (event.target.value as string)
   }
+  const groupPageWrapperStyle = {
+    marginTop: "5%",
+  }
 
   const groupWrapperStyle = {
-    border: "4px double black"
+    // border: "4px double black"
   }
 
   const openIconStyle = {
@@ -212,37 +228,32 @@ const GroupPage = () =>
 
 
   return (
-    <div>
+    <ThemeProvider theme={light}>
       {
         group
-          ? <>
-            <Button onClick={handleGroupDropdown} disableRipple={true} style={isDropdownOpen ? openIconStyle : closedIconStyle}>
-              <ArrowDropDownIcon />
-            </Button>
-            {//@ts-expect-error
-            }<Togglable ref={ref}>
-              <div style={groupWrapperStyle}>
-                <Typography> Group ID : {group.id} </Typography>
-                <Typography> Techs preferred by the group: </Typography>
-                <ul>
-                  {
-                    group.groupTeches.map(groupTech => <li key={groupTech.id}> {groupTech.name} </li>)
-                  }
-                </ul>
-                <Typography> Students in group: </Typography>
-                <ul>
-                  {
-                    group.groupMembers.map(groupMember => <li key={groupMember.id}> {groupMember.name} {groupMember.surname} </li>)
-                  }
-                </ul>
-                <Typography> Class subjects: </Typography>
-                <ul>
-                  {
-                    classSubjects.map(classSubj => <li key={classSubj.id}> {classSubj.name} </li>)
-                  }
-                </ul>
-              </div>
-            </Togglable>
+          ? <Container style={groupPageWrapperStyle}>
+              <Grid container direction="column" spacing={8}>
+                <Grid container direction="row" item xs>
+                  <Grid item xs>
+                    <BoxWithImageBG bgimage="a_lot_of_people.png"/>
+                  </Grid>
+                  <Grid item xs>
+                    <Box color="theme_black.main" textAlign="center" margin="2em 0 0 0">
+                      <Grid container spacing={8} direction="column" justify="space-between">
+                        <Grid item>
+                          <Typography variant="h2"> Курс "ООП (2 та 4 курс){/* {courseInfo?.name} */}" </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="h2"> ID курсу: {/* {classId} */} </Typography>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Grid>
+                </Grid>
+                <Grid item xs>
+                  <GroupBlock {...{group, classSubjects}}/>
+                </Grid>
+              </Grid>
 
             <div>
               new tasks are created here
@@ -295,10 +306,10 @@ const GroupPage = () =>
               })
 
             }
-          </>
+          </Container>
           : <LinearProgress />
       }
-    </div>
+    </ThemeProvider>
   )
 }
 
