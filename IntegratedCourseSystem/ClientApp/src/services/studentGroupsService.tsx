@@ -20,6 +20,26 @@ const getStudentsByGroup = async (groupId: number | null) => {
   }
 }
 
+const getGroupByStudent = async (userId: number | null, classId: number | null) => {
+  try {
+    if (!classId || !userId) return null
+    const response = await axios.post (
+        `${baseURL}/getGroupByStudent`,
+        {
+          studentId: userId,
+          classId: classId
+        },
+        {withCredentials : true}
+      )
+    return response.data
+  }
+  catch (error) {
+    console.log (error.response.data)
+    return null
+  }
+}
+
 export default {
-  getStudentsByGroup
+  getStudentsByGroup,
+  getGroupByStudent
 }
