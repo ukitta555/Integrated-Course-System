@@ -1,4 +1,4 @@
-import {Button, LinearProgress, Typography, ThemeProvider, Container, Grid} from '@material-ui/core'
+import {Button, LinearProgress, Typography, ThemeProvider, Container, Grid, Box} from '@material-ui/core'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import React, { useEffect, useState, useRef, createRef } from 'react'
 import {Link, useRouteMatch} from 'react-router-dom'
@@ -12,6 +12,7 @@ import { Class, Group, GroupStudent, GroupTech, MatchParamsId } from '../../stor
 import Togglable from '../Togglable/Togglable'
 import light from "../../themes/light";
 import BoxWithImageBG from "../BoxWithImageBG/BoxWithImageBG";
+import GroupBlock from "../GroupBlock/GroupBlock";
 
 
 const CoursePage = () => {
@@ -94,7 +95,9 @@ const CoursePage = () => {
     }
     fetchData()
   }, [])
-
+    const coursePageWrapperStyle = {
+        marginTop: "5%",
+    }
   const groupWrapperStyle = {
     border: "4px double black"
   }
@@ -110,49 +113,59 @@ const CoursePage = () => {
     <ThemeProvider theme={light}>
       {
         groups.length > 0
-        ? <Container>
-            <Grid container direction="column">
+        ? <Container style={coursePageWrapperStyle}>
+            <Grid container direction="column" spacing={8}>
                 <Grid container direction="row" item xs>
                     <Grid item xs>
                         <BoxWithImageBG bgimage="a_lot_of_people.png"/>
                     </Grid>
                     <Grid item xs>
-                        <Typography> Курс {courseInfo?.name} </Typography>
-                        <Typography> ID курсу: {classId} </Typography>
+                        <Box color="theme_black.main" textAlign="center" margin="2em 0 0 0">
+                            <Grid container spacing={8} direction="column" justify="space-between">
+                                <Grid item>
+                                    <Typography variant="h2"> Курс {courseInfo?.name} </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography variant="h2"> ID курсу: {classId} </Typography>
+                                </Grid>
+                            </Grid>
+                        </Box>
                     </Grid>
                 </Grid>
+                {
+                    groups.map ((group : Group) =>
+                        <Grid item xs key={group.id}>
+                            <GroupBlock group={group}/>
+                        </Grid>
+                        // <div key = {group.id}>
+                        //   <Button onClick = {(_) => changeVisibility(index)}  disableRipple={true} style = {dropdownIconStyles[index] ? openIconStyle : closedIconStyle}>
+                        //       <ArrowDropDownIcon />
+                        //   </Button>
+                        //   <Link to = {`/group_view/${group.id}`}>
+                        //     <Typography> Група {group.name} </Typography>
+                        //   </Link>
+                        //   {//@ts-expect-error
+                        //   }<Togglable ref = {groupBoxesRefs.current[index]}  >
+                        //     <div style = {groupWrapperStyle}>
+                        //       <Typography> ID групи : {group.id} </Typography>
+                        //       <Typography> Технології, на яких працює група: </Typography>
+                        //       <ul>
+                        //       {
+                        //         group.groupTeches.map (groupTech => <li key = {groupTech.id}> {groupTech.name} </li>)
+                        //       }
+                        //       </ul>
+                        //       <Typography> Студенти в групі: </Typography>
+                        //       <ul>
+                        //       {
+                        //         group.groupMembers.map (groupMember => <li key = {groupMember.id}> {groupMember.name} {groupMember.surname} </li>)
+                        //       }
+                        //       </ul>
+                        //     </div>
+                        //   </Togglable>
+                        // </div>
+                    )
+                }
             </Grid>
-
-            {
-              groups.map ( (group : Group, index: number) =>
-              <div key = {group.id}>
-                <Button onClick = {(_) => changeVisibility(index)}  disableRipple={true} style = {dropdownIconStyles[index] ? openIconStyle : closedIconStyle}>
-                    <ArrowDropDownIcon />
-                </Button>
-                <Link to = {`/group_view/${group.id}`}>
-                  <Typography> Група {group.name} </Typography>
-                </Link>
-                {//@ts-expect-error
-                }<Togglable ref = {groupBoxesRefs.current[index]}  >
-                  <div style = {groupWrapperStyle}>
-                    <Typography> Group ID : {group.id} </Typography>
-                    <Typography> Techs preferred by the group: </Typography>
-                    <ul>
-                    {
-                      group.groupTeches.map (groupTech => <li key = {groupTech.id}> {groupTech.name} </li>)
-                    }
-                    </ul>
-                    <Typography> Students in group: </Typography>
-                    <ul>
-                    {
-                      group.groupMembers.map (groupMember => <li key = {groupMember.id}> {groupMember.name} {groupMember.surname} </li>)
-                    }
-                    </ul>
-                  </div>
-                </Togglable>
-              </div>
-              )
-            }
           </Container>
         : <LinearProgress />
       }
