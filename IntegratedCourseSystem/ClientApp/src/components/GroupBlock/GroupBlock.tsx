@@ -85,23 +85,28 @@ const GroupBlock = ({group, classSubjects, tasks_made = 0, tasks_total = 0}: Gro
                         </Grid>
                     </List>
                 </Container>
-                <Container>
-                    <List subheader={<ListSubheader><Typography variant="h5">Технології:</Typography></ListSubheader>}>
-                        <Grid container>
-                            {group.groupTeches.map(groupTech =>
-                                <Grid item xs={6}>
-                                    <ListItem key={groupTech.id}>
-                                        <ListItemIcon style={{minWidth: "2rem",}}><Box color="theme_grey.main"><FiberManualRecordIcon color="inherit"/></Box></ListItemIcon>
-                                        <ListItemText primaryTypographyProps={{variant: "h5"}}>
-                                            {groupTech.name}
-                                        </ListItemText>
-                                    </ListItem>
-                                </Grid>
-                            )
-                            }
-                        </Grid>
-                    </List>
-                </Container>
+                {classSubjects ?
+                    (<Container>
+                        <List subheader={<ListSubheader><Typography variant="h5">Технології:</Typography></ListSubheader>}>
+                            <Grid container>
+                                {group.groupTeches.map(groupTech =>
+                                    <Grid item xs={6}>
+                                        <ListItem key={groupTech.id}>
+                                            <ListItemIcon style={{minWidth: "2rem",}}><Box
+                                                color="theme_grey.main"><FiberManualRecordIcon
+                                                color="inherit"/></Box></ListItemIcon>
+                                            <ListItemText primaryTypographyProps={{variant: "h5"}}>
+                                                {groupTech.name}
+                                            </ListItemText>
+                                        </ListItem>
+                                    </Grid>
+                                )
+                                }
+                            </Grid>
+                        </List>
+                    </Container>)
+                    : null
+                }
                 {classSubjects ?
                     (<Container>
                         <List subheader={<ListSubheader><Typography variant="h5">Дисципліни:</Typography></ListSubheader>}>
@@ -121,7 +126,9 @@ const GroupBlock = ({group, classSubjects, tasks_made = 0, tasks_total = 0}: Gro
                                 }
                             </Grid>
                         </List>
-                    </Container>) : null}
+                    </Container>)
+                    : null
+                }
             </div>
         </Togglable>
         </Box>
