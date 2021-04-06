@@ -23,7 +23,7 @@ const CourseRegistrationForm = () => {
   const NOT_SELECTED = -1
   const user = useSelector ((state: {user: UserState}) => state.user)
   const dispatch = useDispatch()
-  //const history = useHistory()
+  const history = useHistory()
 
   const [name, setName] = useState<string>(user.name ? user.name :  "")
   const [surname, setSurname] = useState<string> (user.surname ? user.surname : "")
@@ -91,7 +91,7 @@ const CourseRegistrationForm = () => {
     const enemyPreferenceResponse = await enemyPreferenceService.addEnemyPreferences(enemiesRequest)
     console.log(enemyPreferenceResponse)
     dispatch(updateCourseRegStatus(true))
-    //history.push('/course_view')
+    history.push('/courses_view')
   }
 
   useEffect (() => {
@@ -287,7 +287,7 @@ const CourseRegistrationForm = () => {
               <Divider style={dividerStyle}/>
               <Box color="theme_black.main">
                 <FormGroup>
-                  What classes are you taking?
+                  Які курси ти проходиш?
                   {
                     subjectsChecked.length > 0
                         ? classSubjects.map (
@@ -304,14 +304,14 @@ const CourseRegistrationForm = () => {
               </Box>
               <Box color="theme_black.main">
                 {/*<RadioGroup style={{display: "block"}}>*/}
-                  <Typography>What roles are you willing to take?</Typography>
+                  <Typography>В яких ролях ти себе відчуваєш найкраще?</Typography>
                   <Box bgcolor="theme_green.dark" style={radioWrapperStyle}>
                     <Grid container direction="column" justify="center">
                       <Grid container item alignItems="center" justify="space-around">
                         <Grid item xs/>
-                        <Grid item xs><Typography>Bruh....</Typography></Grid>
-                        <Grid item xs><Typography>I'm OK with it</Typography></Grid>
-                        <Grid item xs><Typography>My dream job!</Typography></Grid>
+                        <Grid item xs><Typography>Погано!</Typography></Grid>
+                        <Grid item xs><Typography>ОК</Typography></Grid>
+                        <Grid item xs><Typography>Дуже добре!</Typography></Grid>
                       </Grid>
                     {
                       rolePreferences.length > 0
@@ -340,14 +340,14 @@ const CourseRegistrationForm = () => {
 
               <Box color="theme_black.main">
                 {/*<RadioGroup style={{display: "block"}}>*/}
-                <Typography>What techs do you prefer?</Typography>
+                <Typography>Які технології ти полюбляєш?</Typography>
                 <Box bgcolor="theme_green.dark" style={radioWrapperStyle}>
                   <Grid container direction="column" justify="center">
                     <Grid container item alignItems="center" justify="space-around">
                       <Grid item xs/>
-                      <Grid item xs><Typography>Don't want to use it</Typography></Grid>
-                      <Grid item xs><Typography>I'm OK with it</Typography></Grid>
-                      <Grid item xs><Typography>I want to use it!</Typography></Grid>
+                      <Grid item xs><Typography>Не люблю</Typography></Grid>
+                      <Grid item xs><Typography>Щось середнє</Typography></Grid>
+                      <Grid item xs><Typography>Люблю</Typography></Grid>
                     </Grid>
                     {
                       techPreferences.length > 0
