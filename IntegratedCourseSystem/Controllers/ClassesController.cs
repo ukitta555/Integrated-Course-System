@@ -2,62 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DataBase.Models;
-using IntegratedCourseSystem;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.JsonPatch;
 using GeneticAlgorithm;
 
 
-//TODO!
 namespace IntegratedCourseSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ClassesController : ControllerBase
     {
+        #region Fields
+
         private readonly IntegratedCourseSystemContext _context;
+
+        #endregion
+
+        #region Constructor
 
         public ClassesController(IntegratedCourseSystemContext context)
         {
             _context = context;
         }
 
-
-        [HttpPatch]
-        [Route("{id:int}")]
-        public async Task<ActionResult<Class>> ChangeRole([FromBody] JsonPatchDocument<Class> patchDoc, int Id)
-        {
-            if (patchDoc != null)
-            {
-
-                var _class = _context
-                    .Classes
-                    .FirstOrDefault(@class => @class.Id == Id);
-
-                patchDoc.ApplyTo(_class, ModelState);
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+        #endregion
 
 
-                _context.Entry(_class).State = EntityState.Modified;
-
-                await _context.SaveChangesAsync();
-
-                return new ObjectResult(_class);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
+        #region GET Methods
 
         // GET: api/Classes
         [HttpGet]
@@ -80,6 +54,9 @@ namespace IntegratedCourseSystem.Controllers
             return @class;
         }
 
+        #endregion
+
+        #region POST Methods
 
         [HttpPost]
         [Route("[action]")]
@@ -96,8 +73,6 @@ namespace IntegratedCourseSystem.Controllers
             }
             return teacherClasses;
         }
-
-
 
         [HttpPost]
         [Route("runAlgo")]
@@ -139,10 +114,24 @@ namespace IntegratedCourseSystem.Controllers
             return Created("", new { x = "d" });
         }
 
+        // POST: api/Classes
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Class>> PostClass(Class @class)
+        {
+            _context.Classes.Add(@class);
+            await _context.SaveChangesAsync();
 
-    // PUT: api/Classes/5
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+            return CreatedAtAction("GetClass", new { id = @class.Id }, @class);
+        }
+
+        #endregion
+
+        #region PUT Methods
+
+        // PUT: api/Classes/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutClass(int id, Class @class)
         {
             if (id != @class.Id)
@@ -171,16 +160,10 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
-        // POST: api/Classes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Class>> PostClass(Class @class)
-        {
-            _context.Classes.Add(@class);
-            await _context.SaveChangesAsync();
+        #endregion
 
-            return CreatedAtAction("GetClass", new { id = @class.Id }, @class);
-        }
+        #region DELETE Methods
+
 
         // DELETE: api/Classes/5
         [HttpDelete("{id}")]
@@ -198,9 +181,52 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+        #endregion
+
+
+        #region PATCH Methods
+
+        [HttpPatch]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Class>> ChangeRole([FromBody] JsonPatchDocument<Class> patchDoc, int Id)
+        {
+            if (patchDoc != null)
+            {
+
+                var _class = _context
+                    .Classes
+                    .FirstOrDefault(@class => @class.Id == Id);
+
+                patchDoc.ApplyTo(_class, ModelState);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+
+                _context.Entry(_class).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                return new ObjectResult(_class);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        #endregion
+
+
+        #region Helpers
+
         private bool ClassExists(int id)
         {
             return _context.Classes.Any(e => e.Id == id);
         }
+
+        #endregion
     }
 }

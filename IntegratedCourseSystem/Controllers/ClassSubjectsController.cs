@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DataBase.Models;
-using IntegratedCourseSystem;
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -14,14 +11,23 @@ namespace IntegratedCourseSystem.Controllers
     [ApiController]
     public class ClassSubjectsController : ControllerBase
     {
+        #region Fields
+
         private readonly IntegratedCourseSystemContext _context;
+
+        #endregion
+
+        #region Constructor
 
         public ClassSubjectsController(IntegratedCourseSystemContext context)
         {
             _context = context;
         }
 
-        
+        #endregion
+
+
+        #region GET Methods
 
         // GET: api/ClassSubjects/5
         [HttpGet("{id}")]
@@ -36,6 +42,10 @@ namespace IntegratedCourseSystem.Controllers
 
             return classSubject;
         }
+
+        #endregion
+
+        #region POST Methods
 
         // GET: api/ClassSubjects/
         [HttpPost]
@@ -68,6 +78,21 @@ namespace IntegratedCourseSystem.Controllers
             return q;
         }
 
+        // POST: api/ClassSubjects
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<ClassSubject>> PostClassSubject(ClassSubject classSubject)
+        {
+            _context.ClassSubjects.Add(classSubject);
+            await _context.SaveChangesAsync();
+
+            return Created("", classSubject);
+        }
+
+        #endregion
+
+        #region PUT Methods
+
         // PUT: api/ClassSubjects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -99,16 +124,9 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
-        // POST: api/ClassSubjects
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<ClassSubject>> PostClassSubject(ClassSubject classSubject)
-        {
-            _context.ClassSubjects.Add(classSubject);
-            await _context.SaveChangesAsync();
+        #endregion
 
-            return Created("", classSubject);
-        }
+        #region DELETE Methods
 
         // DELETE: api/ClassSubjects/5
         [HttpDelete("{id}")]
@@ -126,9 +144,16 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+        #endregion
+
+
+        #region Helpers
+
         private bool ClassSubjectExists(int id)
         {
             return _context.ClassSubjects.Any(e => e.Id == id);
         }
+
+        #endregion
     }
 }

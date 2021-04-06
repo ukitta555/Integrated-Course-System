@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DataBase.Models;
-using IntegratedCourseSystem;
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -14,12 +11,25 @@ namespace IntegratedCourseSystem.Controllers
     [ApiController]
     public class StudentGroupsController : ControllerBase
     {
+        #region Fields
+
         private readonly IntegratedCourseSystemContext _context;
 
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Initializes new Instance of <see cref="StudentGroupsController"/>
+        /// </summary>
+        /// <param name="context">Database context</param>
         public StudentGroupsController(IntegratedCourseSystemContext context)
         {
             _context = context;
         }
+
+        #endregion
+
+        #region GET Methods
 
         // GET: api/StudentGroups
         [HttpGet]
@@ -42,7 +52,9 @@ namespace IntegratedCourseSystem.Controllers
             return studentGroup;
         }
 
+        #endregion
 
+        #region POST Methods
 
         [HttpPost]
         [Route("getByGroup")]
@@ -55,6 +67,34 @@ namespace IntegratedCourseSystem.Controllers
 
             return Created("", studentGroups);
         }
+
+        // POST: api/StudentGroups
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<StudentGroup>> PostStudentGroup(StudentGroup studentGroup)
+        {
+            _context.StudentGroups.Add(studentGroup);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetStudentGroup", new { id = studentGroup.Id }, studentGroup);
+        }
+
+        [HttpPost]
+        [Route("getGroupByStudent")]
+        public ActionResult<int> GetGroupByStudent(PostArgs args)
+        {
+            var studentGroup = _context
+                .StudentGroups
+                .FirstOrDefault(sg => sg.StudentId == args.StudentId && sg.Group.Classid == args.ClassId);
+
+
+
+            return Created("", studentGroup?.GroupId);
+        }
+
+        #endregion
+
+        #region PUT Methods
 
         // PUT: api/StudentGroups/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -87,16 +127,9 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
-        // POST: api/StudentGroups
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<StudentGroup>> PostStudentGroup(StudentGroup studentGroup)
-        {
-            _context.StudentGroups.Add(studentGroup);
-            await _context.SaveChangesAsync();
+        #endregion
 
-            return CreatedAtAction("GetStudentGroup", new { id = studentGroup.Id }, studentGroup);
-        }
+        #region DELETE Methods
 
         // DELETE: api/StudentGroups/5
         [HttpDelete("{id}")]
@@ -156,25 +189,18 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
-
-        [HttpPost]
-        [Route("getGroupByStudent")]
-        public ActionResult<int> GetGroupByStudent(PostArgs args)
-        {
-            var studentGroup = _context
-                .StudentGroups
-                .FirstOrDefault(sg => sg.StudentId == args.StudentId && sg.Group.Classid == args.ClassId);
+        #endregion
 
 
-
-            return Created("", studentGroup.GroupId);
-        }
-
-
+        #region Helpers
         private bool StudentGroupExists(int id)
         {
             return _context.StudentGroups.Any(e => e.Id == id);
         }
+
+        #endregion
+
+        #region Methods args
 
         public class GetArgs
         {
@@ -185,5 +211,7 @@ namespace IntegratedCourseSystem.Controllers
             public int ClassId { get; set; }
             public int StudentId { get; set; }
         }
+
+        #endregion
     }
 }
