@@ -98,7 +98,7 @@ const Header = () =>
                                 <Link to='/course_creating_page' style={{ color: "inherit" }}>
                                     <Button color="inherit">
                                         Create course
-                          </Button>
+                                    </Button>
                                 </Link>
                             </Grid>
                         </Box>
@@ -126,7 +126,6 @@ const Header = () =>
                     </Button>
                     </Grid>
                 </Box>
-
             </Grid>
         </div >
 
