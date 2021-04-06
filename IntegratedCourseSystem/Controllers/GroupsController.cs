@@ -85,8 +85,6 @@ namespace IntegratedCourseSystem.Controllers
 
             return Created("", groups);
         }
-
-
         // POST: api/Groups
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

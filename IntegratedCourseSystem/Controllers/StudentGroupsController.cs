@@ -156,6 +156,21 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+
+        [HttpPost]
+        [Route("getGroupByStudent")]
+        public ActionResult<int> GetGroupByStudent(PostArgs args)
+        {
+            var studentGroup = _context
+                .StudentGroups
+                .FirstOrDefault(sg => sg.StudentId == args.StudentId && sg.Group.Classid == args.ClassId);
+
+
+
+            return Created("", studentGroup.GroupId);
+        }
+
+
         private bool StudentGroupExists(int id)
         {
             return _context.StudentGroups.Any(e => e.Id == id);
@@ -164,6 +179,11 @@ namespace IntegratedCourseSystem.Controllers
         public class GetArgs
         {
             public int GroupId { get; set; }
+        }
+        public class PostArgs
+        {
+            public int ClassId { get; set; }
+            public int StudentId { get; set; }
         }
     }
 }

@@ -9,13 +9,14 @@ import BoxWithImageBG from "../BoxWithImageBG/BoxWithImageBG";
 import light from "../../themes/light";
 import Course from "../Course/Course";
 import AddIcon from "@material-ui/icons/Add";
+import { Spinner } from "reactstrap"
+import studentGroupsService from "../../services/studentGroupsService"
 
 const CoursesView = () => {
   const user = useSelector((state: { user: UserState }) => state.user)
   const history = useHistory()
   console.log(user)
   const [courses, setCourses] = useState <Class[]>([])
-  const [isAlgoRunning, setIsAlgoRunning] = useState<boolean>(false)
   const groupInPairs: <T>(list: T[]) => T[][]
       = list => list.map((el, i) => i >= list.length - 1 ? [el] : [el, list[i + 1]]).filter((_, i) => i % 2 == 0)
 
@@ -44,7 +45,7 @@ const CoursesView = () => {
                 return classResponse
               })
             )
-        classIds = await Promise.all(response.map (async (course: Class) => {
+        classIds = await Promise.all(classIds.map (async (course: Class) => {
               course.studentsRegistered = await questionnaireService.getAmountOfStudentsRegisteredForCourse(course.id)
               return course
             })
@@ -60,12 +61,9 @@ const CoursesView = () => {
   const handleSplitButtonClick = async (event: any, courseId: number) => {
     console.log("course id:", courseId)
     const response = await courseService.patchCourseGroups(courseId, true)
-    setIsAlgoRunning(true)
     const algoResp = await courseService.runAlgo(courseId)
     console.log (response)
-    await setIsAlgoRunning(false)
     history.push(`/course_view/${courseId}`)
-
   }
 
   console.log(courses)
@@ -100,7 +98,7 @@ const CoursesView = () => {
                               </Grid>
                               { c2 ?
                                   <Grid item xs={5}>
-                                    <Course {...c2} role={user.role} onSplitButtonClick={handleSplitButtonClick}/>
+                                    <Course {...c2}  role={user.role} onSplitButtonClick={handleSplitButtonClick}/>
                                   </Grid> : null
                               }
                         </Grid>
