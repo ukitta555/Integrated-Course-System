@@ -137,14 +137,14 @@ const CoursePage = () => {
               //   {//@ts-expect-error
               //   }<Togglable ref = {groupBoxesRefs.current[index]}  >
               //     <div style = {groupWrapperStyle}>
-              //       <Typography> Group ID : {group.id} </Typography>
-              //       <Typography> Techs preferred by the group: </Typography>
+              //       <Typography> ID групи : {group.id} </Typography>
+              //       <Typography> Технології, на яких працює група: </Typography>
               //       <ul>
               //       {
               //         group.groupTeches.map (groupTech => <li key = {groupTech.id}> {groupTech.name} </li>)
               //       }
               //       </ul>
-              //       <Typography> Students in group: </Typography>
+              //       <Typography> Студенти в групі: </Typography>
               //       <ul>
               //       {
               //         group.groupMembers.map (groupMember => <li key = {groupMember.id}> {groupMember.name} {groupMember.surname} </li>)

@@ -10,7 +10,7 @@ import {registerUser, loginUser} from '../../reducers/userReducer/userThunks'
 import Button from '@material-ui/core/Button';
 import {EMAIL_VALIDATOR} from './emailValidatingRegExp'
 import Grid from "@material-ui/core/Grid";
-import {Box, InputLabel, ThemeProvider} from "@material-ui/core";
+import {Box, FormHelperText, InputLabel, ThemeProvider} from "@material-ui/core";
 import InputBase from "@material-ui/core/InputBase";
 import light from "../../themes/light";
 
@@ -47,7 +47,7 @@ const RegistrationForm = () => {
     event.preventDefault()
     if (password.value !== repeatPassword.value) {
       setArePwdsWrong(true)
-      setPwdErrorMsg('Passwords don\'t match!')
+      setPwdErrorMsg('Паролі не співпадають!')
       setTimeout (() => {
         setPwdErrorMsg('')
         setArePwdsWrong(false)
@@ -103,22 +103,23 @@ const RegistrationForm = () => {
             <Grid item xs={5} style={catOnBooksStyle} />
             <Grid container item xs={5} spacing={3} direction="column" justify="center" alignItems="center" style={regWrapperStyle}>
               <Grid item style={textFieldWrapperStyle}>
-                <InputLabel>Enter email:</InputLabel>
+                <InputLabel>Введіть вашу пошту:</InputLabel>
                 <InputBase name="email" style={textFieldStyle} inputProps={{...emailProps, style: {paddingLeft: "1em"}}}/>
               </Grid>
               <Grid item style={textFieldWrapperStyle}>
-                <InputLabel>Enter password:</InputLabel>
-                <InputBase name="password" error = {arePwdsWrong} /* helperText = {pwdErrorMsg} */ style={textFieldStyle} inputProps={{...passwordProps, style: {paddingLeft: "1em"}}}/>
+                <InputLabel>Введіть пароль:</InputLabel>
+                <InputBase name="password"  aria-describedby="component-error-text1" style={textFieldStyle} inputProps={{...passwordProps, style: {paddingLeft: "1em"}}}/>
               </Grid>
               <Grid item style={textFieldWrapperStyle}>
-                <InputLabel>Repeat password:</InputLabel>
-                <InputBase name="repeat_password" error = {arePwdsWrong} style={textFieldStyle} inputProps={{...repeatPasswordProps, style: {paddingLeft: "1em"}}}/>
+                <InputLabel>Повторіть пароль:</InputLabel>
+                <InputBase name="repeat_password"  aria-describedby="component-error-text2" style={textFieldStyle} inputProps={{...repeatPasswordProps, style: {paddingLeft: "1em"}}}/>
+                <FormHelperText id="component-error-text2" error = {arePwdsWrong} >{pwdErrorMsg}</FormHelperText>
               </Grid>
               <Grid item style={submitButtonWrapperStyle}>
                 <Box bgcolor="theme_grey.main" color="theme_white.main" style={submitButtonBoxStyle}>
                   <Grid item>
-                    <Button type="submit" color="inherit" style={submitButtonStyle}>
-                      Register!
+                    <Button type="submit"  style={submitButtonStyle}>
+                      Зареєструватися!
                     </Button>
                   </Grid>
                 </Box>

@@ -108,11 +108,11 @@ const CoursesView = () => {
 
             <Grid item xs>
               <Box color="theme_black.main" textAlign="center" /* style={registrationButtonBoxStyle} */>
-                {/*<Link to = '/register' style={{color: "inherit"}}>*/}
-                <Button size="large" color="inherit" startIcon={<AddIcon /* fontSize="inherit" */ style={{fontSize: "4rem"}}/>} /* style={registrationButtonStyle} */ /* onClick={(event: any) => props.onSplitButtonClick(event, props.id)} */>
-                  <Typography variant="h5">{ user.role === "teacher" ? "Створити новий курс" : "Зареєструватися на новий курс" }</Typography>
-                </Button>
-                {/*</Link>*/}
+                <Link to = {user.role === 'teacher' ? '/course_creating_page' : '/course_registration'} style={{color: "inherit"}}>
+                  <Button size="large" color="inherit" startIcon={<AddIcon /* fontSize="inherit" */ style={{fontSize: "4rem"}}/>} /* style={registrationButtonStyle} */ /* onClick={(event: any) => props.onSplitButtonClick(event, props.id)} */>
+                    <Typography variant="h5">{ user.role === "teacher" ? "Створити новий курс" : "Зареєструватися на новий курс" }</Typography>
+                  </Button>
+                </Link>
               </Box>
             </Grid>
           </Grid>
