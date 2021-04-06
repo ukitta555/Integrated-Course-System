@@ -52,7 +52,7 @@ const parseMarks = (marks: Map<string, [number, number]>) => {
     const marks_array = Array.from(marks.entries())
     return marks_array.map(([subject, [mark, max_mark]], i) => (
         <Grid container item alignItems="center" style={{}} key={i}>
-            <Typography style={{}}>
+            <Typography variant="h5">
                 {subject}: {mark} / {max_mark}
             </Typography>
         </Grid>
@@ -74,33 +74,33 @@ const Task = (props: TaskProps) => (
             <Grid container direction="column" /* justify="space-between" */ alignItems="center" style={{}}>
                 <Grid container item alignItems="center">
                     <Link to = {`/task/${props.id}`}>
-                        <Typography variant="h6">
+                        <Typography variant="h3">
                             Завдання: {props.name}
                         </Typography>
                     </Link>
                 </Grid>
                 <Grid container item alignItems="center">
-                    <Typography>
+                    <Typography variant="h5">
                         Автор: {props.author}
                     </Typography>
                 </Grid>
                 <Divider style={dividerStyle}/>
                 <Grid container item alignItems="center">
-                    <Typography variant="h6">
+                    <Typography variant="h4">
                         Оцінки:
                     </Typography>
                 </Grid>
                 {parseMarks(props.marks)}
                 <Divider style={dividerStyle}/>
                 <Grid container item alignItems="center">
-                    <Typography variant="h5">Умова:</Typography>
-                    <Typography>{props.taskDescription}</Typography>
+                    <Typography variant="h4">Умова:</Typography>
+                    <Typography variant="h5">{props.taskDescription}</Typography>
                 </Grid>
                 <Grid container item direction="row" justify="space-between" alignItems="center" style={{}}>
-                    <Typography>
+                    <Typography variant="h5">
                         Дедлайн: {props.deadline.toDateString()}
                     </Typography>
-                    <Typography>
+                    <Typography variant="h5">
                         Коментарів: {props.commentCount}
                     </Typography>
                 </Grid>
