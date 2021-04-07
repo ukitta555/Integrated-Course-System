@@ -68,12 +68,13 @@ const CoursesView = () => {
 
   console.log(courses)
   return (
+      <div style = {{display: "flex",justifyContent: "center"}}>
       <ThemeProvider theme={light}>
       {
         courses.length > 0
         ?
         <Container style={{margin: "36px 0"}}>
-          <Grid container spacing={10} direction="column" >
+          <Grid container  spacing={10} direction="column" >
             <Grid container item>
               <Grid item xs={5}>
                 <BoxWithImageBG bgimage="dogs_learning.png"/>
@@ -89,6 +90,7 @@ const CoursesView = () => {
                 </Box>
               </Grid>
             </Grid>
+
             {
             groupInPairs(courses).map (
                       ([c1, c2]) => (
@@ -120,6 +122,7 @@ const CoursesView = () => {
       : <LinearProgress />
       }
       </ThemeProvider>
+      </div>
   )
 }
 
