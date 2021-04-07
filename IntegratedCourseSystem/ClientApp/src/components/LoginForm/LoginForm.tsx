@@ -94,14 +94,14 @@ const LoginForm = () => {
               <Grid container item xs={5} spacing={3} direction="column" justify="center" alignItems="center" style={logWrapperStyle}>
               <Grid item style={textFieldWrapperStyle}>
                 {/*<TextField name="email" label="Enter email:" inputProps = {emailProps} />*/}
-                <InputLabel>Enter email:</InputLabel>
+                <InputLabel>Введіть вашу пошту:</InputLabel>
                 {/*<Box bgcolor="theme_white.main">*/}
                   <InputBase name="email" style={textFieldStyle} inputProps={{...emailProps, style: {paddingLeft: "1em"}}}/>
                 {/*</Box>*/}
               </Grid>
               <Grid item style={textFieldWrapperStyle}>
                 {/*<TextField name="password" label="Enter password:" inputProps = {passwordProps} />*/}
-                <InputLabel>Enter password:</InputLabel>
+                <InputLabel>Введіть пароль:</InputLabel>
                 {/*<Box>*/}
                   <InputBase name="password" style={textFieldStyle} inputProps={{...passwordProps, style: {paddingLeft: "1em"}}}/>
                 {/*</Box>*/}
@@ -110,7 +110,7 @@ const LoginForm = () => {
                 <Box bgcolor="theme_grey.main" color="theme_white.main" style={submitButtonBoxStyle}>
                   <Grid item>
                     <Button type="submit" color="inherit" style={submitButtonStyle}>
-                        submit!
+                        Увійти
                     </Button>
                   </Grid>
                 </Box>
