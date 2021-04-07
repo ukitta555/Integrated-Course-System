@@ -42,6 +42,7 @@ export type TaskProps = {
     deadline: Date;
     commentCount: number;
     taskViewMode: TaskViewMode;
+    link: string | null;
     style?: React.CSSProperties;
 }
 
@@ -140,6 +141,9 @@ const Task = (props: TaskProps) => (
                 </Grid>
                 <Grid container item alignItems="center">
                     {parseMarks(props.marks, props.taskViewMode)}
+                </Grid>
+                <Grid container item alignItems="center">
+                    Посилання з розв'язком:{props.link || " ще нема..."}
                 </Grid>
                 <Divider style={dividerStyle}/>
                 <Grid container item alignItems="center">

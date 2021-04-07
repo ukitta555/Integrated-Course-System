@@ -23,7 +23,8 @@ const testTaskProps: TaskProps = {
     marks: new Map([["ООП", [2, 2, 2]], ["МСП", [2, 2, 3]]]),
     deadline: new Date(2021, 1, 12, 23, 59, 59),
     commentCount: 2,
-    taskViewMode: TaskViewMode.groupPage
+    taskViewMode: TaskViewMode.groupPage,
+    link: "www.com"
 }
 
 const testCommentsProps = {

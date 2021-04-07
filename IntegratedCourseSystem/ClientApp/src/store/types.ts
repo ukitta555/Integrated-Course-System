@@ -73,7 +73,8 @@ export interface TaskDTO {
     deadLine: Date | null,
     posted: Date,
     authorName: string | null,
-    done: Date | null
+    done: Date | null,
+    link: string | null
   },
   grades: Grades[],
   amountOfComments: number
@@ -89,7 +90,8 @@ export interface TaskType {
   posted: Date,
   done: Date | null,
   grades: Grades[],
-  amountOfComments: number
+  amountOfComments: number,
+  link: string | null
 }
 
 

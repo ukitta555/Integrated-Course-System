@@ -54,8 +54,27 @@ const addTask = async (task: {
   }
 }
 
+const patchLink = async (taskId: number | null, newLink: string) => {
+  try {
+    const arrayWrapper = [{value: newLink, op: 'replace', path:'/link'}, {value: new Date(), op: 'replace', path: '/done'}]
+    if (!taskId) return null
+    const response = await axios.patch (
+      //`${baseURL}/${classId}`,
+      `${baseURL}/${taskId}`,
+      arrayWrapper,
+      {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log(error.response.data)
+    return null
+  }
+}
+
 export default {
   getTasksByGroup,
   getTaskById,
-  addTask
+  addTask,
+  patchLink
 }
