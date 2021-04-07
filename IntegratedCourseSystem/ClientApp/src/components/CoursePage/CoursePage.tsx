@@ -1,4 +1,4 @@
-import { Button, LinearProgress, Typography } from '@material-ui/core'
+import {Button, LinearProgress, Typography, ThemeProvider, Container, Grid} from '@material-ui/core'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import React, { useEffect, useState, useRef, createRef } from 'react'
 import {Link, useRouteMatch} from 'react-router-dom'
@@ -10,6 +10,8 @@ import studentService from '../../services/studentService'
 import techService from '../../services/techService'
 import { Class, Group, GroupStudent, GroupTech, MatchParamsId } from '../../store/types'
 import Togglable from '../Togglable/Togglable'
+import light from "../../themes/light";
+import BoxWithImageBG from "../BoxWithImageBG/BoxWithImageBG";
 
 
 const CoursePage = () => {
@@ -105,12 +107,22 @@ const CoursePage = () => {
   }
 
   return (
-    <div>
+    <ThemeProvider theme={light}>
       {
         groups.length > 0
-        ? <>
-            <Typography> Курс {courseInfo?.name} </Typography>
-            <Typography> ID курсу: {classId} </Typography>
+        ? <Container>
+            <Grid container direction="column">
+                <Grid container direction="row" item xs>
+                    <Grid item xs>
+                        <BoxWithImageBG bgimage="a_lot_of_people.png"/>
+                    </Grid>
+                    <Grid item xs>
+                        <Typography> Курс {courseInfo?.name} </Typography>
+                        <Typography> ID курсу: {classId} </Typography>
+                    </Grid>
+                </Grid>
+            </Grid>
+
             {
               groups.map ( (group : Group, index: number) =>
               <div key = {group.id}>
@@ -141,10 +153,10 @@ const CoursePage = () => {
               </div>
               )
             }
-          </>
+          </Container>
         : <LinearProgress />
       }
-    </div>
+    </ThemeProvider>
   )
 }
 
