@@ -67,7 +67,7 @@ const Header = () =>
                     <Grid item>
                         <Link to='/register' style={{ color: "inherit" }}>
                             <Button color="inherit" style={registrationButtonStyle}>
-                                register
+                                Реєстрація
                           </Button>
                         </Link>
                     </Grid>
@@ -77,7 +77,7 @@ const Header = () =>
                     <Grid item>
                         <Link to='/login' style={{ color: "inherit" }}>
                             <Button color="inherit" style={registrationButtonStyle}>
-                                login
+                                Увійти
                           </Button>
                         </Link>
                     </Grid>
@@ -97,7 +97,7 @@ const Header = () =>
                             <Grid item>
                                 <Link to='/course_creating_page' style={{ color: "inherit" }}>
                                     <Button color="inherit">
-                                        Create course
+                                        Створити курс
                           </Button>
                                 </Link>
                             </Grid>
@@ -110,7 +110,7 @@ const Header = () =>
                     <Grid item>
                         <Link to='/courses_view' style={{ color: "inherit" }}>
                             <Button color="inherit">
-                                My Courses
+                                Мої курси
                           </Button>
                         </Link>
                     </Grid>
@@ -122,7 +122,7 @@ const Header = () =>
                 <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonsStyle}>
                     <Grid item>
                         <Button color="inherit" onClick={handleLogout}>
-                            Logout
+                            Вийти
                     </Button>
                     </Grid>
                 </Box>
