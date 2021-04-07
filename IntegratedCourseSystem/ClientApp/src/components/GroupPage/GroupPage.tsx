@@ -312,6 +312,7 @@ const GroupPage = () =>
                     taskViewMode = {TaskViewMode.groupPage}
                     commentCount = {task.amountOfComments}
                     style = {{marginTop: "4vh"}}
+                    link = {task.link}
                   />
                 )
               })
