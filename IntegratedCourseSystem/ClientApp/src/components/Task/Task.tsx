@@ -99,7 +99,11 @@ const parseMarks = (marks: Map<string, [number, number, number]>, taskViewMode: 
                 </Grid>
                 ))
             }
-            {(taskViewMode === TaskViewMode.taskPage && user.role === "teacher") ? <Button type = 'submit'> Оцінити роботу! </Button> : null}
+            {
+                (taskViewMode === TaskViewMode.taskPage && user.role === "teacher")
+                    ? <Button type = 'submit'> Оцінити роботу! </Button>
+                    : null
+            }
             </form>
     )
 }
@@ -134,7 +138,9 @@ const Task = (props: TaskProps) => (
                         Оцінки:
                     </Typography>
                 </Grid>
-                {parseMarks(props.marks, props.taskViewMode)}
+                <Grid container item alignItems="center">
+                    {parseMarks(props.marks, props.taskViewMode)}
+                </Grid>
                 <Divider style={dividerStyle}/>
                 <Grid container item alignItems="center">
                     <Typography variant="h5">Умова:</Typography>

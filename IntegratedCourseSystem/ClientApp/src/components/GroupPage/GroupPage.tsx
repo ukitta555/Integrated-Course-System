@@ -21,12 +21,13 @@ import studentService from "../../services/studentService"
 import subjectTaskService from "../../services/subjectTaskService";
 import taskService from "../../services/taskService";
 import techService from "../../services/techService"
-import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType, TaskViewMode, UserState } from "../../store/types"
+import { Class, ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType, TaskViewMode, UserState } from "../../store/types"
 import Task from "../Task/Task";
 import Togglable from "../Togglable/Togglable"
 import light from "../../themes/light";
 import BoxWithImageBG from "../BoxWithImageBG/BoxWithImageBG";
 import GroupBlock from "../GroupBlock/GroupBlock";
+import courseService from "../../services/courseService";
 
 // group should be extracted into its own logical component,
 // but I feel like I'm gonna debug it a lot longer than re-write code from scratch
@@ -52,6 +53,8 @@ const GroupPage = () =>
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true)
   const [tasks, setTasks] = useState<TaskType[]>([])
   const [taskName, setTaskName] = useState<string> ("")
+  const [classId, setClassId] = useState<number> (-1)
+  const [className, setClassName] = useState<string>('')
   const [newTaskDescription, setNewTaskDescription] = useState<string>("")
   // once again, pls fix types
   const ref = useRef()
@@ -135,7 +138,9 @@ const GroupPage = () =>
       const groupResponse: Group = await groupService.getGroup(groupId)
       // set subjects
       const classSubjectsResponse = await courseSubjectService.getCourseSubjects(groupResponse.classid)
-      console.log()
+      setClassId(groupResponse.classid)
+      const classInfo : Class = await courseService.getCourseByID(groupResponse.classid)
+      setClassName(classInfo.name)
       setClassSubjects(classSubjectsResponse)
       // set max grades
       setMaxGrades(new Array(classSubjectsResponse.length).fill(5))
@@ -241,10 +246,10 @@ const GroupPage = () =>
                     <Box color="theme_black.main" textAlign="center" margin="2em 0 0 0">
                       <Grid container spacing={8} direction="column" justify="space-between">
                         <Grid item>
-                          <Typography variant="h2"> Курс "ООП (2 та 4 курс){/* {courseInfo?.name} */}" </Typography>
+                          <Typography variant="h2"> Курс "{className}" </Typography>
                         </Grid>
                         <Grid item>
-                          <Typography variant="h2"> ID курсу: {/* {classId} */} </Typography>
+                          <Typography variant="h2"> ID курсу: { classId } </Typography>
                         </Grid>
                       </Grid>
                     </Box>
