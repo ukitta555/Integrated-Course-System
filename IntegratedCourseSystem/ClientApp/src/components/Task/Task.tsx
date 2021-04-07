@@ -5,10 +5,12 @@ import React, { useState } from 'react'
 
 import Typography from '@material-ui/core/Typography';
 
-import {Box, Divider, Grid, TextField, ThemeProvider} from "@material-ui/core";
+import {Box, Button, Divider, Grid, TextField, ThemeProvider} from "@material-ui/core";
 import light from "../../themes/light";
 import { Link } from 'react-router-dom';
-import { TaskViewMode } from '../../store/types';
+import { TaskViewMode, UserState } from '../../store/types';
+import subjectTaskService from '../../services/subjectTaskService';
+import { useSelector } from 'react-redux';
 
 // type Color =
 //     | { name: "green"; palette_name: "theme_green.main" }
@@ -51,30 +53,53 @@ const pickBGColor = (props: TaskProps): Color => {
     else return "theme_grey.light"
 }
 const parseMarks = (marks: Map<string, [number, number, number]>, taskViewMode: TaskViewMode) => {
+    const user : UserState = useSelector((state: {user: UserState}) => state.user)
     const marks_array = Array.from(marks.entries())
-    const [newActualMarks, setNewActualMarks] = useState<number[]>(
-        marks_array.map(([subject, [mark, max_mark, subjectTaskId]]) => mark)
+    const [newActualMarks, setNewActualMarks] = useState<{mark: number, subjectTaskId: number}[]>(
+        marks_array.map(([subject, [mark, max_mark, subjectTaskId]]) => ({mark, subjectTaskId}) )
     )
     const onGradesSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        console.log(newActualMarks)
+        event.preventDefault()
+        await Promise.all(newActualMarks.map ( async (mark) => {
+                console.log ('mark console ', mark.mark, mark.subjectTaskId)
+                const response = await subjectTaskService.patchGrade(mark.mark, mark.subjectTaskId)
+            })
+        )
+    }
+
+
+    const handleChange = (event: React.ChangeEvent<{ value: unknown }>, changedMarkIndex: number) => {
+        setNewActualMarks(newActualMarks.map(
+            (markObject, index) => {
+                return (changedMarkIndex === index)
+                    ? { ...markObject,
+                        mark: Number(event.target.value) || 0
+                    }
+                    : markObject
+            }
+        ))
     }
     return (
             <form onSubmit = {onGradesSubmit}>
 
             {
                 marks_array.map(([subject, [mark, max_mark, subjectTaskId]], i) => (
-                <Grid container item alignItems="center" style={{}} key={i}>
+                <Grid container item alignItems="center" style={{}} key={subjectTaskId}>
                     <Typography style={{}}>
                         {subject}: {
-                            taskViewMode === TaskViewMode.groupPage
+                            (taskViewMode === TaskViewMode.groupPage || user.role === "student")
                                 ? mark
-                                : <TextField value = {newActualMarks[i]} />
+                                : <TextField
+                                    value = {newActualMarks[i].mark}
+                                    onChange = {(event: React.ChangeEvent<{ value: unknown }>) => handleChange (event, i)}
+                                  />
                             }
                         /{max_mark}
                     </Typography>
                 </Grid>
                 ))
             }
+            {(taskViewMode === TaskViewMode.taskPage && user.role === "teacher") ? <Button type = 'submit'> Оцінити роботу! </Button> : null}
             </form>
     )
 }

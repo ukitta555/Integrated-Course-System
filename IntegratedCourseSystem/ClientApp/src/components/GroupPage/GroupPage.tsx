@@ -245,7 +245,6 @@ const GroupPage = () =>
             </Togglable>
 
             <div>
-              new tasks are created here
               {
                 user.role === "student"
                 ? null

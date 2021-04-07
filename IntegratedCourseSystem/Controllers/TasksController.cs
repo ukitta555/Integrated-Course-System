@@ -114,7 +114,7 @@ namespace IntegratedCourseSystem.Controllers
                     Grades =  _context
                         .SubjectTask
                         .Where(entry => entry.TaskId == task.Id)
-                        .Select(entry => new { Grades = entry, name = entry.ClassSubject.Subject.Name })
+                        .Select(entry => new { Grades = entry, name = entry.ClassSubject.Subject.Name})
                         .ToList(),
                     amountOfComments = _context
                         .Comments

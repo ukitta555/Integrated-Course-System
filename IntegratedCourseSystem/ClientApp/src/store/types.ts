@@ -58,6 +58,7 @@ export interface Grades {
     actualGrade: number,
     classSubjectId: number,
     taskId: number,
+    id: number
   },
   name: string
 }
