@@ -5,7 +5,7 @@ import { Box, Button, Container, Grid, LinearProgress, ThemeProvider } from "@ma
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import light from "../../themes/light";
 import { Link, useRouteMatch } from "react-router-dom";
-import { MatchParamsId, TaskType } from "../../store/types";
+import { MatchParamsId, TaskType, TaskViewMode } from "../../store/types";
 import taskService from "../../services/taskService";
 
 const testingPageWrapperStyle = {
@@ -63,7 +63,8 @@ const TaskPage = () =>
         author: "Омельчук Л.",
         marks: new Map(),
         deadline: new Date(),
-        commentCount: 2
+        commentCount: 2,
+        taskViewMode: TaskViewMode.taskPage
     }
 
     let commentsProps = {
@@ -85,7 +86,8 @@ const TaskPage = () =>
             })
             ),
             deadline: task.deadLine || new Date(),
-            commentCount: (commentCount >= 0) ? commentCount : -1
+            commentCount: (commentCount >= 0) ? commentCount : -1,
+            taskViewMode: TaskViewMode.taskPage
         }
     }
 

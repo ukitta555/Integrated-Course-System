@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import {Link}
 //     from 'react-router-dom'
 // import {useSelector} from 'react-redux'
 
 import Typography from '@material-ui/core/Typography';
 
-import {Box, Divider, Grid, ThemeProvider} from "@material-ui/core";
+import {Box, Divider, Grid, TextField, ThemeProvider} from "@material-ui/core";
 import light from "../../themes/light";
 import { Link } from 'react-router-dom';
+import { TaskViewMode } from '../../store/types';
 
 // type Color =
 //     | { name: "green"; palette_name: "theme_green.main" }
@@ -35,10 +36,11 @@ export type TaskProps = {
     taskDescription: string;
     isHandedOver: boolean;
     author: string;
-    marks: Map<string, [number, number]>;
+    marks: Map<string, [number, number, number]>;
     deadline: Date;
     commentCount: number;
-    style?: React.CSSProperties
+    taskViewMode: TaskViewMode;
+    style?: React.CSSProperties;
 }
 
 const pickBGColor = (props: TaskProps): Color => {
@@ -48,16 +50,33 @@ const pickBGColor = (props: TaskProps): Color => {
     else if (props.deadline < new Date()) return "theme_red.main"
     else return "theme_grey.light"
 }
-const parseMarks = (marks: Map<string, [number, number]>) => {
+const parseMarks = (marks: Map<string, [number, number, number]>, taskViewMode: TaskViewMode) => {
     const marks_array = Array.from(marks.entries())
-    return marks_array.map(([subject, [mark, max_mark]], i) => (
-        <Grid container item alignItems="center" style={{}} key={i}>
-            <Typography style={{}}>
-                {subject}: {mark} / {max_mark}
-            </Typography>
-        </Grid>
+    const [newActualMarks, setNewActualMarks] = useState<number[]>(
+        marks_array.map(([subject, [mark, max_mark, subjectTaskId]]) => mark)
+    )
+    const onGradesSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        console.log(newActualMarks)
+    }
+    return (
+            <form onSubmit = {onGradesSubmit}>
 
-    ))
+            {
+                marks_array.map(([subject, [mark, max_mark, subjectTaskId]], i) => (
+                <Grid container item alignItems="center" style={{}} key={i}>
+                    <Typography style={{}}>
+                        {subject}: {
+                            taskViewMode === TaskViewMode.groupPage
+                                ? mark
+                                : <TextField value = {newActualMarks[i]} />
+                            }
+                        /{max_mark}
+                    </Typography>
+                </Grid>
+                ))
+            }
+            </form>
+    )
 }
 
 const taskWrapperStyle = {
@@ -90,7 +109,7 @@ const Task = (props: TaskProps) => (
                         Оцінки:
                     </Typography>
                 </Grid>
-                {parseMarks(props.marks)}
+                {parseMarks(props.marks, props.taskViewMode)}
                 <Divider style={dividerStyle}/>
                 <Grid container item alignItems="center">
                     <Typography variant="h5">Умова:</Typography>

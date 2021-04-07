@@ -6,6 +6,7 @@ import CoursesView from "../AllCoursesView/CoursesView";
 import DroppableGroupBlock from "../DroppableGroupBlock/DroppableGroupBlock";
 import light from "../../themes/light";
 import DistributionEditingPage from "../DistributionEditingPage/DistributionEditingPage";
+import { TaskViewMode } from "../../store/types";
 
 const testingPageWrapperStyle = {
     marginTop: "20px",
@@ -17,9 +18,10 @@ const testTaskProps: TaskProps = {
     taskDescription: "Починаємо роботу! Чим швидше, тим краще! ....",
     isHandedOver: true,
     author: "Омельчук Л.",
-    marks: new Map([["ООП", [2, 2]], ["МСП", [2, 2]]]),
+    marks: new Map([["ООП", [2, 2, 2]], ["МСП", [2, 2, 3]]]),
     deadline: new Date(2021, 1, 12, 23, 59, 59),
     commentCount: 2,
+    taskViewMode: TaskViewMode.groupPage
 }
 
 const testCommentsProps = {
@@ -90,6 +92,6 @@ const TestingPage = () =>
             <DistributionEditingPage {...testDistributionEditingPageProps}/>
         </Container>
     </ThemeProvider>
-    
+
 
 export default TestingPage
