@@ -44,10 +44,12 @@ const TaskPage = () =>
         async function fetchData()
         {
             const taskInfo = await taskService.getTaskById(taskId)
+            console.log("taskInfo", taskInfo)
             const newTask: TaskType = { ...taskInfo.task, grades: taskInfo.grades, amountOfComments: taskInfo.amountOfComments }
             newTask.deadLine = newTask.deadLine ? new Date(newTask.deadLine) : null
             newTask.done = newTask.done ? new Date(newTask.done) : null
             newTask.posted = new Date(newTask.posted)
+
             setTask(newTask)
             console.log("new task", newTask)
             setCommentCount(newTask.amountOfComments)
@@ -82,7 +84,7 @@ const TaskPage = () =>
             author: task.authorName || "Omelchuk L.L.",
             marks: new Map(task.grades.map(grade =>
             {
-                return [grade.name, [grade.grades.actualGrade, grade.grades.maxGrade]]
+                return [grade.name, [grade.grades.actualGrade, grade.grades.maxGrade, grade.grades.id]]
             })
             ),
             deadline: task.deadLine || new Date(),

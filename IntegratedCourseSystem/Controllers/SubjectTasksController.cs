@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DataBase.Models;
 using IntegratedCourseSystem;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -41,6 +42,38 @@ namespace IntegratedCourseSystem.Controllers
 
             return subjectTask;
         }
+
+        [HttpPatch]
+        [Route("{id:int}")]
+        public async Task<ActionResult<SubjectTask>> ChangeRole([FromBody] JsonPatchDocument<SubjectTask> patchDoc, int Id)
+        {
+            if (patchDoc != null)
+            {
+
+                var subjTask = _context
+                    .SubjectTask
+                    .FirstOrDefault(st => st.Id == Id);
+
+                patchDoc.ApplyTo(subjTask, ModelState);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+
+                _context.Entry(subjTask).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                return new ObjectResult(subjTask);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
 
         // PUT: api/SubjectTasks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

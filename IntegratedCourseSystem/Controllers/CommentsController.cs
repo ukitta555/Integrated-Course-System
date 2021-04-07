@@ -88,6 +88,7 @@ namespace IntegratedCourseSystem.Controllers
                     Name = comment.User.Role == UserRole.Student ? comment.User.Student.Name : comment.User.Teacher.Name,
                     Surname = comment.User.Role == UserRole.Student ? comment.User.Student.Surname : comment.User.Teacher.Surname
                 })
+                .OrderBy(comment => comment.Id)
                 .ToListAsync();
 
             return Created("", comments);
