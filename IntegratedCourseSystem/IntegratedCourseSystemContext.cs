@@ -45,14 +45,6 @@ namespace IntegratedCourseSystem
         public virtual DbSet<TechPreference> TechPreferences { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=ec2-54-216-185-51.eu-west-1.compute.amazonaws.com;Database=d4snnakfc1207;Username=klgazbdcjdipzc;Password=afb0fb7a157989228a01ddab8c9c27a5b76c188a576b51619ea14349d155ba33;Port=5432;SSL Mode=Prefer;Trust Server Certificate=True");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
