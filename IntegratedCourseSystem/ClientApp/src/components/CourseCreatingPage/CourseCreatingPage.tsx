@@ -23,8 +23,8 @@ import light from "../../themes/light"
 
 const CourseCreatingPage = () => {
   const [languages, setLanguages] = useState([{id: 0, value: "C#"}]);
-  const [roles, setRoles] = useState([{id: 1, value: "Tester"}]);
-  const [subjects, setSubjects] = useState([{id: 2, value: "Obj.-oriented programming"}]);
+  const [roles, setRoles] = useState([{id: 1, value: "Тестувальник"}]);
+  const [subjects, setSubjects] = useState([{id: 2, value: "ООП"}]);
   const [idCounter, setIdCounter] = useState(3);
   const courseName = useField ('text')
   const coursePassword = useField ('password')
@@ -237,7 +237,7 @@ const CourseCreatingPage = () => {
                       />
                   )}
                   <Grid item>
-                    <Button style={addButtonStyle} onClick={handleAddListItem(roles, setRoles)({id: idCounter, value: "Developer"})}>
+                    <Button style={addButtonStyle} onClick={handleAddListItem(roles, setRoles)({id: idCounter, value: "Розробник"})}>
                       Додати нову роль
                     </Button>
                   </Grid>
@@ -291,7 +291,7 @@ const CourseCreatingPage = () => {
                       />
                   )}
                   <Grid item>
-                    <Button style={addButtonStyle} onClick={handleAddListItem(subjects, setSubjects)({id: idCounter, value: "System verification"})}>
+                    <Button style={addButtonStyle} onClick={handleAddListItem(subjects, setSubjects)({id: idCounter, value: "Системна Верифікація"})}>
                       Додати новий предмет
                     </Button>
                   </Grid>
