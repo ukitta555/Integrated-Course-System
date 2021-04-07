@@ -11,7 +11,7 @@ import studentService from "../../services/studentService"
 import subjectTaskService from "../../services/subjectTaskService";
 import taskService from "../../services/taskService";
 import techService from "../../services/techService"
-import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType, UserState } from "../../store/types"
+import { ClassSubject, Group, GroupStudent, GroupTech, MatchParamsId, Student, TaskDTO, TaskType, TaskViewMode, UserState } from "../../store/types"
 import Task from "../Task/Task";
 import Togglable from "../Togglable/Togglable"
 
@@ -103,7 +103,7 @@ const GroupPage = () =>
       const subjName = await courseSubjectService.getSubjectNameById(grade.classSubjectId)
       console.log (subjName)
       return {
-        grades: grade,
+        grades: {...grade, id: grade.id},
         name: subjName
       }
     })
@@ -246,27 +246,33 @@ const GroupPage = () =>
 
             <div>
               new tasks are created here
-              <form onSubmit = {handleTaskFormSubmit} style = {groupWrapperStyle}>
-                <TextField type = 'text' value = {taskName} onChange = {handleTaskNameChange} placeholder = "Назва завдання..."/>
-                <TextField type = 'text' value = {newTaskDescription} onChange = {handleNewTaskDescriptionChange} placeholder = "Текст завдання..."/>
-                {
-                  classSubjects.map ( (classSubj : ClassSubject, index: number) => {
-                    return (
-                      <div key = {classSubj.id}>
-                        <Typography> Максимальний бал за дисципліну {classSubj.name}: </Typography>
-                        <TextField
-                          type = 'text'
-                          value = {maxGrades[index]}
-                          onChange = {(event: React.ChangeEvent<{ value: unknown }>) => handleMaxGradeChange(event, index)}
-                        />
-                      </div>
-                    )
-                  })
-                }
-                <Typography> Встановіть дедлайн завдання: </Typography>
-                <TextField type= 'text' value = {deadlineDate} onChange = {handleDeadlineChange}/>
-                <Button type="submit" variant="contained" color="primary" > Додати завдання </Button>
-              </form>
+              {
+                user.role === "student"
+                ? null
+                :
+                <form onSubmit = {handleTaskFormSubmit} style = {groupWrapperStyle}>
+                  <TextField type = 'text' value = {taskName} onChange = {handleTaskNameChange} placeholder = "Назва завдання..."/>
+                  <TextField type = 'text' value = {newTaskDescription} onChange = {handleNewTaskDescriptionChange} placeholder = "Текст завдання..."/>
+                  {
+                    classSubjects.map ( (classSubj : ClassSubject, index: number) => {
+                      return (
+                        <div key = {classSubj.id}>
+                          <Typography> Максимальний бал за дисципліну {classSubj.name}: </Typography>
+                          <TextField
+                            type = 'text'
+                            value = {maxGrades[index]}
+                            onChange = {(event: React.ChangeEvent<{ value: unknown }>) => handleMaxGradeChange(event, index)}
+                          />
+                        </div>
+                      )
+                    })
+                  }
+
+                  <Typography> Встановіть дедлайн завдання: </Typography>
+                  <TextField type= 'text' value = {deadlineDate} onChange = {handleDeadlineChange}/>
+                  <Button type="submit" variant="contained" color="primary" > Додати завдання </Button>
+                </form>
+              }
             </div>
             {
               //remove hardcoding!
@@ -284,10 +290,11 @@ const GroupPage = () =>
                     marks =
                     {
                       new Map (task.grades.map ( grade => {
-                        return [grade.name, [grade.grades.actualGrade, grade.grades.maxGrade]]
+                        return [grade.name, [grade.grades.actualGrade, grade.grades.maxGrade, grade.grades.taskId]]
                       }
                       ))
                     }
+                    taskViewMode = {TaskViewMode.groupPage}
                     commentCount = {task.amountOfComments}
                     style = {{marginTop: "4vh"}}
                   />

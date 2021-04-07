@@ -41,6 +41,11 @@ export interface TeacherInfo {
 
 /// component interfaces / types
 
+export enum TaskViewMode {
+  taskPage,
+  groupPage
+}
+
 export interface Comment {
   author: string,
   text: string,
