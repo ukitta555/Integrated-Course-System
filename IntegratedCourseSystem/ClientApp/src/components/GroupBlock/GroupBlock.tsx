@@ -1,4 +1,5 @@
 import React, {useRef, useState} from "react";
+import {Link} from 'react-router-dom'
 import {
     Box,
     Container,
@@ -62,7 +63,9 @@ const GroupBlock = ({group, classSubjects, tasks_made = 0, tasks_total = 0}: Gro
                         style={isDropdownOpen ? openIconStyle : closedIconStyle}>
                     <ArrowDropDownIcon fontSize="large"/>
                 </IconButton>
-                <Typography variant="h3" display="inline">Група {group.id}</Typography>
+                <Link to = {`/group_view/${group.id}`}>
+                    <Typography variant="h3" display="inline">Група {group.id}</Typography>
+                </Link>
             </Box>
             {//@ts-expect-error
             }<Togglable ref={ref}>
