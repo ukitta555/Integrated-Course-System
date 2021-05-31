@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DataBase.Models;
-using IntegratedCourseSystem;
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -14,12 +11,22 @@ namespace IntegratedCourseSystem.Controllers
     [ApiController]
     public class CommentsController : ControllerBase
     {
+        #region Fields
+
         private readonly IntegratedCourseSystemContext _context;
+
+        #endregion
+
+        #region Constructor
 
         public CommentsController(IntegratedCourseSystemContext context)
         {
             _context = context;
         }
+
+        #endregion
+
+        #region GET Methods
 
         // GET: api/Comments
         [HttpGet]
@@ -41,6 +48,10 @@ namespace IntegratedCourseSystem.Controllers
 
             return comment;
         }
+
+        #endregion
+
+        #region PUT Methods
 
         // PUT: api/Comments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -73,6 +84,9 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+        #endregion
+
+        #region POST Methods
 
         [HttpPost]
         [Route("getByTask")]
@@ -105,7 +119,9 @@ namespace IntegratedCourseSystem.Controllers
             return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }
 
+        #endregion
 
+        #region DELETE Methods
 
         // DELETE: api/Comments/5
         [HttpDelete("{id}")]
@@ -123,9 +139,16 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+        #endregion
+
+
+        #region Helpers
+
         private bool CommentExists(int id)
         {
             return _context.Comments.Any(e => e.Id == id);
         }
+
+        #endregion
     }
 }

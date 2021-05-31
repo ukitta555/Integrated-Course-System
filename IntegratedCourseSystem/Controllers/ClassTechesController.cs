@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DataBase.Models;
-using IntegratedCourseSystem;
 
 namespace IntegratedCourseSystem.Controllers
 {
@@ -14,14 +11,24 @@ namespace IntegratedCourseSystem.Controllers
     [ApiController]
     public class ClassTechesController : ControllerBase
     {
+        #region Fields
+
         private readonly IntegratedCourseSystemContext _context;
+
+        #endregion
+
+        #region Constructor
 
         public ClassTechesController(IntegratedCourseSystemContext context)
         {
             _context = context;
         }
 
-        // GET: api/ClassTeches
+        #endregion
+
+
+        #region POST Methods
+
         [HttpPost]
         [Route("getByClass")]
         public async Task<ActionResult<IEnumerable<object>>> GetClassTechesByClassId([FromBody] ClassTech cs)
@@ -39,6 +46,21 @@ namespace IntegratedCourseSystem.Controllers
             return techs;
         }
 
+        // POST: api/ClassTeches
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<ClassTech>> PostClassTeches(ClassTech classTech)
+        {
+            _context.ClassTeches.Add(classTech);
+            await _context.SaveChangesAsync();
+
+            return Created("", classTech);
+        }
+
+        #endregion
+
+        #region GET Methods
+
         // GET: api/ClassTeches/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ClassTech>> GetClassTech(int id)
@@ -52,6 +74,10 @@ namespace IntegratedCourseSystem.Controllers
 
             return classTech;
         }
+
+        #endregion
+
+        #region PUT Methods
 
         // PUT: api/ClassTeches/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -84,16 +110,9 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
-        // POST: api/ClassTeches
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<ClassTech>> PostClassTeches(ClassTech classTech)
-        {
-            _context.ClassTeches.Add(classTech);
-            await _context.SaveChangesAsync();
+        #endregion
 
-            return Created("", classTech);
-        }
+        #region DELETE Methods
 
         // DELETE: api/ClassTeches/5
         [HttpDelete("{id}")]
@@ -111,9 +130,16 @@ namespace IntegratedCourseSystem.Controllers
             return NoContent();
         }
 
+        #endregion
+
+
+        #region Helpers
+
         private bool ClassTechExists(int id)
         {
             return _context.ClassTeches.Any(e => e.Id == id);
         }
+
+        #endregion
     }
 }
