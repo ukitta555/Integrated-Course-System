@@ -35,7 +35,7 @@ namespace IntegratedCourseSystem.Controllers
         [HttpGet("not_verified")]
         public async Task<ActionResult<IEnumerable<Teacher>>> NotVerified()
         {
-            return await _context.Teachers.Where(x => !x.IsVerified.HasValue).ToListAsync();
+            return await _context.Teachers.Where(x => !x.IsVerified.HasValue).Include(x => x.User).ToListAsync();
         }
 
         [HttpPatch("verify")]
