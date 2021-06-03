@@ -22,13 +22,13 @@ const textFieldStyle = {
 
 
 
-const AcceptableTeacherBlock = (props: { id: string, onAccept: (id: number) => void, text: string, onDecline: (id: number) => void }) => (
-    <Grid container item alignItems="stretch" justify="center" id={props.id}>
+const AcceptableTeacherBlock = (props: { id: number, onAccept: (id: number) => void, text: string, onDecline: (id: number) => void }) => (
+    <Grid container item alignItems="stretch" justify="center" id={`teacher-${props.id}`}>
         <Typography style={{}}>
             {props.text}
         </Typography>
-        <Button startIcon={<CloseIcon/>} onClick={ props.onAccept }/>
-        <Button startIcon={<CloseIcon/>} onClick={ props.onDecline }/>
+        <Button startIcon={<CloseIcon/>} onClick={ () => props.onAccept(props.id) }/>
+        <Button startIcon={<CloseIcon/>} onClick={ () => props.onDecline(props.id) }/>
     </Grid>
 )
 
@@ -49,7 +49,7 @@ const AdminPanel = () => {
 
     const teachersView = (teachers: (TeacherInfo & {id: number} & {user: { email: string }})[]) => teachers.map((teacher, i) =>
         <Grid container item alignItems="center" style={{}} key={i}>
-            <AcceptableTeacherBlock id={`teacher-${teacher.id}`} text={`${teacher.user.email} ${teacher.name} ${teacher.surname}`} onAccept={onAccept} onDecline={onDecline} />
+            <AcceptableTeacherBlock id={teacher.id} text={`${teacher.user.email} ${teacher.name} ${teacher.surname}`} onAccept={onAccept} onDecline={onDecline} />
             <Divider style={dividerStyle}/>
         </Grid>
     )
