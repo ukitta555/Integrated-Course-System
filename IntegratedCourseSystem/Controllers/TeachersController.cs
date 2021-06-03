@@ -1,6 +1,7 @@
 ﻿using DataBase.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,6 +29,12 @@ namespace IntegratedCourseSystem.Controllers
             }
 
             return teacher;
+        }
+
+        [HttpGet("not_verified")]
+        public async Task<ActionResult<IEnumerable<Teacher>>> NotVerified()
+        {
+            return await _context.Teachers.Where(x => !x.IsVerified.HasValue).ToListAsync();
         }
 
 
