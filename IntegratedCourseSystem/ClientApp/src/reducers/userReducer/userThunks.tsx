@@ -157,3 +157,12 @@ export const updateUserRole = (
     }
   }
 
+// export const updateTeacherStatus = (id, status) => async () => {
+//     try {
+//         await userService.changeUser({value: status, op: "replace", path: "/role"}, id)
+//         //dispatch (updateUserWithQueInfo({}))
+//     }
+//     catch (error) {
+//         console.log (error.response.data)
+//     }
+// }

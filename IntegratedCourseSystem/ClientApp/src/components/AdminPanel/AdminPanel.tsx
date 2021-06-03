@@ -1,29 +1,59 @@
 import * as React from "react";
 import {Box, Button, Container, Divider, Grid, LinearProgress, ThemeProvider, Typography} from "@material-ui/core"
 
-import UsersListForAdminPanel, { UsersEdit, UsersCreate, UserIcon } from '../UsersListForAdminPanel';
 import light from "../../themes/light";
 import {Comment, TeacherInfo} from "../../store/types";
 import {useEffect, useState} from "react";
 import teacherService from "../../services/teacherService";
+import InputBase from "@material-ui/core/InputBase";
+import CloseIcon from "@material-ui/icons/Close";
 
 
 const dividerStyle = {
     width: "100%",
     margin: "10px 0",
 };
+const textFieldStyle = {
+    background: "#F5F5F5",
+    borderRadius: 50,
+    margin: "3% 0",
+    color: "inherit",
+}
 
-const teachersView = (teachers: TeacherInfo[]) => teachers.map((teacher, i) =>
-    <Grid container item alignItems="center" style={{}} key={i}>
+
+
+const AcceptableTeacherBlock = (props: { id: string, onAccept: (id: number) => void, text: string, onDecline: (id: number) => void }) => (
+    <Grid container item alignItems="stretch" justify="center" id={props.id}>
         <Typography style={{}}>
-            {teacher.name} {teacher.surname}
+            {props.text}
         </Typography>
-        <Divider style={dividerStyle}/>
+        <Button startIcon={<CloseIcon/>} onClick={ props.onAccept }/>
+        <Button startIcon={<CloseIcon/>} onClick={ props.onDecline }/>
     </Grid>
 )
 
 const AdminPanel = () => {
-    const [teachers, setTeachers] = useState<(TeacherInfo & {user: { email: string }})[]>([])
+    const [teachers, setTeachers] = useState<(TeacherInfo & {id: number} & {user: { email: string }})[]>([])
+
+    const handleDeleteListItem: <T extends { id: number; }>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => (idToRemove: number) => () => void
+        = (list, setList) => idToRemove => () => {
+        setList(list.filter(item => item.id != idToRemove));
+    };
+
+    const onAccept = (id) => {
+        handleDeleteListItem(teachers, setTeachers)(id)
+    }
+    const onDecline = (id) => {
+        handleDeleteListItem(teachers, setTeachers)(id)
+    }
+
+    const teachersView = (teachers: (TeacherInfo & {id: number} & {user: { email: string }})[]) => teachers.map((teacher, i) =>
+        <Grid container item alignItems="center" style={{}} key={i}>
+            <AcceptableTeacherBlock id={`teacher-${teacher.id}`} text={`${teacher.user.email} ${teacher.name} ${teacher.surname}`} onAccept={onAccept} onDecline={onDecline} />
+            <Divider style={dividerStyle}/>
+        </Grid>
+    )
+
     useEffect(() => {
         async function fetchData() {
             const teachersResponse = await teacherService.getTeachers()
