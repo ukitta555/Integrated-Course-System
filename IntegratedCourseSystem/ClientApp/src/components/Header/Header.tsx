@@ -91,6 +91,21 @@ const Header = () =>
 
             <Grid container item justify="space-between" spacing={3} style={registrationButtonsWrapperStyle}>
                 {
+                    user.role === "admin"
+                        ?
+                        <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonsStyle}>
+                            <Grid item>
+                                <Link to='/admin' style={{ color: "inherit" }}>
+                                    <Button color="inherit">
+                                        Адміністраторська панель
+                                    </Button>
+                                </Link>
+                            </Grid>
+                        </Box>
+                        : null
+                }
+
+                {
                     user.role === "teacher"
                         ?
                         <Box bgcolor="theme_grey.main" color="theme_white.main" style={registrationButtonsStyle}>
