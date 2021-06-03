@@ -1,4 +1,5 @@
 ﻿using DataBase.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -35,6 +36,30 @@ namespace IntegratedCourseSystem.Controllers
         public async Task<ActionResult<IEnumerable<Teacher>>> NotVerified()
         {
             return await _context.Teachers.Where(x => !x.IsVerified.HasValue).ToListAsync();
+        }
+
+        [HttpPatch("verify")]
+        public async Task<ActionResult<Teacher>> ChangeIsVerified(VerifyArgs args)
+        {
+            if (args is { })
+            {
+
+                var teacher = await _context
+                    .Teachers
+                    .FindAsync(args.Id);
+
+                teacher.IsVerified = args.IsVerified;
+
+                _context.Entry(teacher).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                return new ObjectResult(teacher);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
 
@@ -75,6 +100,12 @@ namespace IntegratedCourseSystem.Controllers
         public TeachersController(IntegratedCourseSystemContext context)
         {
             _context = context;
+        }
+
+        public class VerifyArgs
+        {
+            public int Id { get; set; }
+            public bool IsVerified { get; set; }
         }
     }
 }
