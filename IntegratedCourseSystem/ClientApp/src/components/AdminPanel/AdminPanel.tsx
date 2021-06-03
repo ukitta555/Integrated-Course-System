@@ -40,10 +40,10 @@ const AdminPanel = () => {
         setList(list.filter(item => item.id != idToRemove));
     };
 
-    const onAccept = (id) => {
+    const onAccept = (id: number) => {
         handleDeleteListItem(teachers, setTeachers)(id)
     }
-    const onDecline = (id) => {
+    const onDecline = (id: number) => {
         handleDeleteListItem(teachers, setTeachers)(id)
     }
 
