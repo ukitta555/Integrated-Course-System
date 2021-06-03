@@ -21,6 +21,7 @@ import NoPage from './NoPage/NoPage';
 import CoursePage from './CoursePage/CoursePage';
 import GroupPage from './GroupPage/GroupPage';
 import LandingPage from "./LandingPage/LandingPage";
+import AdminPanel from "./AdminPanel/AdminPanel";
 
 
 
@@ -100,6 +101,9 @@ const App = () => {
             </Route>
             <Route path = '/task/:id'>
                 <TaskPage/>
+            </Route>
+            <Route path = '/admin'>
+                <AdminPanel/>
             </Route>
             <Route path = '/'>
               <NoPage />
