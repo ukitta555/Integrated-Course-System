@@ -1,7 +1,6 @@
 import * as React from "react";
 import {Box, Button, Container, Divider, Grid, LinearProgress, ThemeProvider, Typography} from "@material-ui/core"
 
-import UsersListForAdminPanel, { UsersEdit, UsersCreate, UserIcon } from '../UsersListForAdminPanel';
 import light from "../../themes/light";
 import {Comment, TeacherInfo} from "../../store/types";
 import {useEffect, useState} from "react";
@@ -13,10 +12,10 @@ const dividerStyle = {
     margin: "10px 0",
 };
 
-const teachersView = (teachers: TeacherInfo[]) => teachers.map((teacher, i) =>
+const teachersView = (teachers: (TeacherInfo & { user: { email: string } })[]) => teachers.map((teacher, i) =>
     <Grid container item alignItems="center" style={{}} key={i}>
         <Typography style={{}}>
-            {teacher.name} {teacher.surname}
+            {teacher.name} {teacher.surname} { teacher.user.email }
         </Typography>
         <Divider style={dividerStyle}/>
     </Grid>

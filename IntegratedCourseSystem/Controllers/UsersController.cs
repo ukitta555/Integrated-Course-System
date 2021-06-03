@@ -66,6 +66,19 @@ namespace IntegratedCourseSystem.Controllers
                         return Created("", dto);
                     }
                 }
+                else if (userByEmail.Role == UserRole.Admin)
+                {
+                    var admin = await _context
+                        .Admins
+                        .Include(x => x.User)
+                        .FirstOrDefaultAsync(entry => entry.Id == userByEmail.Id);
+                    if (admin != null)
+                    {
+                        UserDTO dto = ItemToDTO(userByEmail);
+                        return Created("", dto);
+                    }
+                }
+
                 return Created("", ItemToDTO(userByEmail));
             }
             return Created("", null);
@@ -170,6 +183,18 @@ namespace IntegratedCourseSystem.Controllers
                             UserDTO dto = ItemToDTO(userByEmail);
                             dto.Name = teacher.Name;
                             dto.Surname = teacher.Surname;
+                            return Created("", dto);
+                        }
+                    }
+                    else if(userByEmail.Role == UserRole.Admin)
+                    {
+                        var admin = await _context
+                            .Admins
+                            .Include(x => x.User)
+                            .FirstOrDefaultAsync(entry => entry.Id == userByEmail.Id);
+                        if (admin != null)
+                        {
+                            UserDTO dto = ItemToDTO(userByEmail);
                             return Created("", dto);
                         }
                     }
