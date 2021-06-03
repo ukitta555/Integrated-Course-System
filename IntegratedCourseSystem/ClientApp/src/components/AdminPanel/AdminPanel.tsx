@@ -1,7 +1,6 @@
 import * as React from "react";
 import {Box, Button, Container, Divider, Grid, LinearProgress, ThemeProvider, Typography} from "@material-ui/core"
 
-import UsersListForAdminPanel, { UsersEdit, UsersCreate, UserIcon } from '../UsersListForAdminPanel';
 import light from "../../themes/light";
 import {Comment, TeacherInfo} from "../../store/types";
 import {useEffect, useState} from "react";
