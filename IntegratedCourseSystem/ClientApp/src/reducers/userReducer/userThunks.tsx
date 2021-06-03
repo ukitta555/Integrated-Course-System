@@ -69,8 +69,16 @@ export const loginUser = (email: string, password: string, loginType: LoginType)
           loginResponse.currentCourseId = currentCourseId // if there is a course in DB, we will redirect teacher to course page
           loginResponse.isRegFilledIn = null // N/A for teacher as they only fill in questionnaire
         }
-      }
-      else if (stringRole === "student") {
+      } else if (stringRole === "admin") {
+          const coursesForTeacher = await courseService.getCoursesForTeacher(loginResponse.id)
+          const teacherCreatedCourse = coursesForTeacher.length > 0
+          if (teacherCreatedCourse) {
+              const currentCourseId = coursesForTeacher[0].id
+
+              loginResponse.currentCourseId = currentCourseId // if there is a course in DB, we will redirect teacher to course page
+              loginResponse.isRegFilledIn = null // N/A for teacher as they only fill in questionnaire
+          }
+      } else if (stringRole === "student") {
         const queObjects = await questionnaireService.getQuestionnairesByStudent(loginResponse.id) // get que id by student id (at least one)
         console.log (`questionnaires for student ${loginResponse.id}`, queObjects)
         // queObjects[0] should always exist as it is created when the student entity is created
@@ -83,8 +91,7 @@ export const loginUser = (email: string, password: string, loginType: LoginType)
         loginResponse.currentCourseId = currentCourseId
         if (studentFilledReg) {
           loginResponse.isRegFilledIn = true
-        }
-        else {
+        } else {
           loginResponse.isRegFilledIn = false
         }
       }

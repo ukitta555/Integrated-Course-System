@@ -17,7 +17,21 @@ const createTeacher = async (teacherInfo: TeacherInfo) => {
     console.log (error.response.data)
   }
 }
+
+const getTeachers = async () => {
+  try {
+    const response = await axios.get (
+        `${baseURL}/not_verified`,
+        {withCredentials: true}
+    )
+    return response.data
+  }
+  catch (error) {
+    console.log (error.response.data)
+  }
+}
 export default
 {
-  createTeacher
+  createTeacher,
+  getTeachers
 }
