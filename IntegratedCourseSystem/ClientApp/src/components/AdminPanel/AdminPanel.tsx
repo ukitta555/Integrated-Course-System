@@ -44,11 +44,11 @@ const AdminPanel = () => {
 
     const onAccept = (id: number) => {
         updateTeacherStatus(id, true)
-        handleDeleteListItem(teachers, setTeachers)(id)
+        handleDeleteListItem(teachers, setTeachers)(id)()
     }
     const onDecline = (id: number) => {
         updateTeacherStatus(id, false)
-        handleDeleteListItem(teachers, setTeachers)(id)
+        handleDeleteListItem(teachers, setTeachers)(id)()
     }
 
     const teachersView = (teachers: (TeacherInfo & {id: number} & {user: { email: string }})[]) => teachers.map((teacher, i) =>
@@ -61,7 +61,7 @@ const AdminPanel = () => {
     useEffect(() => {
         async function fetchData() {
             const teachersResponse = await teacherService.getTeachers()
-            setTeachers(teachersResponse.map ((teacher : {id: string, name: string, surname: string, user: { email: string }}) => (
+            setTeachers(teachersResponse.map ((teacher : {id: number, name: string, surname: string, user: { email: string }}) => (
                 {
                     id: teacher.id,
                     name: teacher.name,
