@@ -12,6 +12,9 @@ import { loginUserAction, logoutUser, updateUserWithQueInfo } from './userAction
 import questionnaireService from '../../services/questionnaireService'
 import subjectQuestionnaire from '../../services/subjectQuestionnaire'
 import roleMapper from '../../misc/roleMapper'
+import axios from "axios";
+
+const baseURL = '/api/users'
 
 
 export const registerUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
@@ -157,12 +160,16 @@ export const updateUserRole = (
     }
   }
 
-// export const updateTeacherStatus = (id, status) => async () => {
-//     try {
-//         await userService.changeUser({value: status, op: "replace", path: "/role"}, id)
-//         //dispatch (updateUserWithQueInfo({}))
-//     }
-//     catch (error) {
-//         console.log (error.response.data)
-//     }
-// }
+export const updateTeacherStatus = (id: number, isVerified: boolean) => async () => {
+    try {
+        await axios.patch(
+            `${baseURL}/verify`,
+            {id, isVerified},
+            {withCredentials: true}
+        )
+        //dispatch (updateUserWithQueInfo({}))
+    }
+    catch (error) {
+        console.log (error.response.data)
+    }
+}
