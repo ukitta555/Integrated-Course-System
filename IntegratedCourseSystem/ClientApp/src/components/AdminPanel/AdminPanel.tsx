@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import teacherService from "../../services/teacherService";
 import InputBase from "@material-ui/core/InputBase";
 import CloseIcon from "@material-ui/icons/Close";
+import CheckIcon from '@material-ui/icons/Check';
 
 
 const dividerStyle = {
@@ -27,7 +28,7 @@ const AcceptableTeacherBlock = (props: { id: number, onAccept: (id: number) => v
         <Typography style={{}}>
             {props.text}
         </Typography>
-        <Button startIcon={<CloseIcon/>} onClick={ () => props.onAccept(props.id) }/>
+        <Button startIcon={<CheckIcon/>} onClick={ () => props.onAccept(props.id) }/>
         <Button startIcon={<CloseIcon/>} onClick={ () => props.onDecline(props.id) }/>
     </Grid>
 )
@@ -57,8 +58,9 @@ const AdminPanel = () => {
     useEffect(() => {
         async function fetchData() {
             const teachersResponse = await teacherService.getTeachers()
-            setTeachers(teachersResponse.map ((teacher : {name: string, surname: string, user: { email: string }}) => (
+            setTeachers(teachersResponse.map ((teacher : {id: string, name: string, surname: string, user: { email: string }}) => (
                 {
+                    id: teacher.id,
                     name: teacher.name,
                     surname: teacher.surname,
                     user: teacher.user
