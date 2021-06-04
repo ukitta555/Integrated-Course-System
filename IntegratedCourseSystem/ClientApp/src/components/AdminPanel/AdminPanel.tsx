@@ -43,11 +43,11 @@ const AdminPanel = () => {
     };
 
     const onAccept = (id: number) => {
-        updateTeacherStatus(id, true)
+        updateTeacherStatus(id, true)()
         handleDeleteListItem(teachers, setTeachers)(id)()
     }
     const onDecline = (id: number) => {
-        updateTeacherStatus(id, false)
+        updateTeacherStatus(id, false)()
         handleDeleteListItem(teachers, setTeachers)(id)()
     }
 
