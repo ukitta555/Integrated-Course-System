@@ -14,7 +14,7 @@ import subjectQuestionnaire from '../../services/subjectQuestionnaire'
 import roleMapper from '../../misc/roleMapper'
 import axios from "axios";
 
-const baseURL = '/api/users'
+const baseURL = '/api/teachers'
 
 
 export const registerUser = (email: string, password: string) : ThunkAction<void, RootState, unknown, Action<string>> =>
