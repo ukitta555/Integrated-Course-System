@@ -8,6 +8,7 @@ import teacherService from "../../services/teacherService";
 import InputBase from "@material-ui/core/InputBase";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckIcon from '@material-ui/icons/Check';
+import {updateTeacherStatus} from "../../reducers/userReducer/userThunks";
 
 
 const dividerStyle = {
@@ -42,9 +43,11 @@ const AdminPanel = () => {
     };
 
     const onAccept = (id: number) => {
+        updateTeacherStatus(id, true)
         handleDeleteListItem(teachers, setTeachers)(id)
     }
     const onDecline = (id: number) => {
+        updateTeacherStatus(id, false)
         handleDeleteListItem(teachers, setTeachers)(id)
     }
 
